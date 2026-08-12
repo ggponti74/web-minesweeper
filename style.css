@@ -351,10 +351,12 @@ a {
     transform: scale(0.95);
 }
 
-#sound-toggle, #new-game {
-    width: 84px;
-    height: 42px;
-    padding: 8px;
+#new-game,
+#sound-toggle {
+    height: 44px !important;
+    min-height: 44px !important;
+    padding: 0 !important;
+    box-sizing: border-box;
 }
 
 /* =========================================================
