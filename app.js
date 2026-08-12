@@ -21,6 +21,8 @@ let timerInterval = null;
 let gamePaused = false;
 let timerStartedAt = null;
 
+let soundEnabled = true;
+
 /* =========================================================
    Create board
    ========================================================= */
@@ -675,6 +677,18 @@ function checkWin() {
 
 
 /* =========================================================
+   Sound
+   ========================================================= */
+
+const soundToggle = document.getElementById("sound-toggle");
+
+soundToggle.addEventListener("click", () => {
+    soundEnabled = !soundEnabled;
+    soundToggle.textContent = soundEnabled ? "Sound On" : "Sound Off";
+});
+
+
+/* =========================================================
    Timer
    ========================================================= */
 
@@ -825,7 +839,25 @@ document
 
 
 /* =========================================================
+   Settings
+   ========================================================= */
+
+function loadSettings() {
+const savedSound = localStorage.getItem("minesweeper-sound");
+
+if (savedSound !== null) {
+    soundEnabled = savedSound === "true";
+}
+} 
+
+function saveSettings() {
+localStorage.setItem("minesweeper-sound", soundEnabled);
+} 
+
+/* =========================================================
    Start
    ========================================================= */
+
+loadSettings();
 
 createBoard();
