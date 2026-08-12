@@ -59,7 +59,7 @@ body {
     /*
      * Prevent browser context menus from long-presses.
      */
-    -webkit-touch-callout: none;
+    -webkit-touch-callout: none ! important;
 }
 
 a {
