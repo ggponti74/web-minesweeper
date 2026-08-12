@@ -325,7 +325,7 @@ a {
     background: var(--surface);
     color: var(--text);
 
-    min-height: 42px;
+    height: 42px;
     padding: 8px 14px;
 
     font: inherit;
@@ -345,10 +345,6 @@ a {
     transition:
         transform 80ms ease,
         background-color 120ms ease;
-}
-
-.game-footer button:active {
-    transform: scale(0.95);
 }
 
 #new-game,
