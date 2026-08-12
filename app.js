@@ -228,6 +228,13 @@ playSound(440, 0.08);
         "pointermove",
         event => {
 
+
+        if (event.button !== 0) {
+            return;
+        }
+
+        initAudio();
+
             if (pressStartTime === 0) {
                 return;
             }
@@ -688,6 +695,16 @@ function checkWin() {
    ========================================================= */
 
 const soundToggle = document.getElementById("sound-toggle");
+
+function initAudio() {
+    if (!audioContext) {
+        audioContext = new AudioContext();
+    }
+
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+}
 
 soundToggle.addEventListener("click", () => {
     soundEnabled = !soundEnabled;
