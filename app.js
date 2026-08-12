@@ -1,6 +1,6 @@
 /* =========================================================
    Minesweeper — app.js
-   Part 4: Game state + timer + reliable touch marking
+   Part 4: Game state + timer + reliable touch handling
    ========================================================= */
 
 const ROWS = 16;
@@ -88,17 +88,9 @@ function calculateAdjacentMines() {
 
             let count = 0;
 
-            for (
-                let rowOffset = -1;
-                rowOffset <= 1;
-                rowOffset++
-            ) {
+            for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
 
-                for (
-                    let colOffset = -1;
-                    colOffset <= 1;
-                    colOffset++
-                ) {
+                for (let colOffset = -1; colOffset <= 1; colOffset++) {
 
                     if (
                         rowOffset === 0 &&
@@ -123,11 +115,7 @@ function calculateAdjacentMines() {
                     }
 
                     if (
-                        board[
-                            neighborRow
-                        ][
-                            neighborCol
-                        ].mine
+                        board[neighborRow][neighborCol].mine
                     ) {
                         count++;
                     }
@@ -141,7 +129,7 @@ function calculateAdjacentMines() {
 
 
 /* =========================================================
-   Render entire board
+   Render board
    ========================================================= */
 
 function renderBoard() {
@@ -155,11 +143,8 @@ function renderBoard() {
 
         for (let col = 0; col < COLS; col++) {
 
-            const cellElement =
-                createCellElement(row, col);
-
             boardElement.appendChild(
-                cellElement
+                createCellElement(row, col)
             );
         }
     }
@@ -167,7 +152,7 @@ function renderBoard() {
 
 
 /* =========================================================
-   Create one cell element
+   Create cell element
    ========================================================= */
 
 function createCellElement(row, col) {
@@ -193,16 +178,14 @@ function createCellElement(row, col) {
         }
     );
 
-    /*
-     * Touch / pointer state.
-     */
     let longPressTimer = null;
     let longPressTriggered = false;
-    let pointerStartX = 0;
-    let pointerStartY = 0;
+
+    let startX = 0;
+    let startY = 0;
 
     /*
-     * Pointer down.
+     * Pointer down starts the long-press timer.
      */
     element.addEventListener(
         "pointerdown",
@@ -221,19 +204,16 @@ function createCellElement(row, col) {
 
             longPressTriggered = false;
 
-            pointerStartX = event.clientX;
-            pointerStartY = event.clientY;
+            startX = event.clientX;
+            startY = event.clientY;
 
-            /*
-             * Capture the pointer so we continue receiving
-             * events even if the finger moves slightly.
-             */
             element.setPointerCapture(
                 event.pointerId
             );
 
             longPressTimer = setTimeout(() => {
 
+                longPressTimer = null;
                 longPressTriggered = true;
 
                 cycleMark(
@@ -246,11 +226,9 @@ function createCellElement(row, col) {
         }
     );
 
+
     /*
-     * Movement.
-     *
-     * A small amount of finger movement is tolerated.
-     * Larger movement cancels the long press.
+     * Movement cancels a pending long press.
      */
     element.addEventListener(
         "pointermove",
@@ -261,18 +239,15 @@ function createCellElement(row, col) {
             }
 
             const dx =
-                event.clientX - pointerStartX;
+                event.clientX - startX;
 
             const dy =
-                event.clientY - pointerStartY;
+                event.clientY - startY;
 
-            const distance =
-                Math.sqrt(
-                    dx * dx +
-                    dy * dy
-                );
-
-            if (distance > 12) {
+            if (
+                Math.abs(dx) > 12 ||
+                Math.abs(dy) > 12
+            ) {
 
                 clearTimeout(
                     longPressTimer
@@ -283,40 +258,6 @@ function createCellElement(row, col) {
         }
     );
 
-    /*
-     * Pointer up.
-     */
-    element.addEventListener(
-        "pointerup",
-        event => {
-
-            if (longPressTimer !== null) {
-
-                clearTimeout(
-                    longPressTimer
-                );
-
-                longPressTimer = null;
-            }
-
-            if (event.button !== 0) {
-                return;
-            }
-
-            /*
-             * A long press has already performed
-             * the marking action.
-             */
-            if (longPressTriggered) {
-                return;
-            }
-
-            /*
-             * Otherwise this was a normal tap.
-             */
-            revealCell(row, col);
-        }
-    );
 
     /*
      * Pointer cancellation.
@@ -333,8 +274,38 @@ function createCellElement(row, col) {
 
                 longPressTimer = null;
             }
+
+            longPressTriggered = false;
         }
     );
+
+
+    /*
+     * Normal taps are handled here.
+     *
+     * A click generated after a long press is ignored.
+     */
+    element.addEventListener(
+        "click",
+        event => {
+
+            if (longPressTriggered) {
+
+                /*
+                 * Consume the click generated by
+                 * the long press.
+                 */
+                longPressTriggered = false;
+
+                event.preventDefault();
+
+                return;
+            }
+
+            revealCell(row, col);
+        }
+    );
+
 
     updateCellElement(
         element,
@@ -346,7 +317,7 @@ function createCellElement(row, col) {
 
 
 /* =========================================================
-   Update one cell's DOM
+   Update one cell's appearance
    ========================================================= */
 
 function updateCellElement(
@@ -426,18 +397,6 @@ function updateCellElement(
 
 
 /* =========================================================
-   Find a cell's DOM element
-   ========================================================= */
-
-function getCellElement(row, col) {
-
-    return document.querySelector(
-        `.cell[data-row="${row}"][data-col="${col}"]`
-    );
-}
-
-
-/* =========================================================
    Cycle:
    hidden → flagged → question → hidden
    ========================================================= */
@@ -458,9 +417,6 @@ function cycleMark(
     const cell =
         board[row][col];
 
-    /*
-     * Revealed cells cannot be marked.
-     */
     if (cell.state === "revealed") {
         return;
     }
@@ -481,9 +437,7 @@ function cycleMark(
     }
 
     /*
-     * IMPORTANT:
-     * Only update this cell.
-     * Do NOT rebuild the board here.
+     * Only change this cell.
      */
     updateCellElement(
         element,
@@ -526,17 +480,14 @@ function revealCell(row, col) {
         board[row][col];
 
     /*
-     * Only a completely hidden cell can be revealed.
-     *
-     * This is what prevents:
-     * flag → question → accidental reveal
+     * Only completely hidden cells can be revealed.
      */
     if (cell.state !== "hidden") {
         return;
     }
 
     /*
-     * First reveal starts the timer.
+     * First reveal starts timer.
      */
     if (gameState === "ready") {
 
@@ -561,9 +512,6 @@ function revealCell(row, col) {
         return;
     }
 
-    /*
-     * Normal cell.
-     */
     cell.state = "revealed";
 
     /*
@@ -622,7 +570,7 @@ function revealEmptyArea(
         }
 
         /*
-         * Never overwrite flags/questions.
+         * Never overwrite marks.
          */
         if (
             cell.state === "flagged" ||
@@ -634,26 +582,15 @@ function revealEmptyArea(
         cell.state = "revealed";
 
         /*
-         * Numbered cells stop this branch.
+         * Numbered cells stop the branch.
          */
         if (cell.adjacent > 0) {
             continue;
         }
 
-        /*
-         * Zero cell — examine neighbors.
-         */
-        for (
-            let rowOffset = -1;
-            rowOffset <= 1;
-            rowOffset++
-        ) {
+        for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
 
-            for (
-                let colOffset = -1;
-                colOffset <= 1;
-                colOffset++
-            ) {
+            for (let colOffset = -1; colOffset <= 1; colOffset++) {
 
                 if (
                     rowOffset === 0 &&
@@ -774,12 +711,10 @@ function updateTimer() {
     const seconds =
         elapsedSeconds % 60;
 
-    const formatted =
-        `${minutes}:${String(seconds).padStart(2, "0")}`;
-
     document.getElementById(
         "timer"
-    ).textContent = formatted;
+    ).textContent =
+        `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
 
