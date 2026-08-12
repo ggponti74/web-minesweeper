@@ -684,9 +684,17 @@ const soundToggle = document.getElementById("sound-toggle");
 
 soundToggle.addEventListener("click", () => {
     soundEnabled = !soundEnabled;
-    soundToggle.textContent = soundEnabled ? "Sound On" : "Sound Off";
+    saveSettings();
+    updateSoundButton();
 });
 
+function updateSoundButton() {
+    soundToggle.textContent = soundEnabled ? "🔊" : "🔇";
+    soundToggle.setAttribute(
+        "aria-label",
+        soundEnabled ? "Sound on" : "Sound off"
+    );
+}
 
 /* =========================================================
    Timer
@@ -859,5 +867,7 @@ localStorage.setItem("minesweeper-sound", soundEnabled);
    ========================================================= */
 
 loadSettings();
+
+updateSoundButton();
 
 createBoard();
