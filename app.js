@@ -539,37 +539,44 @@ function loseGame() {
     stopTimer();
 
     /*
-     * Reveal all mines.
-     *
-     * Correct flags stay flags.
-     * Incorrect flags become ❌.
+     * Reveal every mine.
+     * Correct flags remain flags.
+     * Incorrect flags become X.
      */
     for (let row = 0; row < ROWS; row++) {
 
         for (let col = 0; col < COLS; col++) {
 
-            const cell =
-                board[row][col];
+            const cell = board[row][col];
 
             if (cell.mine) {
 
+                /*
+                 * A correctly flagged mine stays flagged.
+                 * Every other mine becomes revealed.
+                 */
                 if (cell.state !== "flagged") {
-
                     cell.state = "revealed";
                 }
 
-            } else if (
-                cell.state === "flagged"
-            ) {
+            } else {
 
-                cell.state = "wrong-flag";
+                /*
+                 * A flag on a non-mine is incorrect.
+                 */
+                if (cell.state === "flagged") {
+                    cell.state = "wrong-flag";
+                }
             }
         }
     }
 
+    /*
+     * Rebuild the board once, after every state has
+     * been changed.
+     */
     renderBoard();
 }
-
 
 /* =========================================================
    Reveal connected zero area
