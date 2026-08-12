@@ -1,13 +1,16 @@
 /* =========================================================
    Minesweeper — app.js
-   Part 2: Reveal cells + zero-cell cascade
+   Part 3: Reveal + long-press flags/question marks
    ========================================================= */
 
 const ROWS = 16;
 const COLS = 10;
 const MINE_COUNT = 32;
 
+const LONG_PRESS_MS = 500;
+
 let board = [];
+let flagsUsed = 0;
 
 
 /* =========================================================
@@ -16,6 +19,7 @@ let board = [];
 
 function createBoard() {
     board = [];
+    flagsUsed = 0;
 
     for (let row = 0; row < ROWS; row++) {
         board[row] = [];
@@ -42,6 +46,7 @@ function createBoard() {
     }
 
     calculateAdjacentMines();
+    updateMineCounter();
     renderBoard();
 }
 
@@ -111,33 +116,87 @@ function renderBoard() {
 
             cellElement.className = "cell";
 
-            /*
-             * Store the coordinates on the element.
-             * We'll use these for interaction.
-             */
             cellElement.dataset.row = row;
             cellElement.dataset.col = col;
 
             /*
-             * Prevent browser context menus from appearing
-             * during long presses.
+             * Prevent browser context menus.
              */
             cellElement.addEventListener("contextmenu", event => {
                 event.preventDefault();
             });
 
-            cellElement.addEventListener("pointerup", event => {
-                /*
-                 * Only respond to the primary pointer.
-                 */
+            /*
+             * Track whether this interaction became
+             * a long press.
+             */
+            let longPressTimer = null;
+            let longPressTriggered = false;
+
+            /*
+             * Start long-press timer.
+             */
+            cellElement.addEventListener("pointerdown", event => {
+
                 if (event.button !== 0) {
                     return;
                 }
 
-                const clickedRow = Number(cellElement.dataset.row);
-                const clickedCol = Number(cellElement.dataset.col);
+                longPressTriggered = false;
 
-                revealCell(clickedRow, clickedCol);
+                longPressTimer = setTimeout(() => {
+
+                    longPressTriggered = true;
+
+                    cycleMark(row, col);
+
+                }, LONG_PRESS_MS);
+            });
+
+            /*
+             * Cancel the long press if the pointer moves.
+             */
+            cellElement.addEventListener("pointermove", () => {
+
+                if (longPressTimer !== null) {
+                    clearTimeout(longPressTimer);
+                    longPressTimer = null;
+                }
+            });
+
+            /*
+             * Short tap = reveal.
+             *
+             * Long press has already performed the marking
+             * operation, so it must not also reveal.
+             */
+            cellElement.addEventListener("pointerup", event => {
+
+                if (longPressTimer !== null) {
+                    clearTimeout(longPressTimer);
+                    longPressTimer = null;
+                }
+
+                if (event.button !== 0) {
+                    return;
+                }
+
+                if (longPressTriggered) {
+                    return;
+                }
+
+                revealCell(row, col);
+            });
+
+            /*
+             * Cancel interaction if the pointer leaves the cell.
+             */
+            cellElement.addEventListener("pointerleave", () => {
+
+                if (longPressTimer !== null) {
+                    clearTimeout(longPressTimer);
+                    longPressTimer = null;
+                }
             });
 
             updateCellElement(cellElement, cell);
@@ -157,25 +216,100 @@ function updateCellElement(element, cell) {
     element.className = "cell";
     element.textContent = "";
 
-    if (cell.state !== "revealed") {
+    /*
+     * Hidden cell.
+     */
+    if (cell.state === "hidden") {
         return;
     }
 
-    element.classList.add("revealed");
-
-    if (cell.mine) {
-        element.textContent = "💣";
-        element.classList.add("mine");
+    /*
+     * Flagged cell.
+     */
+    if (cell.state === "flagged") {
+        element.classList.add("flagged");
+        element.textContent = "🚩";
         return;
     }
 
-    if (cell.adjacent > 0) {
-        element.textContent = cell.adjacent;
-
-        element.classList.add(
-            `number-${cell.adjacent}`
-        );
+    /*
+     * Question-mark cell.
+     */
+    if (cell.state === "question") {
+        element.classList.add("question");
+        element.textContent = "❓";
+        return;
     }
+
+    /*
+     * Revealed cell.
+     */
+    if (cell.state === "revealed") {
+
+        element.classList.add("revealed");
+
+        if (cell.mine) {
+            element.textContent = "💣";
+            element.classList.add("mine");
+            return;
+        }
+
+        if (cell.adjacent > 0) {
+            element.textContent = cell.adjacent;
+
+            element.classList.add(
+                `number-${cell.adjacent}`
+            );
+        }
+    }
+}
+
+
+/* =========================================================
+   Cycle hidden → flagged → question → hidden
+   ========================================================= */
+
+function cycleMark(row, col) {
+
+    const cell = board[row][col];
+
+    /*
+     * Revealed cells cannot be marked.
+     */
+    if (cell.state === "revealed") {
+        return;
+    }
+
+    if (cell.state === "hidden") {
+
+        cell.state = "flagged";
+        flagsUsed++;
+
+    } else if (cell.state === "flagged") {
+
+        cell.state = "question";
+        flagsUsed--;
+
+    } else if (cell.state === "question") {
+
+        cell.state = "hidden";
+    }
+
+    updateMineCounter();
+    renderBoard();
+}
+
+
+/* =========================================================
+   Update mine counter
+   ========================================================= */
+
+function updateMineCounter() {
+
+    const remaining = MINE_COUNT - flagsUsed;
+
+    document.getElementById("mine-count").textContent =
+        remaining;
 }
 
 
@@ -195,9 +329,8 @@ function revealCell(row, col) {
     }
 
     /*
-     * Flags and question marks aren't implemented yet,
-     * but this prevents future flagged cells from being
-     * accidentally revealed.
+     * Flags and question marks cannot be revealed
+     * directly.
      */
     if (cell.state !== "hidden") {
         return;
@@ -206,8 +339,7 @@ function revealCell(row, col) {
     /*
      * Mine.
      *
-     * For now we simply reveal it.
-     * Game-over behavior comes later.
+     * Game-over handling comes later.
      */
     if (cell.mine) {
         cell.state = "revealed";
@@ -215,15 +347,11 @@ function revealCell(row, col) {
         return;
     }
 
-    /*
-     * Normal cell.
-     */
     cell.state = "revealed";
 
     /*
      * Empty cell:
-     * reveal all connected empty cells and their
-     * bordering numbered cells.
+     * reveal the connected empty area.
      */
     if (cell.adjacent === 0) {
         revealEmptyArea(row, col);
@@ -264,22 +392,24 @@ function revealEmptyArea(startRow, startCol) {
         }
 
         /*
-         * Reveal this cell.
+         * Never overwrite a flag/question mark.
          */
+        if (cell.state === "flagged" ||
+            cell.state === "question") {
+            continue;
+        }
+
         cell.state = "revealed";
 
         /*
          * Numbered cells stop the cascade.
-         * They are revealed, but their neighbors aren't
-         * added to the queue.
          */
         if (cell.adjacent > 0) {
             continue;
         }
 
         /*
-         * This is a zero cell.
-         * Add all neighboring cells.
+         * Zero cell — add its neighbors.
          */
         for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
             for (let colOffset = -1; colOffset <= 1; colOffset++) {
