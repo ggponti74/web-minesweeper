@@ -530,5 +530,5 @@ a {
 
 .bottom-controls .version-credit a {
     color: inherit;
-    text-decoration: none;
+    text-decoration: underline;
 }
