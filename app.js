@@ -1,6 +1,6 @@
 /* =========================================================
    Minesweeper — app.js
-   Part 1: Board creation + mine placement
+   Part 2: Reveal cells + zero-cell cascade
    ========================================================= */
 
 const ROWS = 16;
@@ -8,19 +8,6 @@ const COLS = 10;
 const MINE_COUNT = 32;
 
 let board = [];
-
-/*
- * Each cell looks like:
- *
- * {
- *     mine: false,
- *     adjacent: 0,
- *     state: "hidden"
- * }
- *
- * state will later become:
- * "hidden", "revealed", "flagged", or "question"
- */
 
 
 /* =========================================================
@@ -30,7 +17,6 @@ let board = [];
 function createBoard() {
     board = [];
 
-    // Create empty cells.
     for (let row = 0; row < ROWS; row++) {
         board[row] = [];
 
@@ -43,23 +29,19 @@ function createBoard() {
         }
     }
 
-    // Place mines randomly.
     let minesPlaced = 0;
 
     while (minesPlaced < MINE_COUNT) {
         const row = Math.floor(Math.random() * ROWS);
         const col = Math.floor(Math.random() * COLS);
 
-        // Don't place two mines in the same cell.
         if (!board[row][col].mine) {
             board[row][col].mine = true;
             minesPlaced++;
         }
     }
 
-    // Calculate numbers.
     calculateAdjacentMines();
-
     renderBoard();
 }
 
@@ -73,7 +55,6 @@ function calculateAdjacentMines() {
     for (let row = 0; row < ROWS; row++) {
         for (let col = 0; col < COLS; col++) {
 
-            // Mines don't need a number.
             if (board[row][col].mine) {
                 continue;
             }
@@ -83,7 +64,6 @@ function calculateAdjacentMines() {
             for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
                 for (let colOffset = -1; colOffset <= 1; colOffset++) {
 
-                    // Skip the cell itself.
                     if (rowOffset === 0 && colOffset === 0) {
                         continue;
                     }
@@ -91,7 +71,6 @@ function calculateAdjacentMines() {
                     const neighborRow = row + rowOffset;
                     const neighborCol = col + colOffset;
 
-                    // Ignore cells outside the board.
                     if (
                         neighborRow < 0 ||
                         neighborRow >= ROWS ||
@@ -126,26 +105,217 @@ function renderBoard() {
     for (let row = 0; row < ROWS; row++) {
         for (let col = 0; col < COLS; col++) {
 
+            const cell = board[row][col];
+
             const cellElement = document.createElement("div");
 
             cellElement.className = "cell";
 
             /*
-             * Temporary debug information.
-             *
-             * We'll remove this once the board logic
-             * is working.
+             * Store the coordinates on the element.
+             * We'll use these for interaction.
              */
-            if (board[row][col].mine) {
-                cellElement.textContent = "💣";
-            } else if (board[row][col].adjacent > 0) {
-                cellElement.textContent = board[row][col].adjacent;
-                cellElement.classList.add(
-                    `number-${board[row][col].adjacent}`
-                );
-            }
+            cellElement.dataset.row = row;
+            cellElement.dataset.col = col;
+
+            /*
+             * Prevent browser context menus from appearing
+             * during long presses.
+             */
+            cellElement.addEventListener("contextmenu", event => {
+                event.preventDefault();
+            });
+
+            cellElement.addEventListener("pointerup", event => {
+                /*
+                 * Only respond to the primary pointer.
+                 */
+                if (event.button !== 0) {
+                    return;
+                }
+
+                const clickedRow = Number(cellElement.dataset.row);
+                const clickedCol = Number(cellElement.dataset.col);
+
+                revealCell(clickedRow, clickedCol);
+            });
+
+            updateCellElement(cellElement, cell);
 
             boardElement.appendChild(cellElement);
+        }
+    }
+}
+
+
+/* =========================================================
+   Update one cell's appearance
+   ========================================================= */
+
+function updateCellElement(element, cell) {
+
+    element.className = "cell";
+    element.textContent = "";
+
+    if (cell.state !== "revealed") {
+        return;
+    }
+
+    element.classList.add("revealed");
+
+    if (cell.mine) {
+        element.textContent = "💣";
+        element.classList.add("mine");
+        return;
+    }
+
+    if (cell.adjacent > 0) {
+        element.textContent = cell.adjacent;
+
+        element.classList.add(
+            `number-${cell.adjacent}`
+        );
+    }
+}
+
+
+/* =========================================================
+   Reveal a cell
+   ========================================================= */
+
+function revealCell(row, col) {
+
+    const cell = board[row][col];
+
+    /*
+     * Don't reveal an already revealed cell.
+     */
+    if (cell.state === "revealed") {
+        return;
+    }
+
+    /*
+     * Flags and question marks aren't implemented yet,
+     * but this prevents future flagged cells from being
+     * accidentally revealed.
+     */
+    if (cell.state !== "hidden") {
+        return;
+    }
+
+    /*
+     * Mine.
+     *
+     * For now we simply reveal it.
+     * Game-over behavior comes later.
+     */
+    if (cell.mine) {
+        cell.state = "revealed";
+        renderBoard();
+        return;
+    }
+
+    /*
+     * Normal cell.
+     */
+    cell.state = "revealed";
+
+    /*
+     * Empty cell:
+     * reveal all connected empty cells and their
+     * bordering numbered cells.
+     */
+    if (cell.adjacent === 0) {
+        revealEmptyArea(row, col);
+    }
+
+    renderBoard();
+}
+
+
+/* =========================================================
+   Reveal connected zero area
+   ========================================================= */
+
+function revealEmptyArea(startRow, startCol) {
+
+    const queue = [
+        [startRow, startCol]
+    ];
+
+    const visited = new Set();
+
+    while (queue.length > 0) {
+
+        const [row, col] = queue.shift();
+
+        const key = `${row},${col}`;
+
+        if (visited.has(key)) {
+            continue;
+        }
+
+        visited.add(key);
+
+        const cell = board[row][col];
+
+        if (cell.mine) {
+            continue;
+        }
+
+        /*
+         * Reveal this cell.
+         */
+        cell.state = "revealed";
+
+        /*
+         * Numbered cells stop the cascade.
+         * They are revealed, but their neighbors aren't
+         * added to the queue.
+         */
+        if (cell.adjacent > 0) {
+            continue;
+        }
+
+        /*
+         * This is a zero cell.
+         * Add all neighboring cells.
+         */
+        for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+            for (let colOffset = -1; colOffset <= 1; colOffset++) {
+
+                if (
+                    rowOffset === 0 &&
+                    colOffset === 0
+                ) {
+                    continue;
+                }
+
+                const neighborRow = row + rowOffset;
+                const neighborCol = col + colOffset;
+
+                if (
+                    neighborRow < 0 ||
+                    neighborRow >= ROWS ||
+                    neighborCol < 0 ||
+                    neighborCol >= COLS
+                ) {
+                    continue;
+                }
+
+                const neighbor =
+                    board[neighborRow][neighborCol];
+
+                if (
+                    !neighbor.mine &&
+                    neighbor.state === "hidden"
+                ) {
+                    queue.push([
+                        neighborRow,
+                        neighborCol
+                    ]);
+                }
+            }
         }
     }
 }
