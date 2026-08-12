@@ -1,4 +1,4 @@
-/* =========================================================
+Oi/* =========================================================
    Minesweeper — app.js
    Stable touch version
    ========================================================= */
@@ -184,6 +184,8 @@ function createCellElement(row, col) {
                 return;
             }
 
+initAudio();
+
             if (
                 gameState === "won" ||
                 gameState === "lost"
@@ -227,8 +229,6 @@ playSound(440, 0.08);
     element.addEventListener(
         "pointermove",
         event => {
-
-        initAudio();
 
             if (pressStartTime === 0) {
                 return;
