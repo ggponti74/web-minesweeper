@@ -18,6 +18,8 @@ let gameState = "ready";
 let elapsedSeconds = 0;
 let timerInterval = null;
 
+let gamePaused = false;
+let timerStartedAt = null;
 
 /* =========================================================
    Create board
@@ -622,11 +624,20 @@ function checkWin() {
 
 function startTimer() {
 
-    if (timerInterval !== null) {
+    if (
+        timerInterval !== null ||
+        gamePaused
+    ) {
         return;
     }
 
+    timerStartedAt = Date.now();
+
     timerInterval = setInterval(() => {
+
+        if (gamePaused) {
+            return;
+        }
 
         elapsedSeconds++;
 
@@ -664,6 +675,80 @@ function updateTimer() {
     ).textContent =
         `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
+
+
+/* =========================================================
+   App visibility / pause
+   ========================================================= */
+
+document.addEventListener(
+    "visibilitychange",
+    () => {
+
+        if (document.hidden) {
+
+            /*
+             * Don't pause a game that hasn't started.
+             */
+            if (gameState === "playing") {
+
+                gamePaused = true;
+
+                stopTimer();
+            }
+
+        } else {
+
+            /*
+             * Resume only if the game was actually paused.
+             */
+            if (
+                gamePaused &&
+                gameState === "playing"
+            ) {
+
+                gamePaused = false;
+
+                startTimer();
+            }
+        }
+    }
+);
+
+
+/* =========================================================
+   Page lifecycle
+   ========================================================= */
+
+window.addEventListener(
+    "pagehide",
+    () => {
+
+        if (gameState === "playing") {
+
+            gamePaused = true;
+
+            stopTimer();
+        }
+    }
+);
+
+
+window.addEventListener(
+    "pageshow",
+    () => {
+
+        if (
+            gamePaused &&
+            gameState === "playing"
+        ) {
+
+            gamePaused = false;
+
+            startTimer();
+        }
+    }
+);
 
 
 /* =========================================================
