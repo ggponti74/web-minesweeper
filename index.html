@@ -31,19 +31,26 @@
             <div id="board"></div>
         </section>
 
-        <footer class="game-footer">
-            <button id="sound-toggle"
-                    type="button"
-                    aria-label="Toggle sound"
-                    aria-pressed="true">
-                🔊
-            </button>
+<div class="bottom-controls">
 
-            <button id="new-game"
-                    type="button">
-                New Game
-            </button>
-        </footer>
+    <button id="sound-toggle" aria-label="Toggle sound">
+        🔊
+    </button>
+
+    <div class="version-credit">
+        <span>Version 1.0 • Made with </span>
+        <a
+            href="https://chatgpt.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+        >ChatGPT</a>
+    </div>
+
+    <button id="new-game">
+        New Game
+    </button>
+
+</div>
 
     </main>
 
@@ -59,15 +66,6 @@
             </button>
         </div>
     </div>
-
-<footer class="app-footer">
-    <span>v1.0 • Made with </span>
-    <a
-        href="https://chatgpt.com/"
-        target="_blank"
-        rel="noopener noreferrer"
-    >ChatGPT</a>
-</footer>
 
     <script src="app.js"></script>
 </body>
