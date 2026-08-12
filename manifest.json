@@ -1,6 +1,6 @@
 {
-  "name": "Matrix Rain",
-  "short_name": "MatrixRain",
+  "name": "Web Minesweeper",
+  "short_name": "web-minesweeper",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
