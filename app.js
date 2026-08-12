@@ -228,11 +228,6 @@ playSound(440, 0.08);
         "pointermove",
         event => {
 
-
-        if (event.button !== 0) {
-            return;
-        }
-
         initAudio();
 
             if (pressStartTime === 0) {
