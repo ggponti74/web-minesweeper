@@ -21,6 +21,7 @@ let timerInterval = null;
 let gamePaused = false;
 let timerStartedAt = null;
 
+let audioContext = null;
 let soundEnabled = true;
 
 /* =========================================================
@@ -686,7 +687,19 @@ soundToggle.addEventListener("click", () => {
     soundEnabled = !soundEnabled;
     saveSettings();
     updateSoundButton();
+
+    if (soundEnabled) {
+        playSound(600, 0.12);
+    }
 });
+
+/*
+soundToggle.addEventListener("click", () => {
+    soundEnabled = !soundEnabled;
+    saveSettings();
+    updateSoundButton();
+});
+*/
 
 function updateSoundButton() {
     soundToggle.textContent = soundEnabled ? "🔊" : "🔇";
@@ -695,6 +708,37 @@ function updateSoundButton() {
         soundEnabled ? "Sound on" : "Sound off"
     );
 }
+
+function playSound(frequency, duration, type = "sine", volume = 0.08) {
+    if (!soundEnabled) return;
+
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.type = type;
+    oscillator.frequency.value = frequency;
+
+    gain.gain.setValueAtTime(volume, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + duration
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + duration);
+}
+
 
 /* =========================================================
    Timer
