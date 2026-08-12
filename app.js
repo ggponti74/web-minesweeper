@@ -354,6 +354,14 @@ function updateCellElement(
         return;
     }
 
+if (cell.state === "wrong-flag") {
+
+    element.classList.add("wrong-flag");
+    element.textContent = "❌";
+
+    return;
+}
+
     if (cell.state === "revealed") {
 
         element.classList.add("revealed");
@@ -447,7 +455,8 @@ function revealCell(row, col) {
 
     if (
         gameState === "won" ||
-        gameState === "lost"
+        gameState === "lost" ||
+        gamePaused
     ) {
         return;
     }
@@ -473,19 +482,23 @@ function revealCell(row, col) {
     }
 
     /*
-     * Mine handling will be added later.
+     * BOOM!
      */
     if (cell.mine) {
 
-        cell.state = "revealed";
-
-        renderBoard();
+        loseGame();
 
         return;
     }
 
+    /*
+     * Normal cell.
+     */
     cell.state = "revealed";
 
+    /*
+     * Zero-cell cascade.
+     */
     if (cell.adjacent === 0) {
 
         revealEmptyArea(
@@ -497,6 +510,49 @@ function revealCell(row, col) {
     renderBoard();
 
     checkWin();
+} 
+
+
+function loseGame() {
+
+    gameState = "lost";
+
+    stopTimer();
+
+    /*
+     * Reveal every mine.
+     */
+    for (let row = 0; row < ROWS; row++) {
+
+        for (let col = 0; col < COLS; col++) {
+
+            const cell =
+                board[row][col];
+
+            if (cell.mine) {
+
+                /*
+                 * Correctly flagged mines stay flagged.
+                 */
+                if (cell.state !== "flagged") {
+
+                    cell.state = "revealed";
+                }
+
+            } else {
+
+                /*
+                 * Incorrect flags become X.
+                 */
+                if (cell.state === "flagged") {
+
+                    cell.state = "wrong-flag";
+                }
+            }
+        }
+    }
+
+    renderBoard();
 }
 
 
