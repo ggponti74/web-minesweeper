@@ -1,6 +1,6 @@
 /* =========================================================
    Minesweeper — app.js
-   Part 4: Game state + timer
+   Part 4: Game state + timer + reliable touch marking
    ========================================================= */
 
 const ROWS = 16;
@@ -10,7 +10,6 @@ const MINE_COUNT = 32;
 const LONG_PRESS_MS = 500;
 
 let board = [];
-
 let flagsUsed = 0;
 
 let gameState = "ready";
@@ -38,9 +37,11 @@ function createBoard() {
     updateMineCounter();
 
     for (let row = 0; row < ROWS; row++) {
+
         board[row] = [];
 
         for (let col = 0; col < COLS; col++) {
+
             board[row][col] = {
                 mine: false,
                 adjacent: 0,
@@ -53,10 +54,14 @@ function createBoard() {
 
     while (minesPlaced < MINE_COUNT) {
 
-        const row = Math.floor(Math.random() * ROWS);
-        const col = Math.floor(Math.random() * COLS);
+        const row =
+            Math.floor(Math.random() * ROWS);
+
+        const col =
+            Math.floor(Math.random() * COLS);
 
         if (!board[row][col].mine) {
+
             board[row][col].mine = true;
             minesPlaced++;
         }
@@ -83,9 +88,17 @@ function calculateAdjacentMines() {
 
             let count = 0;
 
-            for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+            for (
+                let rowOffset = -1;
+                rowOffset <= 1;
+                rowOffset++
+            ) {
 
-                for (let colOffset = -1; colOffset <= 1; colOffset++) {
+                for (
+                    let colOffset = -1;
+                    colOffset <= 1;
+                    colOffset++
+                ) {
 
                     if (
                         rowOffset === 0 &&
@@ -110,7 +123,11 @@ function calculateAdjacentMines() {
                     }
 
                     if (
-                        board[neighborRow][neighborCol].mine
+                        board[
+                            neighborRow
+                        ][
+                            neighborCol
+                        ].mine
                     ) {
                         count++;
                     }
@@ -124,7 +141,7 @@ function calculateAdjacentMines() {
 
 
 /* =========================================================
-   Render board
+   Render entire board
    ========================================================= */
 
 function renderBoard() {
@@ -138,121 +155,8 @@ function renderBoard() {
 
         for (let col = 0; col < COLS; col++) {
 
-            const cell = board[row][col];
-
             const cellElement =
-                document.createElement("div");
-
-            cellElement.className = "cell";
-
-            cellElement.dataset.row = row;
-            cellElement.dataset.col = col;
-
-            /*
-             * Prevent browser context menus.
-             */
-            cellElement.addEventListener(
-                "contextmenu",
-                event => {
-                    event.preventDefault();
-                }
-            );
-
-            let longPressTimer = null;
-            let longPressTriggered = false;
-
-            /*
-             * Long press.
-             */
-            cellElement.addEventListener(
-                "pointerdown",
-                event => {
-
-                    if (event.button !== 0) {
-                        return;
-                    }
-
-                    /*
-                     * Don't interact with a finished game.
-                     */
-                    if (
-                        gameState === "won" ||
-                        gameState === "lost"
-                    ) {
-                        return;
-                    }
-
-                    longPressTriggered = false;
-
-                    longPressTimer = setTimeout(() => {
-
-                        longPressTriggered = true;
-
-                        cycleMark(row, col);
-
-                    }, LONG_PRESS_MS);
-                }
-            );
-
-            /*
-             * Moving cancels long press.
-             */
-            cellElement.addEventListener(
-                "pointermove",
-                () => {
-
-                    if (longPressTimer !== null) {
-
-                        clearTimeout(longPressTimer);
-                        longPressTimer = null;
-                    }
-                }
-            );
-
-            /*
-             * Short tap.
-             */
-            cellElement.addEventListener(
-                "pointerup",
-                event => {
-
-                    if (longPressTimer !== null) {
-
-                        clearTimeout(longPressTimer);
-                        longPressTimer = null;
-                    }
-
-                    if (event.button !== 0) {
-                        return;
-                    }
-
-                    if (longPressTriggered) {
-                        return;
-                    }
-
-                    revealCell(row, col);
-                }
-            );
-
-            /*
-             * Leaving the cell cancels long press.
-             */
-            cellElement.addEventListener(
-                "pointerleave",
-                () => {
-
-                    if (longPressTimer !== null) {
-
-                        clearTimeout(longPressTimer);
-                        longPressTimer = null;
-                    }
-                }
-            );
-
-            updateCellElement(
-                cellElement,
-                cell
-            );
+                createCellElement(row, col);
 
             boardElement.appendChild(
                 cellElement
@@ -263,10 +167,192 @@ function renderBoard() {
 
 
 /* =========================================================
-   Update cell appearance
+   Create one cell element
    ========================================================= */
 
-function updateCellElement(element, cell) {
+function createCellElement(row, col) {
+
+    const cell =
+        board[row][col];
+
+    const element =
+        document.createElement("div");
+
+    element.className = "cell";
+
+    element.dataset.row = row;
+    element.dataset.col = col;
+
+    /*
+     * Prevent browser context menus.
+     */
+    element.addEventListener(
+        "contextmenu",
+        event => {
+            event.preventDefault();
+        }
+    );
+
+    /*
+     * Touch / pointer state.
+     */
+    let longPressTimer = null;
+    let longPressTriggered = false;
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+
+    /*
+     * Pointer down.
+     */
+    element.addEventListener(
+        "pointerdown",
+        event => {
+
+            if (event.button !== 0) {
+                return;
+            }
+
+            if (
+                gameState === "won" ||
+                gameState === "lost"
+            ) {
+                return;
+            }
+
+            longPressTriggered = false;
+
+            pointerStartX = event.clientX;
+            pointerStartY = event.clientY;
+
+            /*
+             * Capture the pointer so we continue receiving
+             * events even if the finger moves slightly.
+             */
+            element.setPointerCapture(
+                event.pointerId
+            );
+
+            longPressTimer = setTimeout(() => {
+
+                longPressTriggered = true;
+
+                cycleMark(
+                    row,
+                    col,
+                    element
+                );
+
+            }, LONG_PRESS_MS);
+        }
+    );
+
+    /*
+     * Movement.
+     *
+     * A small amount of finger movement is tolerated.
+     * Larger movement cancels the long press.
+     */
+    element.addEventListener(
+        "pointermove",
+        event => {
+
+            if (longPressTimer === null) {
+                return;
+            }
+
+            const dx =
+                event.clientX - pointerStartX;
+
+            const dy =
+                event.clientY - pointerStartY;
+
+            const distance =
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy
+                );
+
+            if (distance > 12) {
+
+                clearTimeout(
+                    longPressTimer
+                );
+
+                longPressTimer = null;
+            }
+        }
+    );
+
+    /*
+     * Pointer up.
+     */
+    element.addEventListener(
+        "pointerup",
+        event => {
+
+            if (longPressTimer !== null) {
+
+                clearTimeout(
+                    longPressTimer
+                );
+
+                longPressTimer = null;
+            }
+
+            if (event.button !== 0) {
+                return;
+            }
+
+            /*
+             * A long press has already performed
+             * the marking action.
+             */
+            if (longPressTriggered) {
+                return;
+            }
+
+            /*
+             * Otherwise this was a normal tap.
+             */
+            revealCell(row, col);
+        }
+    );
+
+    /*
+     * Pointer cancellation.
+     */
+    element.addEventListener(
+        "pointercancel",
+        () => {
+
+            if (longPressTimer !== null) {
+
+                clearTimeout(
+                    longPressTimer
+                );
+
+                longPressTimer = null;
+            }
+        }
+    );
+
+    updateCellElement(
+        element,
+        cell
+    );
+
+    return element;
+}
+
+
+/* =========================================================
+   Update one cell's DOM
+   ========================================================= */
+
+function updateCellElement(
+    element,
+    cell
+) {
 
     element.className = "cell";
     element.textContent = "";
@@ -279,11 +365,14 @@ function updateCellElement(element, cell) {
     }
 
     /*
-     * Flagged.
+     * Flag.
      */
     if (cell.state === "flagged") {
 
-        element.classList.add("flagged");
+        element.classList.add(
+            "flagged"
+        );
+
         element.textContent = "🚩";
 
         return;
@@ -294,7 +383,10 @@ function updateCellElement(element, cell) {
      */
     if (cell.state === "question") {
 
-        element.classList.add("question");
+        element.classList.add(
+            "question"
+        );
+
         element.textContent = "❓";
 
         return;
@@ -305,12 +397,17 @@ function updateCellElement(element, cell) {
      */
     if (cell.state === "revealed") {
 
-        element.classList.add("revealed");
+        element.classList.add(
+            "revealed"
+        );
 
         if (cell.mine) {
 
             element.textContent = "💣";
-            element.classList.add("mine");
+
+            element.classList.add(
+                "mine"
+            );
 
             return;
         }
@@ -329,10 +426,27 @@ function updateCellElement(element, cell) {
 
 
 /* =========================================================
-   Cycle flag/question/blank
+   Find a cell's DOM element
    ========================================================= */
 
-function cycleMark(row, col) {
+function getCellElement(row, col) {
+
+    return document.querySelector(
+        `.cell[data-row="${row}"][data-col="${col}"]`
+    );
+}
+
+
+/* =========================================================
+   Cycle:
+   hidden → flagged → question → hidden
+   ========================================================= */
+
+function cycleMark(
+    row,
+    col,
+    element
+) {
 
     if (
         gameState === "won" ||
@@ -341,8 +455,12 @@ function cycleMark(row, col) {
         return;
     }
 
-    const cell = board[row][col];
+    const cell =
+        board[row][col];
 
+    /*
+     * Revealed cells cannot be marked.
+     */
     if (cell.state === "revealed") {
         return;
     }
@@ -362,8 +480,17 @@ function cycleMark(row, col) {
         cell.state = "hidden";
     }
 
+    /*
+     * IMPORTANT:
+     * Only update this cell.
+     * Do NOT rebuild the board here.
+     */
+    updateCellElement(
+        element,
+        cell
+    );
+
     updateMineCounter();
-    renderBoard();
 }
 
 
@@ -395,10 +522,14 @@ function revealCell(row, col) {
         return;
     }
 
-    const cell = board[row][col];
+    const cell =
+        board[row][col];
 
     /*
-     * Only completely hidden cells can be revealed.
+     * Only a completely hidden cell can be revealed.
+     *
+     * This is what prevents:
+     * flag → question → accidental reveal
      */
     if (cell.state !== "hidden") {
         return;
@@ -415,7 +546,7 @@ function revealCell(row, col) {
     }
 
     /*
-     * Mine hit.
+     * Mine.
      */
     if (cell.mine) {
 
@@ -448,9 +579,6 @@ function revealCell(row, col) {
 
     renderBoard();
 
-    /*
-     * Check for victory.
-     */
     checkWin();
 }
 
@@ -494,7 +622,7 @@ function revealEmptyArea(
         }
 
         /*
-         * Don't overwrite marks.
+         * Never overwrite flags/questions.
          */
         if (
             cell.state === "flagged" ||
@@ -506,14 +634,14 @@ function revealEmptyArea(
         cell.state = "revealed";
 
         /*
-         * Numbered cell ends this branch.
+         * Numbered cells stop this branch.
          */
         if (cell.adjacent > 0) {
             continue;
         }
 
         /*
-         * Zero cell.
+         * Zero cell — examine neighbors.
          */
         for (
             let rowOffset = -1;
@@ -585,9 +713,6 @@ function checkWin() {
             const cell =
                 board[row][col];
 
-            /*
-             * Every non-mine must be revealed.
-             */
             if (
                 !cell.mine &&
                 cell.state !== "revealed"
@@ -613,13 +738,16 @@ function startTimer() {
         return;
     }
 
-    timerInterval = setInterval(() => {
+    timerInterval = setInterval(
+        () => {
 
-        elapsedSeconds++;
+            elapsedSeconds++;
 
-        updateTimer();
+            updateTimer();
 
-    }, 1000);
+        },
+        1000
+    );
 }
 
 
@@ -627,7 +755,10 @@ function stopTimer() {
 
     if (timerInterval !== null) {
 
-        clearInterval(timerInterval);
+        clearInterval(
+            timerInterval
+        );
+
         timerInterval = null;
     }
 }
@@ -636,7 +767,9 @@ function stopTimer() {
 function updateTimer() {
 
     const minutes =
-        Math.floor(elapsedSeconds / 60);
+        Math.floor(
+            elapsedSeconds / 60
+        );
 
     const seconds =
         elapsedSeconds % 60;
