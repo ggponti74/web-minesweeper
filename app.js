@@ -710,6 +710,38 @@ function updateSoundButton() {
 }
 
 function playSound(frequency, duration, type = "sine", volume = 0.08) {
+    alert( soundEnabled);
+    if (!soundEnabled) return;
+
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    oscillator.type = type;
+    oscillator.frequency.value = frequency;
+
+    gain.gain.setValueAtTime(volume, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(
+        0.001,
+        audioContext.currentTime + duration
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + duration);
+}
+
+/*
+function playSound(frequency, duration, type = "sine", volume = 0.08) {
 
     alert( soundEnabled);
 
@@ -741,7 +773,7 @@ function playSound(frequency, duration, type = "sine", volume = 0.08) {
     oscillator.start();
     oscillator.stop(audioContext.currentTime + duration);
 }
-
+*/
 
 /* =========================================================
    Timer
