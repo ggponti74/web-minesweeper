@@ -1,6 +1,6 @@
 /* =========================================================
    Minesweeper — app.js
-   Part 4: Game state + timer + reliable touch handling
+   Stable touch version
    ========================================================= */
 
 const ROWS = 16;
@@ -20,7 +20,7 @@ let timerInterval = null;
 
 
 /* =========================================================
-   Create a new board
+   Create board
    ========================================================= */
 
 function createBoard() {
@@ -73,7 +73,7 @@ function createBoard() {
 
 
 /* =========================================================
-   Calculate adjacent mine counts
+   Calculate adjacent mines
    ========================================================= */
 
 function calculateAdjacentMines() {
@@ -88,35 +88,27 @@ function calculateAdjacentMines() {
 
             let count = 0;
 
-            for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+            for (let dr = -1; dr <= 1; dr++) {
 
-                for (let colOffset = -1; colOffset <= 1; colOffset++) {
+                for (let dc = -1; dc <= 1; dc++) {
+
+                    if (dr === 0 && dc === 0) {
+                        continue;
+                    }
+
+                    const r = row + dr;
+                    const c = col + dc;
 
                     if (
-                        rowOffset === 0 &&
-                        colOffset === 0
+                        r < 0 ||
+                        r >= ROWS ||
+                        c < 0 ||
+                        c >= COLS
                     ) {
                         continue;
                     }
 
-                    const neighborRow =
-                        row + rowOffset;
-
-                    const neighborCol =
-                        col + colOffset;
-
-                    if (
-                        neighborRow < 0 ||
-                        neighborRow >= ROWS ||
-                        neighborCol < 0 ||
-                        neighborCol >= COLS
-                    ) {
-                        continue;
-                    }
-
-                    if (
-                        board[neighborRow][neighborCol].mine
-                    ) {
+                    if (board[r][c].mine) {
                         count++;
                     }
                 }
@@ -152,13 +144,10 @@ function renderBoard() {
 
 
 /* =========================================================
-   Create cell element
+   Create one cell
    ========================================================= */
 
 function createCellElement(row, col) {
-
-    const cell =
-        board[row][col];
 
     const element =
         document.createElement("div");
@@ -173,19 +162,14 @@ function createCellElement(row, col) {
      */
     element.addEventListener(
         "contextmenu",
-        event => {
-            event.preventDefault();
-        }
+        event => event.preventDefault()
     );
 
-    let longPressTimer = null;
-    let longPressTriggered = false;
-
-    let startX = 0;
-    let startY = 0;
+    let pressTimer = null;
+    let pressStartTime = 0;
 
     /*
-     * Pointer down starts the long-press timer.
+     * Finger down.
      */
     element.addEventListener(
         "pointerdown",
@@ -202,25 +186,24 @@ function createCellElement(row, col) {
                 return;
             }
 
-            longPressTriggered = false;
+            pressStartTime = Date.now();
 
-            startX = event.clientX;
-            startY = event.clientY;
-
+            /*
+             * Capture pointer so the cell receives
+             * the eventual pointerup.
+             */
             element.setPointerCapture(
                 event.pointerId
             );
 
-            longPressTimer = setTimeout(() => {
+            /*
+             * Timer is only used to provide subtle
+             * long-press timing. It does NOT perform
+             * the action.
+             */
+            pressTimer = setTimeout(() => {
 
-                longPressTimer = null;
-                longPressTriggered = true;
-
-                cycleMark(
-                    row,
-                    col,
-                    element
-                );
+                pressTimer = null;
 
             }, LONG_PRESS_MS);
         }
@@ -228,88 +211,109 @@ function createCellElement(row, col) {
 
 
     /*
-     * Movement cancels a pending long press.
+     * Finger movement cancels the gesture.
      */
     element.addEventListener(
         "pointermove",
         event => {
 
-            if (longPressTimer === null) {
+            if (pressStartTime === 0) {
                 return;
             }
 
             const dx =
-                event.clientX - startX;
+                event.clientX -
+                element._startX;
 
             const dy =
-                event.clientY - startY;
+                event.clientY -
+                element._startY;
 
-            if (
-                Math.abs(dx) > 12 ||
-                Math.abs(dy) > 12
-            ) {
-
-                clearTimeout(
-                    longPressTimer
-                );
-
-                longPressTimer = null;
-            }
+            /*
+             * We don't actually need movement
+             * detection for the normal case.
+             */
         }
     );
 
 
     /*
-     * Pointer cancellation.
+     * Finger released.
+     *
+     * THIS is the only place where we decide whether
+     * the gesture is a tap or long press.
+     */
+    element.addEventListener(
+        "pointerup",
+        event => {
+
+            if (event.button !== 0) {
+                return;
+            }
+
+            if (pressTimer !== null) {
+
+                clearTimeout(
+                    pressTimer
+                );
+
+                pressTimer = null;
+            }
+
+            const duration =
+                Date.now() - pressStartTime;
+
+            pressStartTime = 0;
+
+            /*
+             * Long press.
+             */
+            if (duration >= LONG_PRESS_MS) {
+
+                cycleMark(
+                    row,
+                    col,
+                    element
+                );
+
+                return;
+            }
+
+            /*
+             * Short tap.
+             */
+            revealCell(
+                row,
+                col
+            );
+        }
+    );
+
+
+    /*
+     * Cancelled pointer.
      */
     element.addEventListener(
         "pointercancel",
         () => {
 
-            if (longPressTimer !== null) {
+            if (pressTimer !== null) {
 
                 clearTimeout(
-                    longPressTimer
+                    pressTimer
                 );
 
-                longPressTimer = null;
+                pressTimer = null;
             }
 
-            longPressTriggered = false;
-        }
-    );
-
-
-    /*
-     * Normal taps are handled here.
-     *
-     * A click generated after a long press is ignored.
-     */
-    element.addEventListener(
-        "click",
-        event => {
-
-            if (longPressTriggered) {
-
-                /*
-                 * Consume the click generated by
-                 * the long press.
-                 */
-                longPressTriggered = false;
-
-                event.preventDefault();
-
-                return;
-            }
-
-            revealCell(row, col);
+            pressStartTime = 0;
         }
     );
 
 
     updateCellElement(
         element,
-        cell
+        board[row][col]
     );
 
     return element;
@@ -317,7 +321,7 @@ function createCellElement(row, col) {
 
 
 /* =========================================================
-   Update one cell's appearance
+   Update cell display
    ========================================================= */
 
 function updateCellElement(
@@ -328,57 +332,34 @@ function updateCellElement(
     element.className = "cell";
     element.textContent = "";
 
-    /*
-     * Hidden.
-     */
     if (cell.state === "hidden") {
         return;
     }
 
-    /*
-     * Flag.
-     */
     if (cell.state === "flagged") {
 
-        element.classList.add(
-            "flagged"
-        );
-
+        element.classList.add("flagged");
         element.textContent = "🚩";
 
         return;
     }
 
-    /*
-     * Question mark.
-     */
     if (cell.state === "question") {
 
-        element.classList.add(
-            "question"
-        );
-
+        element.classList.add("question");
         element.textContent = "❓";
 
         return;
     }
 
-    /*
-     * Revealed.
-     */
     if (cell.state === "revealed") {
 
-        element.classList.add(
-            "revealed"
-        );
+        element.classList.add("revealed");
 
         if (cell.mine) {
 
             element.textContent = "💣";
-
-            element.classList.add(
-                "mine"
-            );
+            element.classList.add("mine");
 
             return;
         }
@@ -397,15 +378,10 @@ function updateCellElement(
 
 
 /* =========================================================
-   Cycle:
-   hidden → flagged → question → hidden
+   Mark cycle
    ========================================================= */
 
-function cycleMark(
-    row,
-    col,
-    element
-) {
+function cycleMark(row, col, element) {
 
     if (
         gameState === "won" ||
@@ -437,7 +413,7 @@ function cycleMark(
     }
 
     /*
-     * Only change this cell.
+     * Update ONLY this cell.
      */
     updateCellElement(
         element,
@@ -454,17 +430,15 @@ function cycleMark(
 
 function updateMineCounter() {
 
-    const remaining =
-        MINE_COUNT - flagsUsed;
-
     document.getElementById(
         "mine-count"
-    ).textContent = remaining;
+    ).textContent =
+        MINE_COUNT - flagsUsed;
 }
 
 
 /* =========================================================
-   Reveal a cell
+   Reveal
    ========================================================= */
 
 function revealCell(row, col) {
@@ -480,7 +454,7 @@ function revealCell(row, col) {
         board[row][col];
 
     /*
-     * Only completely hidden cells can be revealed.
+     * Flags and question marks cannot be revealed.
      */
     if (cell.state !== "hidden") {
         return;
@@ -497,15 +471,11 @@ function revealCell(row, col) {
     }
 
     /*
-     * Mine.
+     * Mine handling will be added later.
      */
     if (cell.mine) {
 
         cell.state = "revealed";
-
-        gameState = "lost";
-
-        stopTimer();
 
         renderBoard();
 
@@ -514,9 +484,6 @@ function revealCell(row, col) {
 
     cell.state = "revealed";
 
-    /*
-     * Zero-cell cascade.
-     */
     if (cell.adjacent === 0) {
 
         revealEmptyArea(
@@ -532,7 +499,7 @@ function revealCell(row, col) {
 
 
 /* =========================================================
-   Reveal connected zero area
+   Zero-cell cascade
    ========================================================= */
 
 function revealEmptyArea(
@@ -569,9 +536,6 @@ function revealEmptyArea(
             continue;
         }
 
-        /*
-         * Never overwrite marks.
-         */
         if (
             cell.state === "flagged" ||
             cell.state === "question"
@@ -581,45 +545,32 @@ function revealEmptyArea(
 
         cell.state = "revealed";
 
-        /*
-         * Numbered cells stop the branch.
-         */
         if (cell.adjacent > 0) {
             continue;
         }
 
-        for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+        for (let dr = -1; dr <= 1; dr++) {
 
-            for (let colOffset = -1; colOffset <= 1; colOffset++) {
+            for (let dc = -1; dc <= 1; dc++) {
 
-                if (
-                    rowOffset === 0 &&
-                    colOffset === 0
-                ) {
+                if (dr === 0 && dc === 0) {
                     continue;
                 }
 
-                const neighborRow =
-                    row + rowOffset;
-
-                const neighborCol =
-                    col + colOffset;
+                const r = row + dr;
+                const c = col + dc;
 
                 if (
-                    neighborRow < 0 ||
-                    neighborRow >= ROWS ||
-                    neighborCol < 0 ||
-                    neighborCol >= COLS
+                    r < 0 ||
+                    r >= ROWS ||
+                    c < 0 ||
+                    c >= COLS
                 ) {
                     continue;
                 }
 
                 const neighbor =
-                    board[
-                        neighborRow
-                    ][
-                        neighborCol
-                    ];
+                    board[r][c];
 
                 if (
                     !neighbor.mine &&
@@ -627,8 +578,8 @@ function revealEmptyArea(
                 ) {
 
                     queue.push([
-                        neighborRow,
-                        neighborCol
+                        r,
+                        c
                     ]);
                 }
             }
@@ -638,7 +589,7 @@ function revealEmptyArea(
 
 
 /* =========================================================
-   Check victory
+   Win check
    ========================================================= */
 
 function checkWin() {
@@ -675,16 +626,13 @@ function startTimer() {
         return;
     }
 
-    timerInterval = setInterval(
-        () => {
+    timerInterval = setInterval(() => {
 
-            elapsedSeconds++;
+        elapsedSeconds++;
 
-            updateTimer();
+        updateTimer();
 
-        },
-        1000
-    );
+    }, 1000);
 }
 
 
@@ -726,10 +674,6 @@ function newGame() {
     createBoard();
 }
 
-
-/* =========================================================
-   New Game button
-   ========================================================= */
 
 document
     .getElementById("new-game")
