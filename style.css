@@ -353,11 +353,13 @@ a {
 
 #sound-toggle {
     width: 46px;
+    min-height: 42px;
     padding: 8px;
 }
 
 #new-game {
     width: 46px;
+    min-height: 42px;
     padding: 8px;
 }
 
