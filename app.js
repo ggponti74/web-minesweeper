@@ -721,6 +721,8 @@ function playSound(frequency, duration, type = "sine", volume = 0.08) {
         audioContext.resume();
     }
 
+alert("Audio state: " + audioContext.state);
+
     const oscillator = audioContext.createOscillator();
     const gain = audioContext.createGain();
 
