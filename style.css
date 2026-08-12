@@ -353,6 +353,7 @@ a {
     min-height: 44px !important;
     padding: 0 !important;
     box-sizing: border-box;
+    border-radius: 12px;
 }
 
 /* =========================================================
