@@ -924,7 +924,7 @@ document
     );
 
 const resultButton = document.getElementById("result-new-game");
-
+alert(resultButton) ;
 resultButton.addEventListener("click", newGame);
 
 /* =========================================================
