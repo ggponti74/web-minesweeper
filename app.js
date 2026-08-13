@@ -518,7 +518,7 @@ function revealCell(row, col) {
     gameOver = true;
     gameState = "lost";
 
-    revealAllMines();
+    loseGame();
 
     stopTimer();
 
