@@ -504,6 +504,8 @@ function revealCell(row, col) {
         return;
     }
 
+    playSound(440, 0.08);
+
     /*
      * Normal cell.
      */
