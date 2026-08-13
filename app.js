@@ -131,15 +131,17 @@ function calculateAdjacentMines() {
 
 function renderBoard() {
 
-alert(
-    "Cells rendered:" +
-    boardElement.children.length
-);
+
 
     const boardElement =
         document.getElementById("board");
 
     boardElement.innerHTML = "";
+
+alert(
+    "Cells rendered:" +
+    boardElement.children.length
+);
 
     for (let row = 0; row < ROWS; row++) {
 
