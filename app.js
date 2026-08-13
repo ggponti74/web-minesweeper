@@ -500,6 +500,8 @@ function revealCell(row, col) {
      */
     if (cell.mine) {
 
+        playMineSound();
+
         loseGame();
 
         return;
@@ -759,6 +761,18 @@ function playSound(frequency, duration, type = "sine", volume = 0.08) {
 
     oscillator.start();
     oscillator.stop(audioContext.currentTime + duration);
+}
+
+function playMineSound() {
+
+    if (!soundEnabled) {
+        return;
+    }
+
+    playSound(180, 0.25);
+    setTimeout(() => {
+        playSound(100, 0.35);
+    }, 100);
 }
 
 /*
