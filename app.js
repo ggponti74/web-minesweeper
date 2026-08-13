@@ -524,9 +524,10 @@ function revealCell(row, col) {
     playSound(440, 0.08);
 alert("begin") ;
     setTimeout(() => {
+alert("end") ;
         loseGame();
     }, 2000);
-alert("end") ;
+
     return;
 }
 
