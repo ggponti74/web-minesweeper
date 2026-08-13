@@ -923,7 +923,7 @@ document
         newGame
     );
 
-const resultButton = document.getElementById("result-button");
+const resultButton = document.getElementById("result-new-game");
 
 resultButton.addEventListener("click", startNewGame);
 
