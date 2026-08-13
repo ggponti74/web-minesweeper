@@ -804,7 +804,7 @@ function playWinSound() {
         return;
     }
 
-    playSound(523,.0.20 ); // C5
+    playSound(523, 0.20 ); // C5
 
     setTimeout(() => {
         playSound(659, 0.20); // E5
