@@ -798,7 +798,9 @@ function startTimer() {
 
     if (
         timerInterval !== null ||
-        gamePaused
+        gamePaused ||
+        gameState === "won" ||
+        gameState === "lost"
     ) {
         return;
     }
@@ -817,7 +819,6 @@ function startTimer() {
 
     }, 1000);
 }
-
 
 function stopTimer() {
 
