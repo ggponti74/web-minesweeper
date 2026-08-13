@@ -148,11 +148,6 @@ function renderBoard() {
         }
     }
 
-alert(
-    "Cells rendered:" +
-    boardElement.children.length
-);
-
 }
 
 
@@ -736,7 +731,7 @@ function updateSoundButton() {
 }
 
 function playSound(frequency, duration, type = "sine", volume = 0.08) {
-    alert( soundEnabled);
+
     if (!soundEnabled) return;
 
     if (!audioContext) {
