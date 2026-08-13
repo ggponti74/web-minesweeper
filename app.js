@@ -771,7 +771,8 @@ function playMineSound() {
     setTimeout(() => {
         playSound(100, 0.35, "sawtooth", 0.20);
     }, 100);
-}. 
+}
+
 /*
 function playSound(frequency, duration, type = "sine", volume = 0.08) {
 
