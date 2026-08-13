@@ -501,7 +501,7 @@ function revealCell(row, col) {
 
     playMineSound();
     gameOver = true;
-    showGameOver();
+    showResultOverlay(!gameOver);
     return;
 }
 
