@@ -713,6 +713,8 @@ function checkWin() {
 
     stopTimer();
 
+    playWinSound();
+
     showResultOverlay(true);
 }
 
@@ -795,6 +797,22 @@ function playMineSound() {
     }, 100);
 }
   
+function playWinSound() {
+
+    if (!soundEnabled) {
+        return;
+    }
+
+    playSound(523, 0.15); // C5
+
+    setTimeout(() => {
+        playSound(659, 0.15); // E5
+    }, 120);
+
+    setTimeout(() => {
+        playSound(784, 0.25); // G5
+    }, 240);
+}
 
 /* =========================================================
    Timer
