@@ -969,6 +969,7 @@ const resultTitle = document.getElementById("result-title");
 const resultMessage = document.getElementById("result-message");
 
 function showResultOverlay(won) {
+    stopTimer();
 
     if (won) {
         resultIcon.textContent = "🏆";
