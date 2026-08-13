@@ -522,11 +522,11 @@ function revealCell(row, col) {
     stopTimer();
 
     playSound(440, 0.08);
-alert("begin") ;
+    loseGame();
+
     setTimeout(() => {
-alert("end") ;
-        loseGame();
-    }, 5000);
+        showResultOverlay(false);
+    }, 2000);
 
     return;
 }
@@ -593,8 +593,6 @@ function loseGame() {
     }
 
     renderBoard();
-
-    showResultOverlay(false);
 
 }
 
