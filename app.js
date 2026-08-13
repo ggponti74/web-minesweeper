@@ -496,13 +496,14 @@ function revealCell(row, col) {
      * BOOM!
      */
     if (cell.mine) {
+    event.preventDefault();
+    event.stopPropagation();
 
-        playMineSound();
-
-        loseGame();
-
-        return;
-    }
+    playMineSound();
+    gameOver = true;
+    showGameOver();
+    return;
+}
 
     playSound(440, 0.08);
 
