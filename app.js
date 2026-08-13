@@ -943,10 +943,10 @@ function cheatAlmostWin() {
 
     let safeCells = [];
 
-    for (let y = 0; y < ROWS; y++) {
-        for (let x = 0; x < COLS; x++) {
+    for (let row = 0; row < ROWS; row++) {
+        for (let col = 0; col < COLS; col++) {
 
-            const cell = board[y][x];
+            const cell = board[row][col];
 
             if (!cell.mine) {
                 safeCells.push(cell);
@@ -954,16 +954,12 @@ function cheatAlmostWin() {
         }
     }
 
-    // Leave two safe cells unrevealed
-    const remaining = 2;
-
-    for (let i = 0; i < safeCells.length - remaining; i++) {
-        safeCells[i].revealed = true;
+    // Reveal all but two safe cells
+    for (let i = 0; i < safeCells.length - 1; i++) {
+        safeCells[i].state = "revealed";
     }
 
     renderBoard();
-
-alert("cheat mode on") ;
 }
 
 document
