@@ -75,6 +75,19 @@ target="_blank"
         </div>
     </div>
 
+    <script>
+window.onerror = function(message, source, line, column, error) {
+    alert(
+        "JS ERROR:\n" +
+        message +
+        "\nLine: " + line +
+        "\nColumn: " + column
+    );
+
+    return false;
+};
+</script>
+
     <script src="sw.js"></script> 
     <script src="app.js"></script>
 
