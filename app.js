@@ -512,26 +512,24 @@ function revealCell(row, col) {
      * BOOM!
      */
     if (cell.mine) {
-        suppressNextClick = true;
+    suppressNextClick = true;
 
     playMineSound();
+
     gameOver = true;
     gameState = "lost";
 
     loseGame();
-
     stopTimer();
 
-playSound(440, 0.08);
+    playSound(440, 0.08);
 
-setTimeout(() => {
-        showResultOverlay(!gameOver);
+    setTimeout(() => {
+        showResultOverlay(false);
     }, 2000);
 
     return;
 }
-
-    
 
     /*
      * Normal cell.
