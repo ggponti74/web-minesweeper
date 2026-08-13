@@ -374,8 +374,8 @@ a {
 
     background: rgb(0 0 0 / 0.45);
 
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
 #result-overlay.hidden {
