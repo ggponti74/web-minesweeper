@@ -72,8 +72,9 @@ function createBoard() {
             minesPlaced++;
         }
     }
-cheatAlmostWin();
+
     calculateAdjacentMines();
+
     renderBoard();
 }
 
@@ -803,10 +804,10 @@ function playWinSound() {
         return;
     }
 
-    playSound(523, 0.15); // C5
+    playSound(523,.0.20 ); // C5
 
     setTimeout(() => {
-        playSound(659, 0.15); // E5
+        playSound(659, 0.20); // E5
     }, 120);
 
     setTimeout(() => {
