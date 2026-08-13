@@ -948,14 +948,16 @@ function cheatAlmostWin() {
 
             const cell = board[row][col];
 
-            if (!cell.mine) {
+            if (cell.mine) {
+                cell.state = "revealed";
+            } else {
                 safeCells.push(cell);
             }
         }
     }
 
     // Reveal all but two safe cells
-    for (let i = 0; i < safeCells.length - 1; i++) {
+    for (let i = 0; i < safeCells.length - 2; i++) {
         safeCells[i].state = "revealed";
     }
 
