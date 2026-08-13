@@ -568,6 +568,9 @@ function loseGame() {
     }
 
     renderBoard();
+
+    showResultOverlay(false);
+
 }
 
 
@@ -686,6 +689,8 @@ function checkWin() {
     gameState = "won";
 
     stopTimer();
+
+    showResultOverlay(true);
 }
 
 
@@ -906,6 +911,7 @@ window.addEventListener(
    ========================================================= */
 
 function newGame() {
+    resultOverlay.classList.add("hidden");
     createBoard();
 }
 
@@ -934,6 +940,29 @@ function saveSettings() {
 localStorage.setItem("minesweeper-sound", soundEnabled);
 } 
 
+/*
+*/
+
+const resultOverlay = document.getElementById("result-overlay");
+const resultIcon = document.getElementById("result-icon");
+const resultTitle = document.getElementById("result-title");
+const resultMessage = document.getElementById("result-message");
+const resultButton = document.getElementById("result-button");
+
+function showResultOverlay(won) {
+
+    if (won) {
+        resultIcon.textContent = "🏆";
+        resultTitle.textContent = "You Win!";
+        resultMessage.textContent = "Congratulations!";
+    } else {
+        resultIcon.textContent = "💣";
+        resultTitle.textContent = "Game Over";
+        resultMessage.textContent = "You hit a mine!";
+    }
+
+    resultOverlay.classList.remove("hidden");
+} 
 /* =========================================================
    Start
    ========================================================= */
