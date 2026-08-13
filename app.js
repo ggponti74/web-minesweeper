@@ -950,7 +950,6 @@ const resultOverlay = document.getElementById("result-overlay");
 const resultIcon = document.getElementById("result-icon");
 const resultTitle = document.getElementById("result-title");
 const resultMessage = document.getElementById("result-message");
-const resultButton = document.getElementById("result-button");
 
 function showResultOverlay(won) {
 
