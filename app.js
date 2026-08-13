@@ -937,7 +937,6 @@ window.addEventListener(
 function newGame() {
             resultOverlay.classList.add("hidden");
     createBoard();
-cheatAlmostWin();
 }
 
 function cheatAlmostWin() {
@@ -1024,3 +1023,5 @@ loadSettings();
 updateSoundButton();
 
 createBoard();
+
+cheatAlmostWin();
