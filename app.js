@@ -517,7 +517,13 @@ function revealCell(row, col) {
     playMineSound();
     gameOver = true;
     gameState = "lost";
+
+    revealAllMines();
+
+    stopTimer();
+
     showResultOverlay(!gameOver);
+
     return;
 }
 
