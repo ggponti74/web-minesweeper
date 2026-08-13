@@ -962,7 +962,6 @@ function cheatAlmostWin() {
         safeCells[i].revealed = true;
     }
 
-    updateAdjacentCounts();
     renderBoard();
 }
 
