@@ -522,6 +522,10 @@ function revealCell(row, col) {
 
     stopTimer();
 
+setTimeout(() => {
+        showOverlay();
+    }, 2000);
+
     showResultOverlay(!gameOver);
 
     return;
