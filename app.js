@@ -20,6 +20,7 @@ let timerInterval = null;
 
 let gamePaused = false;
 let timerStartedAt = null;
+let suppressNextClick = false;
 
 let audioContext = null;
 let soundEnabled = true;
@@ -332,7 +333,22 @@ initAudio();
     return element;
 }
 
+document.addEventListener(
+    "click",
+    event => {
 
+        if (!suppressNextClick) {
+            return;
+        }
+
+        suppressNextClick = false;
+
+        event.preventDefault();
+        event.stopPropagation();
+
+    },
+    true
+);
 /* =========================================================
    Update cell display
    ========================================================= */
@@ -496,11 +512,11 @@ function revealCell(row, col) {
      * BOOM!
      */
     if (cell.mine) {
-    event.preventDefault();
-    event.stopPropagation();
+        suppressNextClick = true;
 
     playMineSound();
     gameOver = true;
+    gameState = "lost";
     showResultOverlay(!gameOver);
     return;
 }
