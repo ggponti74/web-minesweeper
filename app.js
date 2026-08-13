@@ -729,7 +729,7 @@ function updateSoundButton() {
     );
 }
 
-function playSound(frequency, duration, type = "sine", volume = 0.08) {
+function playSound(frequency, duration, type = "sine", volume = 0.20) {
 
     if (!soundEnabled) return;
 
@@ -766,12 +766,12 @@ function playMineSound() {
         return;
     }
 
-    playSound(180, 0.25);
-    setTimeout(() => {
-        playSound(100, 0.35);
-    }, 100);
-}
+    playSound(180, 0.25, "sawtooth", 0.20);
 
+    setTimeout(() => {
+        playSound(100, 0.35, "sawtooth", 0.20);
+    }, 100);
+}. 
 /*
 function playSound(frequency, duration, type = "sine", volume = 0.08) {
 
