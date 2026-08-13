@@ -72,7 +72,7 @@ function createBoard() {
             minesPlaced++;
         }
     }
-
+cheatAlmostWin();
     calculateAdjacentMines();
     renderBoard();
 }
@@ -1021,5 +1021,3 @@ loadSettings();
 updateSoundButton();
 
 createBoard();
-
-cheatAlmostWin();
