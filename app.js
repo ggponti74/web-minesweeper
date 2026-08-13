@@ -138,11 +138,6 @@ function renderBoard() {
 
     boardElement.innerHTML = "";
 
-alert(
-    "Cells rendered:" +
-    boardElement.children.length
-);
-
     for (let row = 0; row < ROWS; row++) {
 
         for (let col = 0; col < COLS; col++) {
@@ -152,6 +147,12 @@ alert(
             );
         }
     }
+
+alert(
+    "Cells rendered:" +
+    boardElement.children.length
+);
+
 }
 
 
