@@ -526,7 +526,7 @@ alert("begin") ;
     setTimeout(() => {
 alert("end") ;
         loseGame();
-    }, 2000);
+    }, 5000);
 
     return;
 }
