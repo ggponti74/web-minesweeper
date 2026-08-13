@@ -522,16 +522,16 @@ function revealCell(row, col) {
 
     stopTimer();
 
-setTimeout(() => {
-        showOverlay();
-    }, 2000);
+playSound(440, 0.08);
 
-    showResultOverlay(!gameOver);
+setTimeout(() => {
+        showResultOverlay(!gameOver);
+    }, 2000);
 
     return;
 }
 
-    playSound(440, 0.08);
+    
 
     /*
      * Normal cell.
