@@ -937,8 +937,34 @@ window.addEventListener(
 function newGame() {
             resultOverlay.classList.add("hidden");
     createBoard();
+cheatAlmostWin();
 }
 
+function cheatAlmostWin() {
+
+    let safeCells = [];
+
+    for (let y = 0; y < ROWS; y++) {
+        for (let x = 0; x < COLS; x++) {
+
+            const cell = board[y][x];
+
+            if (!cell.mine) {
+                safeCells.push(cell);
+            }
+        }
+    }
+
+    // Leave two safe cells unrevealed
+    const remaining = 2;
+
+    for (let i = 0; i < safeCells.length - remaining; i++) {
+        safeCells[i].revealed = true;
+    }
+
+    updateAdjacentCounts();
+    renderBoard();
+}
 
 document
     .getElementById("new-game")
