@@ -519,13 +519,12 @@ function revealCell(row, col) {
     gameOver = true;
     gameState = "lost";
 
-    loseGame();
     stopTimer();
 
     playSound(440, 0.08);
 
     setTimeout(() => {
-        showResultOverlay(false);
+        loseGame();
     }, 2000);
 
     return;
