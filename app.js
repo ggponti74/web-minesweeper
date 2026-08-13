@@ -925,7 +925,7 @@ document
 
 const resultButton = document.getElementById("result-new-game");
 
-//resultButton.addEventListener("click", startNewGame);
+resultButton.addEventListener("click", startNewGame);
 
 /* =========================================================
    Settings
