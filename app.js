@@ -962,6 +962,8 @@ function cheatAlmostWin() {
     }
 
     renderBoard();
+
+alert("cheat mode on") ;
 }
 
 document
