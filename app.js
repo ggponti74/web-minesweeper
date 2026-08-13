@@ -217,10 +217,7 @@ initAudio();
 
             }, LONG_PRESS_MS);
 
-playSound(440, 0.08);
-
         }
-
 
 
     );
