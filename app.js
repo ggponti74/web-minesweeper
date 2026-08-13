@@ -911,7 +911,7 @@ window.addEventListener(
    ========================================================= */
 
 function newGame() {
-    resultOverlay.classList.add("hidden");
+            resultOverlay.classList.add("hidden");
     createBoard();
 }
 
@@ -925,7 +925,7 @@ document
 
 const resultButton = document.getElementById("result-new-game");
 
-resultButton.addEventListener("click", startNewGame);
+//resultButton.addEventListener("click", startNewGame);
 
 /* =========================================================
    Settings
