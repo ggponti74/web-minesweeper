@@ -962,10 +962,13 @@ window.addEventListener(
    ========================================================= */
 
 function newGame() {
-    let showOverlay = false;
    
-    clearTimeout(loseOverlayTimeout);
-    loseOverlayTimeout = null;
+    showOverlay = null;
+    if (loseOverlayTimeout !== null) {
+
+        clearTimeout(loseOverlayTimeout);
+        loseOverlayTimeout = null;
+    }
     
     resultOverlay.classList.add("hidden");
     
