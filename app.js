@@ -21,6 +21,7 @@ let timerInterval = null;
 let gamePaused = false;
 let timerStartedAt = null;
 let suppressNextClick = false;
+let showOverlay = false;
 
 let audioContext = null;
 let soundEnabled = true;
@@ -526,7 +527,7 @@ function revealCell(row, col) {
     loseGame();
 
     setTimeout(() => {
-       if(loseOverlayTimeout != null) {
+       if( showOverlay == true ) {
          showResultOverlay(false);
        } 
     }, 2000);
@@ -956,7 +957,7 @@ window.addEventListener(
    ========================================================= */
 
 function newGame() {
-    let loseOverlay = null;             resultOverlay.classList.add("hidden");
+    //let loseOverlay = null;             resultOverlay.classList.add("hidden");
     createBoard();
 }
 
@@ -978,7 +979,7 @@ function cheatAlmostWin() {
     }
 
     // Reveal all but two safe cells
-    for (let i = 0; i < safeCells.length - 2; i++) {
+    for (let i = 0; i < safeCells.length - 4; i++) {
         safeCells[i].state = "revealed";
     }
 
@@ -1034,6 +1035,7 @@ function showResultOverlay(won) {
     }
 
     resultOverlay.classList.remove("hidden");
+    let showOverlay = true;
 } 
 /* =========================================================
    Start
