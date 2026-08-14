@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const ROWS = 13;
+const ROWS = 14;
 const COLS = 8;
 const MINE_COUNT = 16;
 
@@ -526,7 +526,9 @@ function revealCell(row, col) {
     loseGame();
 
     setTimeout(() => {
-        showResultOverlay(false);
+       if(loseOverlayTimeout = null) {
+         showResultOverlay(false);
+       } 
     }, 2000);
 
     return;
