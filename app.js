@@ -535,7 +535,6 @@ function revealCell(row, col) {
         loseOverlayTimeout = null;
        }
          showResultOverlay(false);
-       } 
     }, 2000);
 
     return;
