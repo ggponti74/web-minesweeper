@@ -954,7 +954,7 @@ window.addEventListener(
    ========================================================= */
 
 function newGame() {
-            resultOverlay.classList.add("hidden");
+    let loseOverlayTimeout = null;             resultOverlay.classList.add("hidden");
     createBoard();
 }
 
