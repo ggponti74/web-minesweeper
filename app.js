@@ -966,9 +966,8 @@ function newGame() {
     let showOverlay = false;
    
     clearTimeout(loseOverlayTimeout);
-        loseOverlayTimeout = null;
-    }
-
+    loseOverlayTimeout = null;
+    
     resultOverlay.classList.add("hidden");
     
     createBoard();
