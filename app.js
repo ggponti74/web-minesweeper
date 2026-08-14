@@ -22,6 +22,7 @@ let gamePaused = false;
 let timerStartedAt = null;
 let suppressNextClick = false;
 let showOverlay = false;
+let loseOverlayTimeout = null;
 
 let audioContext = null;
 let soundEnabled = true;
@@ -528,9 +529,9 @@ function revealCell(row, col) {
 
     let showOverlay = true;
        
-    setTimeout(() => {
+    let loseOverlayTimeout = setTimeout(() => {
        // check that New Game wasn't clicked
-       if( showOverlay == true ) {
+       if( loseOverlayTimeout == true ) {
           clearTimeout(loseOverlayTimeout);
         loseOverlayTimeout = null;
        }
@@ -962,7 +963,14 @@ window.addEventListener(
    ========================================================= */
 
 function newGame() {
-    let showOverlay = true;             resultOverlay.classList.add("hidden");
+    let showOverlay = false;
+   
+    clearTimeout(loseOverlayTimeout);
+        loseOverlayTimeout = null;
+    }
+
+    resultOverlay.classList.add("hidden");
+    
     createBoard();
 }
 
