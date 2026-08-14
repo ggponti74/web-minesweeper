@@ -1,4 +1,4 @@
-const CACHE = "v1.1.0";
+const CACHE = "v1.1.1";
 
 self.addEventListener("install", e => {
     e.waitUntil(
@@ -7,7 +7,9 @@ self.addEventListener("install", e => {
                 "./index.html",
                 "./style.css",
                 "./script.js",
-                "./manifest.json"
+                "./manifest.json",
+                "./icon-192.png",
+                "./icon-512.png"
            ])
         )
     );
