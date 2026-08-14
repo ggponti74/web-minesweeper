@@ -526,7 +526,7 @@ function revealCell(row, col) {
     loseGame();
 
     setTimeout(() => {
-       if(loseOverlayTimeout = null) {
+       if(loseOverlayTimeout != null) {
          showResultOverlay(false);
        } 
     }, 2000);
