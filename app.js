@@ -3,9 +3,9 @@
    Stable touch version
    ========================================================= */
 
-const ROWS = 16;
-const COLS = 10;
-const MINE_COUNT = 32;
+const ROWS = 13;
+const COLS = 8;
+const MINE_COUNT = 16;
 
 const LONG_PRESS_MS = 500;
 
