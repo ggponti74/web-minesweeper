@@ -526,7 +526,10 @@ function revealCell(row, col) {
     playSound(440, 0.08);
     loseGame();
 
+    let showOverlay = true;
+       
     setTimeout(() => {
+       // check that New Game wasn't clicked
        if( showOverlay == true ) {
          showResultOverlay(false);
        } 
@@ -957,7 +960,7 @@ window.addEventListener(
    ========================================================= */
 
 function newGame() {
-    //let loseOverlay = null;             resultOverlay.classList.add("hidden");
+    let showOverlay = true;             resultOverlay.classList.add("hidden");
     createBoard();
 }
 
