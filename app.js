@@ -531,7 +531,7 @@ function revealCell(row, col) {
        
     let loseOverlayTimeout = setTimeout(() => {
        // check that New Game wasn't clicked
-       if( loseOverlayTimeout == null ) {
+       if( lose Overlay Timeout != null ) {
           clearTimeout(loseOverlayTimeout);
        }
          showResultOverlay(false);
@@ -964,10 +964,11 @@ window.addEventListener(
 function newGame() {
    
     showOverlay = null;
-    if (loseOverlayTimeout !== null) {
+    if (loseOverlayTimeout != null) {
 
         clearTimeout(loseOverlayTimeout);
         loseOverlayTimeout = null;
+
     }
     
     resultOverlay.classList.add("hidden");
