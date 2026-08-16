@@ -398,7 +398,7 @@ function revealCell(row, col) {
     playSound(440, 0.20);
 
     loseGame();
-showConfetti();
+
     loseOverlayTimeout = setTimeout(() => {
       // check that New Game wasn't clicked
       if (loseOverlayTimeout != null) {
