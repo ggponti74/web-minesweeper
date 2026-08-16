@@ -561,17 +561,26 @@ function showConfetti() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    const colors = [
+        "#f94144",
+        "#f9c74f",
+        "#43aa8b",
+        "#577590",
+        "#f3722c"
+    ];
+
     const pieces = [];
 
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 50; i++) {
         pieces.push({
             x: Math.random() * canvas.width,
-            y: -10 - Math.random() * 100,
+            y: -10 - Math.random() * 200,
             size: 5 + Math.random() * 5,
-            speedY: 2 + Math.random() * 3,
-            speedX: (Math.random() - 0.5) * 2,
+            speedY: 5 + Math.random() * 5,
+            speedX: (Math.random() - 0.5) * 4,
             rotation: Math.random() * Math.PI,
-            rotationSpeed: (Math.random() - 0.5) * 0.2
+            rotationSpeed: (Math.random() - 0.5) * 0.25,
+            color: colors[Math.floor(Math.random() * colors.length)]
         });
     }
 
@@ -588,8 +597,10 @@ function showConfetti() {
             piece.rotation += piece.rotationSpeed;
 
             context.save();
+
             context.translate(piece.x, piece.y);
             context.rotate(piece.rotation);
+            context.fillStyle = piece.color;
 
             context.fillRect(
                 -piece.size / 2,
