@@ -910,6 +910,8 @@ function showResultOverlay(won) {
 
 loadSettings();
 
+initAudio();
+
 updateSoundButton();
 
 createBoard();
