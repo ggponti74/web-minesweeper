@@ -542,7 +542,17 @@ function checkWin() {
 
   showConfetti();
 
-  showResultOverlay(true);
+loseOverlayTimeout = setTimeout(() => {
+      // check that New Game wasn't clicked
+      if (loseOverlayTimeout != null) {
+        clearTimeout(loseOverlayTimeout);
+        showResultOverlay(true);
+      } 
+    }, 2000);
+
+    return;
+  }
+
 }
 
 function showConfetti() {
