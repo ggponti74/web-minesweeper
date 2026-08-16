@@ -393,7 +393,7 @@ function revealCell(row, col) {
 
     gameOver = true;
 
-    playSound(440, 0.08);
+    playSound(440, 0.20);
 
     loseGame();
 
@@ -405,7 +405,7 @@ function revealCell(row, col) {
         clearTimeout(loseOverlayTimeout);
         showResultOverlay(false);
       } 
-    }, 2000);
+    }, 5000);
 
     return;
   }
