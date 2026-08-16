@@ -428,6 +428,7 @@ function revealCell(row, col) {
 }
 
 function loseGame() {
+
   gameState = "lost";
 
   stopTimer();
@@ -550,7 +551,7 @@ loseOverlayTimeout = setTimeout(() => {
         clearTimeout(loseOverlayTimeout);
         showResultOverlay(true);
       } 
-    }, 2000);
+    }, 3000);
 
     return;
 
@@ -899,7 +900,10 @@ function showResultOverlay(won) {
 
   resultOverlay.classList.remove("hidden");
   let showOverlay = true;
+
 }
+
+
 /* =========================================================
    Start
    ========================================================= */
