@@ -534,6 +534,8 @@ function checkWin() {
     }
   }
 
+  renderBoard();
+
   gameState = "won";
 
   stopTimer();
