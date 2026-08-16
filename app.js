@@ -736,7 +736,7 @@ function newGame() {
   if (loseOverlayTimeout != null) {
     clearTimeout(loseOverlayTimeout);
     loseOverlayTimeout = null;
-  }
+  } else { alert("nisba"); } 
 
   resultOverlay.classList.add("hidden");
 
