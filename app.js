@@ -392,11 +392,9 @@ function revealCell(row, col) {
     playMineSound();
 
     gameOver = true;
-    gameState = "lost";
-
-    stopTimer();
 
     playSound(440, 0.08);
+
     loseGame();
 
     showOverlay = true;
@@ -736,7 +734,7 @@ function newGame() {
   if (loseOverlayTimeout != null) {
     clearTimeout(loseOverlayTimeout);
     loseOverlayTimeout = null;
-  } else { alert("nisba"); } 
+  } else { alert( loseOverlayTimeout ); } 
 
   resultOverlay.classList.add("hidden");
 
