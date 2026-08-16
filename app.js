@@ -3,6 +3,8 @@
    Stable touch version
    ========================================================= */
 
+const CACHE = "1.0.8";
+
 const ROWS = 14;
 const COLS = 8;
 const MINE_COUNT = 16;
@@ -26,6 +28,8 @@ let loseOverlayTimeout = null;
 
 let audioContext = null;
 let soundEnabled = true;
+
+document.getElementById("versionNumber").innerHTML = "Version" + CACHE;
 
 /* =========================================================
    Create board
