@@ -398,7 +398,7 @@ function revealCell(row, col) {
     playSound(440, 0.20);
 
     loseGame();
-
+showConfetti();
     loseOverlayTimeout = setTimeout(() => {
       // check that New Game wasn't clicked
       if (loseOverlayTimeout != null) {
@@ -540,7 +540,75 @@ function checkWin() {
 
   playWinSound();
 
+  showConfetti();
+
   showResultOverlay(true);
+}
+
+function showConfetti() {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    canvas.style.position = "fixed";
+    canvas.style.inset = "0";
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.pointerEvents = "none";
+    canvas.style.zIndex = "9999";
+
+    document.body.appendChild(canvas);
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const pieces = [];
+
+    for (let i = 0; i < 40; i++) {
+        pieces.push({
+            x: Math.random() * canvas.width,
+            y: -10 - Math.random() * 100,
+            size: 5 + Math.random() * 5,
+            speedY: 2 + Math.random() * 3,
+            speedX: (Math.random() - 0.5) * 2,
+            rotation: Math.random() * Math.PI,
+            rotationSpeed: (Math.random() - 0.5) * 0.2
+        });
+    }
+
+    const startTime = performance.now();
+
+    function animate(time) {
+        const elapsed = time - startTime;
+
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        for (const piece of pieces) {
+            piece.x += piece.speedX;
+            piece.y += piece.speedY;
+            piece.rotation += piece.rotationSpeed;
+
+            context.save();
+            context.translate(piece.x, piece.y);
+            context.rotate(piece.rotation);
+
+            context.fillRect(
+                -piece.size / 2,
+                -piece.size / 2,
+                piece.size,
+                piece.size
+            );
+
+            context.restore();
+        }
+
+        if (elapsed < 1500) {
+            requestAnimationFrame(animate);
+        } else {
+            canvas.remove();
+        }
+    }
+
+    requestAnimationFrame(animate);
 }
 
 /* =========================================================
