@@ -551,7 +551,6 @@ loseOverlayTimeout = setTimeout(() => {
     }, 2000);
 
     return;
-  }
 
 }
 
