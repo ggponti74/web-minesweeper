@@ -1,1 +1,1 @@
-Made with AI
+Made with ChatGPT
