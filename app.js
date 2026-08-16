@@ -405,8 +405,8 @@ function revealCell(row, col) {
       // check that New Game wasn't clicked
       if (loseOverlayTimeout != null) {
         clearTimeout(loseOverlayTimeout);
-      }
-      showResultOverlay(false);
+        showResultOverlay(false);
+      } 
     }, 2000);
 
     return;
