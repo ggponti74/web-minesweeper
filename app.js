@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.0.82";
+const CACHE = "1.0.83";
 
 const ROWS = 14;
 const COLS = 8;
@@ -628,7 +628,7 @@ function showConfetti() {
             context.restore();
         }
 
-        if (elapsed < 2000) {
+        if (elapsed < 2500) {
             requestAnimationFrame(animate);
         } else {
             canvas.remove();
