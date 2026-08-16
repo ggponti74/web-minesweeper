@@ -405,13 +405,13 @@ function revealCell(row, col) {
         clearTimeout(loseOverlayTimeout);
         showResultOverlay(false);
       } 
-    }, 5000);
+    }, 2000);
 
     return;
   }
 
   /*
-   * Normal cell.
+   * Normal cell
    */
   cell.state = "revealed";
 
@@ -734,7 +734,7 @@ function newGame() {
   if (loseOverlayTimeout != null) {
     clearTimeout(loseOverlayTimeout);
     loseOverlayTimeout = null;
-  } else { alert( loseOverlayTimeout ); } 
+  } 
 
   resultOverlay.classList.add("hidden");
 
