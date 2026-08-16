@@ -397,9 +397,7 @@ function revealCell(row, col) {
 
     loseGame();
 
-    showOverlay = true;
-
-    let loseOverlayTimeout = setTimeout(() => {
+    loseOverlayTimeout = setTimeout(() => {
       // check that New Game wasn't clicked
       if (loseOverlayTimeout != null) {
         clearTimeout(loseOverlayTimeout);
