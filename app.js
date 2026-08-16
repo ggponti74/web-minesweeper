@@ -156,6 +156,8 @@ function createCellElement(row, col) {
 
     initAudio();
 
+    playSound(700, 0.05, "sine", 0.20);
+
     if (gameState === "won" || gameState === "lost") {
       return;
     }
