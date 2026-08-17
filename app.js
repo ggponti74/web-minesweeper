@@ -257,6 +257,7 @@ function createCellElement(row, col) {
 }
 
 cellElement.addEventListener("contextmenu", (event) => {
+
   event.preventDefault();
 
   const element = event.currentTarget;
