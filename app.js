@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.0.86";
+const CACHE = "1.0.87";
 
 const ROWS = 14;
 const COLS = 8;
@@ -255,6 +255,18 @@ function createCellElement(row, col) {
 
   return element;
 }
+
+cellElement.addEventListener("contextmenu", (event) => {
+  event.preventDefault();
+
+  const element = event.currentTarget;
+
+  const row = Number(element.dataset.row);
+  const col = Number(element.dataset.col); 
+
+  cycleMark(row, col, element);
+
+});
 
 document.addEventListener(
   "click",
