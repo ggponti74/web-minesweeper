@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.0.83";
+const CACHE = "1.0.84";
 
 const ROWS = 14;
 const COLS = 8;
@@ -409,7 +409,7 @@ function revealCell(row, col) {
         clearTimeout(loseOverlayTimeout);
         showResultOverlay(false);
       } 
-    }, 2000);
+    }, 20000);
 
     return;
   }
