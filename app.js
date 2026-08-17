@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.0.84";
+const CACHE = "1.0.85";
 
 const ROWS = 14;
 const COLS = 8;
@@ -535,6 +535,17 @@ function checkWin() {
 
       if (!cell.mine && cell.state !== "revealed") {
         return;
+      }
+    }
+  }
+
+  // reveal/flag remaining cells
+  for (let row = 0; row < ROWS; row++) {
+    for (let col = 0; col < COLS; col++) {
+      const cell = board[row][col];
+
+      if (cell.mine) {
+        cell.state = "flagged";
       }
     }
   }
