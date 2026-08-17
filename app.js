@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.0.87";
+const CACHE = "1.0.88";
 
 const ROWS = 14;
 const COLS = 8;
