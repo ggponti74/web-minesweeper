@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.12";
+const CACHE = "1.1.13";
 
 const ROWS = 14;
 const COLS = 8;
@@ -21,7 +21,7 @@ let elapsedSeconds = 0;
 let timerInterval = null;
 
 let gamePaused = false;
-let timerStartedAt = null;
+//let timerStartedAt = null;
 let suppressNextClick = false;
 let showOverlay = false;
 let loseOverlayTimeout = null;
@@ -192,9 +192,8 @@ function createCellElement(row, col) {
       return;
     }
 
-    const dx = event.clientX - element._startX;
-
-    const dy = event.clientY - element._startY;
+    //const dx = event.clientX - element._startX;
+    //const dy = event.clientY - element._startY;
 
     /*
      * We don't actually need movement
@@ -257,18 +256,7 @@ function createCellElement(row, col) {
 };
 
 document.getElementById("board").addEventListener("contextmenu", (event) => {
-
-  suppressNextClick = true;
-
   event.preventDefault();
-
-  const element = event.target.closest(".cell"); 
-
-  const row = Number(element.dataset.row);
-  const col = Number(element.dataset.col); 
-
-  cycleMark(row, col, element);
-
 });
 
 document.addEventListener(
@@ -413,7 +401,7 @@ function revealCell(row, col) {
 
     playMineSound();
 
-    gameOver = true;
+    //gameOver = true;
 
     playSound(440, 0.20);
 
@@ -935,7 +923,7 @@ function showResultOverlay(won) {
   }
 
   resultOverlay.classList.remove("hidden");
-  let showOverlay = true;
+  showOverlay = true;
 
 }
 
