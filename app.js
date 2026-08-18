@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.3";
+const CACHE = "1.1.4";
 
 const ROWS = 14;
 const COLS = 8;
@@ -432,10 +432,10 @@ function revealCell(row, col) {
       } 
     }, 20000);
 
+/*
+
     return;
   }
-
-*/
 
   /*
    * Normal cell
