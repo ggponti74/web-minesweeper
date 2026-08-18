@@ -428,7 +428,7 @@ function revealCell(row, col) {
       } 
     }, 20000);
 
-/*
+*/
 
     return;
   }
