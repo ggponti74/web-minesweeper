@@ -259,20 +259,20 @@ document.getElementById("board").addEventListener("contextmenu", (event) => {
   event.preventDefault();
 });
 
-document.addEventListener(
-  "click",
-  (event) => {
-    if (!suppressNextClick) {
-      return;
-    }
+// document.addEventListener(
+//   "click",
+//   (event) => {
+//     if (!suppressNextClick) {
+//       return;
+//     }
 
-    suppressNextClick = false;
+//     suppressNextClick = false;
 
-    event.preventDefault();
-    event.stopPropagation();
-  },
-  true,
-);
+//     event.preventDefault();
+//     event.stopPropagation();
+//   },
+//   true,
+// );
 
 /* =========================================================
    Update cell display
