@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.14";
+const CACHE = "1.1.15";
 
 const ROWS = 14;
 const COLS = 8;
@@ -208,7 +208,13 @@ function createCellElement(row, col) {
    * the gesture is a tap or long press.
    */
   element.addEventListener("pointerup", (event) => {
-    if (event.button !== 0) {
+    
+    if (event.button === 2) {
+      cycleMark(row, col, element);
+      return;
+    }
+     
+     if (event.button !== 0) {
       return;
     }
 
