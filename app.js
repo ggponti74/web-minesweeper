@@ -254,7 +254,7 @@ function createCellElement(row, col) {
   updateCellElement(element, board[row][col]);
 
   return element;
-}
+};
 
 document.addEventListener("contextmenu", (event) => {
 
@@ -283,6 +283,7 @@ document.addEventListener(
   },
   true,
 );
+
 /* =========================================================
    Update cell display
    ========================================================= */
@@ -416,7 +417,6 @@ function revealCell(row, col) {
 
     loseGame();
 
-/*
 
     loseOverlayTimeout = setTimeout(() => {
       // check that New Game wasn't clicked
@@ -428,8 +428,6 @@ function revealCell(row, col) {
 
     return;
   }
-
-*/
 
   /*
    * Normal cell
