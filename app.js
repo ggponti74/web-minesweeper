@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.0.9";
+const CACHE = "1.1.0";
 
 const ROWS = 14;
 const COLS = 8;
@@ -420,6 +420,8 @@ function revealCell(row, col) {
 
     loseGame();
 
+/*
+
     loseOverlayTimeout = setTimeout(() => {
       // check that New Game wasn't clicked
       if (loseOverlayTimeout != null) {
@@ -430,6 +432,8 @@ function revealCell(row, col) {
 
     return;
   }
+
+*/
 
   /*
    * Normal cell
@@ -583,7 +587,7 @@ loseOverlayTimeout = setTimeout(() => {
         clearTimeout(loseOverlayTimeout);
         showResultOverlay(true);
       } 
-    }, 3000);
+    }, 5000);
 
     return;
 
@@ -656,7 +660,7 @@ function showConfetti() {
             context.restore();
         }
 
-        if (elapsed < 2500) {
+        if (elapsed < 4000) {
             requestAnimationFrame(animate);
         } else {
             canvas.remove();
