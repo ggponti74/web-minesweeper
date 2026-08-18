@@ -256,8 +256,6 @@ function createCellElement(row, col) {
   return element;
 }
 
-/*
-
 document.addEventListener("contextmenu", (event) => {
 
   event.preventDefault();
@@ -270,8 +268,6 @@ document.addEventListener("contextmenu", (event) => {
   cycleMark(row, col, element);
 
 });
-
-*/
 
 document.addEventListener(
   "click",
