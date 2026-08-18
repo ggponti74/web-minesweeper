@@ -256,7 +256,7 @@ function createCellElement(row, col) {
   return element;
 };
 
-document.getElementById("versionNumber") .addEventListener("contextmenu", (event) => {
+document.getElementById("board-container") .addEventListener("contextmenu", (event) => {
 
   event.preventDefault();
 
