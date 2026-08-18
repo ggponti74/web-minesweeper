@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.9";
+const CACHE = "1.1.10";
 
 const ROWS = 14;
 const COLS = 8;
@@ -256,13 +256,11 @@ function createCellElement(row, col) {
   return element;
 };
 
-/*
-
 document.getElementById("board").addEventListener("contextmenu", (event) => {
 
   event.preventDefault();
 
-  const element = event.currentTarget;
+  const element = event.target.closest(".cell"); 
 
   const row = Number(element.dataset.row);
   const col = Number(element.dataset.col); 
@@ -270,8 +268,6 @@ document.getElementById("board").addEventListener("contextmenu", (event) => {
   cycleMark(row, col, element);
 
 });
-
-*/
 
 document.addEventListener(
   "click",
