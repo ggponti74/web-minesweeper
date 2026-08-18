@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.2";
+const CACHE = "1.1.3";
 
 const ROWS = 14;
 const COLS = 8;
@@ -422,6 +422,8 @@ function revealCell(row, col) {
     loseGame();
 
 
+/*
+
     loseOverlayTimeout = setTimeout(() => {
       // check that New Game wasn't clicked
       if (loseOverlayTimeout != null) {
@@ -432,6 +434,8 @@ function revealCell(row, col) {
 
     return;
   }
+
+*/
 
   /*
    * Normal cell
