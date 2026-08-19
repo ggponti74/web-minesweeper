@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.27";
+const CACHE = "1.1.28";
 
 const ROWS = 14;
 const COLS = 8;
@@ -973,6 +973,7 @@ updateSoundButton();
 
 if( saved ) {
    renderBoard();
+   startTimer();
 } else {
    createBoard();
 }
