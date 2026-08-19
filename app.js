@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.23";
+const CACHE = "1.1.24";
 
 const ROWS = 14;
 const COLS = 8;
@@ -907,7 +907,6 @@ function loadSettings() {
 
     board = state.board;
     gameState = state.gameState;
-    elapsedTime = state.elapsedTime;
     soundEnabled = state.soundEnabled;
     MINE_COUNT = state.MINE_COUNT;
     elapsedSeconds = state.elapsedSeconds;
@@ -923,7 +922,6 @@ function saveSettings() {
   localStorage.setItem("state", JSON.stringify({
     board,
     gameState,
-    elapsedTime,
     soundEnabled,
     MINE_COUNT,
     elapsedSeconds
