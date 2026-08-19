@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.26";
+const CACHE = "1.1.27";
 
 const ROWS = 14;
 const COLS = 8;
@@ -838,6 +838,8 @@ window.addEventListener("pagehide", () => {
     gamePaused = true;
 
     stopTimer();
+
+     saveSettings();
   }
 });
 
@@ -846,6 +848,8 @@ window.addEventListener("pageshow", () => {
     gamePaused = false;
 
     startTimer();
+     
+     saveSettings();
   }
 });
 
@@ -912,9 +916,10 @@ function loadSettings() {
     elapsedSeconds = state.elapsedSeconds;
 
     renderBoard();
-alert("yep") ;
+
   }
 
+   return saved;
 }
 
 function saveSettings() {
@@ -960,10 +965,15 @@ function showResultOverlay(won) {
    Start
    ========================================================= */
 
-loadSettings();
+let saved = loadSettings();
 
 initAudio();
 
 updateSoundButton();
 
-createBoard();
+if( saved ) {
+   renderBoard();
+} else {
+   createBoard();
+}
+
