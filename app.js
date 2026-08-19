@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.20";
+const CACHE = "1.1.21";
 
 const ROWS = 14;
 const COLS = 8;
@@ -362,6 +362,8 @@ function cycleMark(row, col, element) {
   updateCellElement(element, cell);
 
   updateMineCounter();
+
+  saveSettings();
 }
 
 /* =========================================================
@@ -583,6 +585,7 @@ loseOverlayTimeout = setTimeout(() => {
       } 
     }, 5000);
 
+    saveSettings();
     return;
 
 }
@@ -906,6 +909,7 @@ function loadSettings() {
     gameState = state.gameState;
     elapsedTime = state.elapsedTime;
     soundEnabled = state.soundEnabled;
+    MINE_COUNT = state.MINE_COUNT;
 
     renderBoard();
 alert("yep") ;
@@ -919,7 +923,8 @@ function saveSettings() {
     board,
     gameState,
     elapsedTime,
-    soundEnabled
+    soundEnabled,
+    MINE_COUNT
   })); 
 
 }
