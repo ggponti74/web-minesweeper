@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.18";
+const CACHE = "1.1.19";
 
 const ROWS = 14;
 const COLS = 8;
@@ -896,15 +896,31 @@ resultButton.addEventListener("click", newGame);
    ========================================================= */
 
 function loadSettings() {
-  const savedSound = localStorage.getItem("minesweeper-sound");
 
-  if (savedSound !== null) {
-    soundEnabled = savedSound === "true";
+  const saved = localStorage.getItem("state");
+
+  if (saved) {
+    const state = JSON.parse(saved);
+
+    board = state.board;
+    gameState = state.gameState;
+    elapsedTime = state.elapsedTime;
+    soundEnabled = state.soundEnabled;
+
+    renderBoard();
   }
+
 }
 
 function saveSettings() {
-  localStorage.setItem("minesweeper-sound", soundEnabled);
+
+  localStorage.setItem("state",    JSON.stringify({
+    board,
+    gameState,
+    elapsedTime,
+    soundEnabled
+  })); 
+
 }
 
 /*
