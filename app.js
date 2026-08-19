@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.21";
+const CACHE = "1.1.22";
 
 const ROWS = 14;
 const COLS = 8;
@@ -910,6 +910,7 @@ function loadSettings() {
     elapsedTime = state.elapsedTime;
     soundEnabled = state.soundEnabled;
     MINE_COUNT = state.MINE_COUNT;
+    elapsedSeconds = state.elapsedSeconds;
 
     renderBoard();
 alert("yep") ;
@@ -924,7 +925,8 @@ function saveSettings() {
     gameState,
     elapsedTime,
     soundEnabled,
-    MINE_COUNT
+    MINE_COUNT,
+    elapsedSeconds
   })); 
 
 }
