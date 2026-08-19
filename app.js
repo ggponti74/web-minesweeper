@@ -3,11 +3,11 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.25";
+const CACHE = "1.1.26";
 
 const ROWS = 14;
 const COLS = 8;
-const MINE_COUNT = 16;
+let MINE_COUNT = 16;
 
 const LONG_PRESS_MS = 500;
 
