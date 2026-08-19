@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.24";
+const CACHE = "1.1.25";
 
 const ROWS = 14;
 const COLS = 8;
@@ -900,7 +900,7 @@ resultButton.addEventListener("click", newGame);
 
 function loadSettings() {
 
-  const saved = localStorage.getItem("state");
+  const saved = localStorage.getItem("minesweeper-state");
 
   if (saved) {
     const state = JSON.parse(saved);
@@ -919,7 +919,7 @@ alert("yep") ;
 
 function saveSettings() {
 
-  localStorage.setItem("state", JSON.stringify({
+  localStorage.setItem("minesweeper-state", JSON.stringify({
     board,
     gameState,
     soundEnabled,
