@@ -908,13 +908,14 @@ function loadSettings() {
     soundEnabled = state.soundEnabled;
 
     renderBoard();
+alert("yep") ;
   }
 
 }
 
 function saveSettings() {
 
-  localStorage.setItem("state",    JSON.stringify({
+  localStorage.setItem("state", JSON.stringify({
     board,
     gameState,
     elapsedTime,
