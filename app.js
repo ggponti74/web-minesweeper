@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.16";
+const CACHE = "1.1.__BUILD_VERSION__";
 
 const ROWS = 14;
 const COLS = 8;
@@ -160,7 +160,7 @@ function createCellElement(row, col) {
 
     initAudio();
 
-    playSound(700, 0.05, "sine", 0.20);
+    playSound(700, 0.05, "sine", 0.2);
 
     if (gameState === "won" || gameState === "lost") {
       return;
@@ -208,7 +208,6 @@ function createCellElement(row, col) {
    * the gesture is a tap or long press.
    */
   element.addEventListener("pointerup", (event) => {
-
     if (element.hasPointerCapture(event.pointerId)) {
       element.releasePointerCapture(event.pointerId);
     }
@@ -250,7 +249,6 @@ function createCellElement(row, col) {
    * Cancelled pointer.
    */
   element.addEventListener("pointercancel", () => {
-
     if (element.hasPointerCapture(event.pointerId)) {
       element.releasePointerCapture(event.pointerId);
     }
@@ -267,7 +265,7 @@ function createCellElement(row, col) {
   updateCellElement(element, board[row][col]);
 
   return element;
-};
+}
 
 document.getElementById("board").addEventListener("contextmenu", (event) => {
   event.preventDefault();
@@ -419,10 +417,9 @@ function revealCell(row, col) {
 
     //gameOver = true;
 
-    playSound(440, 0.20);
+    playSound(440, 0.2);
 
     loseGame();
-
 
     /*
     
@@ -457,7 +454,6 @@ function revealCell(row, col) {
 }
 
 function loseGame() {
-
   gameState = "lost";
 
   stopTimer();
@@ -576,7 +572,7 @@ function checkWin() {
   }
 
   flagsUsed = MINE_COUNT;
-  updateMineCounter() ;
+  updateMineCounter();
 
   renderBoard();
 
@@ -597,7 +593,6 @@ function checkWin() {
   }, 5000);
 
   return;
-
 }
 
 function showConfetti() {
@@ -616,13 +611,7 @@ function showConfetti() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  const colors = [
-    "#f94144",
-    "#f9c74f",
-    "#43aa8b",
-    "#577590",
-    "#f3722c"
-  ];
+  const colors = ["#f94144", "#f9c74f", "#43aa8b", "#577590", "#f3722c"];
 
   const pieces = [];
 
@@ -635,7 +624,7 @@ function showConfetti() {
       speedX: (Math.random() - 0.5) * 4,
       rotation: Math.random() * Math.PI,
       rotationSpeed: (Math.random() - 0.5) * 0.25,
-      color: colors[Math.floor(Math.random() * colors.length)]
+      color: colors[Math.floor(Math.random() * colors.length)],
     });
   }
 
@@ -661,7 +650,7 @@ function showConfetti() {
         -piece.size / 2,
         -piece.size / 2,
         piece.size,
-        piece.size
+        piece.size,
       );
 
       context.restore();
@@ -849,7 +838,7 @@ window.addEventListener("pagehide", () => {
 
     stopTimer();
 
-     saveSettings();
+    saveSettings();
   }
 });
 
@@ -858,8 +847,8 @@ window.addEventListener("pageshow", () => {
     gamePaused = false;
 
     startTimer();
-     
-     saveSettings();
+
+    saveSettings();
   }
 });
 
@@ -913,7 +902,6 @@ resultButton.addEventListener("click", newGame);
    ========================================================= */
 
 function loadSettings() {
-
   const saved = localStorage.getItem("minesweeper-state");
 
   if (saved) {
@@ -925,25 +913,25 @@ function loadSettings() {
     MINE_COUNT = state.MINE_COUNT;
     elapsedSeconds = state.elapsedSeconds;
 
-    updateMineCounter(); 
+    updateMineCounter();
 
     renderBoard();
-
   }
 
-   return saved;
+  return saved;
 }
 
 function saveSettings() {
-
-  localStorage.setItem("minesweeper-state", JSON.stringify({
-    board,
-    gameState,
-    soundEnabled,
-    MINE_COUNT,
-    elapsedSeconds
-  })); 
-
+  localStorage.setItem(
+    "minesweeper-state",
+    JSON.stringify({
+      board,
+      gameState,
+      soundEnabled,
+      MINE_COUNT,
+      elapsedSeconds,
+    }),
+  );
 }
 
 /*
@@ -969,9 +957,7 @@ function showResultOverlay(won) {
 
   resultOverlay.classList.remove("hidden");
   showOverlay = true;
-
 }
-
 
 /* =========================================================
    Start
@@ -983,11 +969,11 @@ initAudio();
 
 updateSoundButton();
 
-if( saved ) {
-   renderBoard();
-   startTimer();
+if (saved) {
+  renderBoard();
+  startTimer();
 } else {
-   createBoard();
+  createBoard();
 }
 
 /* EOF */
