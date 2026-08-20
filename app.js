@@ -7,7 +7,7 @@ const CACHE = "1.1.16";
 
 const ROWS = 14;
 const COLS = 8;
-const MINE_COUNT = 16;
+let MINE_COUNT = 16;
 
 const LONG_PRESS_MS = 500;
 
@@ -370,6 +370,8 @@ function cycleMark(row, col, element) {
   updateCellElement(element, cell);
 
   updateMineCounter();
+
+  saveSettings();
 }
 
 /* =========================================================
@@ -572,6 +574,9 @@ function checkWin() {
       }
     }
   }
+
+  flagsUsed = MINE_COUNT;
+  updateMineCounter() ;
 
   renderBoard();
 
@@ -843,6 +848,8 @@ window.addEventListener("pagehide", () => {
     gamePaused = true;
 
     stopTimer();
+
+     saveSettings();
   }
 });
 
@@ -851,6 +858,8 @@ window.addEventListener("pageshow", () => {
     gamePaused = false;
 
     startTimer();
+     
+     saveSettings();
   }
 });
 
@@ -904,15 +913,37 @@ resultButton.addEventListener("click", newGame);
    ========================================================= */
 
 function loadSettings() {
-  const savedSound = localStorage.getItem("minesweeper-sound");
 
-  if (savedSound !== null) {
-    soundEnabled = savedSound === "true";
+  const saved = localStorage.getItem("minesweeper-state");
+
+  if (saved) {
+    const state = JSON.parse(saved);
+
+    board = state.board;
+    gameState = state.gameState;
+    soundEnabled = state.soundEnabled;
+    MINE_COUNT = state.MINE_COUNT;
+    elapsedSeconds = state.elapsedSeconds;
+
+    updateMineCounter(); 
+
+    renderBoard();
+
   }
+
+   return saved;
 }
 
 function saveSettings() {
-  localStorage.setItem("minesweeper-sound", soundEnabled);
+
+  localStorage.setItem("minesweeper-state", JSON.stringify({
+    board,
+    gameState,
+    soundEnabled,
+    MINE_COUNT,
+    elapsedSeconds
+  })); 
+
 }
 
 /*
@@ -946,10 +977,17 @@ function showResultOverlay(won) {
    Start
    ========================================================= */
 
-loadSettings();
+let saved = loadSettings();
 
 initAudio();
 
 updateSoundButton();
 
-createBoard();
+if( saved ) {
+   renderBoard();
+   startTimer();
+} else {
+   createBoard();
+}
+
+/* EOF */
