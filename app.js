@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.31";
+const CACHE = "1.1.32";
 
 const ROWS = 14;
 const COLS = 8;
@@ -615,7 +615,7 @@ function showConfetti() {
         "#43aa8b",
         "#577590",
         "#f3722c",
-        "#ffffff";
+        "#f0f0f0"
     ];
 
     const pieces = [];
