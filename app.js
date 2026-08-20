@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.14";
+const CACHE = "1.1.16";
 
 const ROWS = 14;
 const COLS = 8;
@@ -208,6 +208,15 @@ function createCellElement(row, col) {
    * the gesture is a tap or long press.
    */
   element.addEventListener("pointerup", (event) => {
+
+    if (element.hasPointerCapture(event.pointerId)) {
+      element.releasePointerCapture(event.pointerId);
+    }
+
+    if (event.button !== 0) {
+      return;
+    }
+
     if (event.button !== 0) {
       return;
     }
@@ -241,6 +250,11 @@ function createCellElement(row, col) {
    * Cancelled pointer.
    */
   element.addEventListener("pointercancel", () => {
+
+    if (element.hasPointerCapture(event.pointerId)) {
+      element.releasePointerCapture(event.pointerId);
+    }
+
     if (pressTimer !== null) {
       clearTimeout(pressTimer);
 
@@ -408,17 +422,17 @@ function revealCell(row, col) {
     loseGame();
 
 
-/*
-
-    loseOverlayTimeout = setTimeout(() => {
-      // check that New Game wasn't clicked
-      if (loseOverlayTimeout != null) {
-        clearTimeout(loseOverlayTimeout);
-        showResultOverlay(false);
-      } 
-    }, 20000);
-
-*/
+    /*
+    
+        loseOverlayTimeout = setTimeout(() => {
+          // check that New Game wasn't clicked
+          if (loseOverlayTimeout != null) {
+            clearTimeout(loseOverlayTimeout);
+            showResultOverlay(false);
+          } 
+        }, 20000);
+    
+    */
 
     return;
   }
@@ -569,93 +583,93 @@ function checkWin() {
 
   showConfetti();
 
-loseOverlayTimeout = setTimeout(() => {
-      // check that New Game wasn't clicked
-      if (loseOverlayTimeout != null) {
-        clearTimeout(loseOverlayTimeout);
-        showResultOverlay(true);
-      } 
-    }, 5000);
+  loseOverlayTimeout = setTimeout(() => {
+    // check that New Game wasn't clicked
+    if (loseOverlayTimeout != null) {
+      clearTimeout(loseOverlayTimeout);
+      showResultOverlay(true);
+    }
+  }, 5000);
 
-    return;
+  return;
 
 }
 
 function showConfetti() {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
 
-    canvas.style.position = "fixed";
-    canvas.style.inset = "0";
-    canvas.style.width = "100%";
-    canvas.style.height = "100%";
-    canvas.style.pointerEvents = "none";
-    canvas.style.zIndex = "9999";
+  canvas.style.position = "fixed";
+  canvas.style.inset = "0";
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
+  canvas.style.pointerEvents = "none";
+  canvas.style.zIndex = "9999";
 
-    document.body.appendChild(canvas);
+  document.body.appendChild(canvas);
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
-    const colors = [
-        "#f94144",
-        "#f9c74f",
-        "#43aa8b",
-        "#577590",
-        "#f3722c"
-    ];
+  const colors = [
+    "#f94144",
+    "#f9c74f",
+    "#43aa8b",
+    "#577590",
+    "#f3722c"
+  ];
 
-    const pieces = [];
+  const pieces = [];
 
-    for (let i = 0; i < 50; i++) {
-        pieces.push({
-            x: Math.random() * canvas.width,
-            y: -10 - Math.random() * 200,
-            size: 5 + Math.random() * 5,
-            speedY: 5 + Math.random() * 5,
-            speedX: (Math.random() - 0.5) * 4,
-            rotation: Math.random() * Math.PI,
-            rotationSpeed: (Math.random() - 0.5) * 0.25,
-            color: colors[Math.floor(Math.random() * colors.length)]
-        });
+  for (let i = 0; i < 50; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: -10 - Math.random() * 200,
+      size: 5 + Math.random() * 5,
+      speedY: 5 + Math.random() * 5,
+      speedX: (Math.random() - 0.5) * 4,
+      rotation: Math.random() * Math.PI,
+      rotationSpeed: (Math.random() - 0.5) * 0.25,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    });
+  }
+
+  const startTime = performance.now();
+
+  function animate(time) {
+    const elapsed = time - startTime;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (const piece of pieces) {
+      piece.x += piece.speedX;
+      piece.y += piece.speedY;
+      piece.rotation += piece.rotationSpeed;
+
+      context.save();
+
+      context.translate(piece.x, piece.y);
+      context.rotate(piece.rotation);
+      context.fillStyle = piece.color;
+
+      context.fillRect(
+        -piece.size / 2,
+        -piece.size / 2,
+        piece.size,
+        piece.size
+      );
+
+      context.restore();
     }
 
-    const startTime = performance.now();
-
-    function animate(time) {
-        const elapsed = time - startTime;
-
-        context.clearRect(0, 0, canvas.width, canvas.height);
-
-        for (const piece of pieces) {
-            piece.x += piece.speedX;
-            piece.y += piece.speedY;
-            piece.rotation += piece.rotationSpeed;
-
-            context.save();
-
-            context.translate(piece.x, piece.y);
-            context.rotate(piece.rotation);
-            context.fillStyle = piece.color;
-
-            context.fillRect(
-                -piece.size / 2,
-                -piece.size / 2,
-                piece.size,
-                piece.size
-            );
-
-            context.restore();
-        }
-
-        if (elapsed < 4000) {
-            requestAnimationFrame(animate);
-        } else {
-            canvas.remove();
-        }
+    if (elapsed < 4000) {
+      requestAnimationFrame(animate);
+    } else {
+      canvas.remove();
     }
+  }
 
-    requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 }
 
 /* =========================================================
@@ -849,7 +863,7 @@ function newGame() {
   if (loseOverlayTimeout != null) {
     clearTimeout(loseOverlayTimeout);
     loseOverlayTimeout = null;
-  } 
+  }
 
   resultOverlay.classList.add("hidden");
 
