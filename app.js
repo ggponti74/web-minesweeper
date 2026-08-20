@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.29";
+const CACHE = "1.1.30";
 
 const ROWS = 14;
 const COLS = 8;
@@ -567,7 +567,7 @@ function checkWin() {
     }
   }
 
-  flagsUsed = MINE_COUNTER;
+  flagsUsed = MINE_COUNT;
   updateMineCounter() ;
 
   renderBoard();
