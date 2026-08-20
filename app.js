@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.30";
+const CACHE = "1.1.31";
 
 const ROWS = 14;
 const COLS = 8;
@@ -614,7 +614,8 @@ function showConfetti() {
         "#f9c74f",
         "#43aa8b",
         "#577590",
-        "#f3722c"
+        "#f3722c",
+        "#ffffff";
     ];
 
     const pieces = [];
@@ -918,6 +919,8 @@ function loadSettings() {
     MINE_COUNT = state.MINE_COUNT;
     elapsedSeconds = state.elapsedSeconds;
 
+    updateMineCounter(); 
+
     renderBoard();
 
   }
@@ -981,3 +984,4 @@ if( saved ) {
    createBoard();
 }
 
+/* EOF */
