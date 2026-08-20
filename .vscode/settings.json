@@ -4,4 +4,7 @@
   "editor.formatOnPaste": true,
   "editor.formatOnSaveMode": "modificationsIfAvailable",
   "editor.formatOnType": true,
+  "github-actions.workflows.pinned.workflows": [
+    ".github/workflows/jekyll-gh-pages.yml"
+  ]
 }
