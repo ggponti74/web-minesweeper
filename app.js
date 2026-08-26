@@ -912,6 +912,7 @@ function loadSettings() {
     soundEnabled = state.soundEnabled;
     MINE_COUNT = state.MINE_COUNT;
     elapsedSeconds = state.elapsedSeconds;
+   gamePaused  = state.gamePaused;
 
     updateMineCounter();
 
@@ -930,6 +931,7 @@ function saveSettings() {
       soundEnabled,
       MINE_COUNT,
       elapsedSeconds,
+      gamePaused,
     }),
   );
 }
