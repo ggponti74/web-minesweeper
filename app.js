@@ -611,7 +611,7 @@ function showConfetti() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  const colors = ["#f94144", "#f9c74f", "#43aa8b", "#577590", "#f3722c"];
+  const colors = ["#f94144", "#f9c74f", "#43aa8b", "#577590", "#f3722c","#f0f0f0"];
 
   const pieces = [];
 
@@ -647,10 +647,10 @@ function showConfetti() {
       context.fillStyle = piece.color;
 
       context.fillRect(
-        -piece.size / 2,
-        -piece.size / 2,
-        piece.size,
-        piece.size,
+        -piece.size,
+        -piece.size,
+        piece.size * 2,
+        piece.size * 2,
       );
 
       context.restore();
