@@ -142,11 +142,6 @@ function createCellElement(row, col) {
   element.dataset.row = row;
   element.dataset.col = col;
 
-  /*
-   * Prevent browser context menus.
-   */
-  element.addEventListener("contextmenu", (event) => event.preventDefault());
-
   let pressTimer = null;
   let pressStartTime = 0;
 
@@ -268,7 +263,16 @@ function createCellElement(row, col) {
 }
 
 document.getElementById("board").addEventListener("contextmenu", (event) => {
-  event.preventDefault();
+  const element = event.target.closest(".cell");
+
+  if (!element) {
+    return;
+  }
+
+  const row = Number(element.dataset.row);
+  const col = Number(element.dataset.col);
+
+  cycleMark(row, col, element);
 });
 
 // document.addEventListener(
