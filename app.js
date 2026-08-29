@@ -262,7 +262,13 @@ function createCellElement(row, col) {
   return element;
 }
 
+element.addEventListener("contextmenu", (event) => {
+  event.preventDefault();
+});
+
 document.getElementById("board").addEventListener("contextmenu", (event) => {
+  event.preventDefault();
+
   const element = event.target.closest(".cell");
 
   if (!element) {
