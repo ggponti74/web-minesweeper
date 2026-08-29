@@ -262,6 +262,10 @@ function createCellElement(row, col) {
   return element;
 }
 
+document.addEventListener("contextmenu", (event) => {
+  event.preventDefault();
+}, true);
+
 element.addEventListener("contextmenu", (event) => {
   event.preventDefault();
 });
