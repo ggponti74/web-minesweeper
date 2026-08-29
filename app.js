@@ -266,10 +266,6 @@ document.addEventListener("contextmenu", (event) => {
   event.preventDefault();
 }, true);
 
-element.addEventListener("contextmenu", (event) => {
-  event.preventDefault();
-});
-
 document.getElementById("board").addEventListener("contextmenu", (event) => {
   event.preventDefault();
 
@@ -285,20 +281,6 @@ document.getElementById("board").addEventListener("contextmenu", (event) => {
   cycleMark(row, col, element);
 });
 
-// document.addEventListener(
-//   "click",
-//   (event) => {
-//     if (!suppressNextClick) {
-//       return;
-//     }
-
-//     suppressNextClick = false;
-
-//     event.preventDefault();
-//     event.stopPropagation();
-//   },
-//   true,
-// );
 
 /* =========================================================
    Update cell display
