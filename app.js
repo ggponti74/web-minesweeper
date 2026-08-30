@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.21.__BUILD_VERSION__";
+const CACHE = "1.2.__BUILD_VERSION__.1";
 
 const ROWS = 14;
 const COLS = 8;
@@ -170,8 +170,6 @@ function createCellElement(row, col) {
      */
     element.setPointerCapture(event.pointerId);
 
-   alert("LONG PRESS");
-     
     /*
      * Timer is only used to provide subtle
      * long-press timing. It does NOT perform
