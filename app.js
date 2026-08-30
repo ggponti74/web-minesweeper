@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__.1";
+const CACHE = "1.1.__BUILD_VERSION__.2";
 
 const ROWS = 14;
 const COLS = 8;
@@ -281,8 +281,6 @@ document.addEventListener(
 
     const row = Number(element.dataset.row);
     const col = Number(element.dataset.col);
-
-     alert("CONTEXT MENU");
      
     cycleMark(row, col, element);
   },
