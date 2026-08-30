@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__";
+const CACHE = "1.21.__BUILD_VERSION__";
 
 const ROWS = 14;
 const COLS = 8;
@@ -170,6 +170,8 @@ function createCellElement(row, col) {
      */
     element.setPointerCapture(event.pointerId);
 
+   alert("LONG PRESS");
+     
     /*
      * Timer is only used to provide subtle
      * long-press timing. It does NOT perform
@@ -269,8 +271,7 @@ document.addEventListener(
   (event) => {
     event.preventDefault();
 
-    if (suppressNextContextMenu) {
-      suppressNextContextMenu = false;
+    if (event.pointerType === "touch") {
       return;
     }
 
@@ -283,6 +284,8 @@ document.addEventListener(
     const row = Number(element.dataset.row);
     const col = Number(element.dataset.col);
 
+     alert("CONTEXT MENU");
+     
     cycleMark(row, col, element);
   },
   true,
