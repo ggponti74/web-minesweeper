@@ -23,6 +23,7 @@ let timerInterval = null;
 let gamePaused = false;
 //let timerStartedAt = null;
 let suppressNextClick = false;
+let suppressNextContextMenu = false;
 let showOverlay = false;
 let loseOverlayTimeout = null;
 
@@ -262,25 +263,29 @@ function createCellElement(row, col) {
   return element;
 }
 
-document.addEventListener("contextmenu", (event) => {
-  event.preventDefault();
-}, true);
+document.addEventListener(
+  "contextmenu",
+  (event) => {
+    event.preventDefault();
 
-document.getElementById("board").addEventListener("contextmenu", (event) => {
-  event.preventDefault();
+    if (suppressNextContextMenu) {
+      suppressNextContextMenu = false;
+      return;
+    }
 
-  const element = event.target.closest(".cell");
+    const element = event.target.closest(".cell");
 
-  if (!element) {
-    return;
-  }
+    if (!element) {
+      return;
+    }
 
-  const row = Number(element.dataset.row);
-  const col = Number(element.dataset.col);
+    const row = Number(element.dataset.row);
+    const col = Number(element.dataset.col);
 
-  cycleMark(row, col, element);
-});
-
+    cycleMark(row, col, element);
+  },
+  true,
+);
 
 /* =========================================================
    Update cell display
