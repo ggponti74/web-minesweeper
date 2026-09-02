@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.__BUILD_VERSION__.2";
+const CACHE = "1.1.__BUILD_VERSION__.1";
 
 const ROWS = 14;
 const COLS = 8;
@@ -156,7 +156,7 @@ function createCellElement(row, col) {
 
     initAudio();
 
-    playSound(700, 0.05, "sine", 0.2);
+    playSound(700, 0.05, "sine");
 
     if (gameState === "won" || gameState === "lost") {
       return;
@@ -701,7 +701,7 @@ function updateSoundButton() {
   );
 }
 
-function playSound(frequency, duration, type = "sine", volume = 0.2) {
+function playSound(frequency, duration, type = "sine", volume = 0.40) {
   if (!soundEnabled) return;
 
   if (!audioContext) {
@@ -736,10 +736,10 @@ function playMineSound() {
     return;
   }
 
-  playSound(180, 0.25, "sawtooth", 0.2);
+  playSound(180, 0.25, "sawtooth");
 
   setTimeout(() => {
-    playSound(100, 0.35, "sawtooth", 0.2);
+    playSound(100, 0.35, "sawtooth");
   }, 100);
 }
 
