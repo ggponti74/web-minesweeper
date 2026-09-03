@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.__BUILD_VERSION__.1";
+const CACHE = "1.1.__BUILD_VERSION__.2";
 
 const ROWS = 14;
 const COLS = 8;
@@ -188,14 +188,6 @@ function createCellElement(row, col) {
     if (pressStartTime === 0) {
       return;
     }
-
-    //const dx = event.clientX - element._startX;
-    //const dy = event.clientY - element._startY;
-
-    /*
-     * We don't actually need movement
-     * detection for the normal case.
-     */
   });
 
   /*
@@ -286,6 +278,19 @@ document.addEventListener(
   },
   true,
 );
+
+window.addEventListener('keydown', (event) => {
+  // Check if Alt/Option is held down and the 'N' key is pressed
+  // Using .toLowerCase() handles both lower and uppercase 'N' (caps lock)
+  if (event.altKey && event.key.toLowerCase() === 'n') {
+    
+    // Prevent the browser's default action (if any)
+    event.preventDefault(); 
+    
+   newGame();
+  }
+});
+
 
 /* =========================================================
    Update cell display
@@ -702,7 +707,7 @@ function updateSoundButton() {
   );
 }
 
-function playSound(frequency, duration, type = "sine", volume = 0.60) {
+function playSound(frequency, duration, type = "sine", volume = 0.80) {
   if (!soundEnabled) return;
 
   if (!audioContext) {
