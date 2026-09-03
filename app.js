@@ -701,7 +701,7 @@ function updateSoundButton() {
   );
 }
 
-function playSound(frequency, duration, type = "sine", volume = 0.40) {
+function playSound(frequency, duration, type = "sine", volume = 0.60) {
   if (!soundEnabled) return;
 
   if (!audioContext) {
@@ -974,7 +974,9 @@ updateSoundButton();
 
 if (saved) {
   renderBoard();
-  startTimer();
+  if (gameState === "playing") {
+    startTimer();
+  }
 } else {
   createBoard();
 }
