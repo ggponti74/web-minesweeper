@@ -695,6 +695,7 @@ soundToggle.addEventListener("click", () => {
 
 function updateSoundButton() {
   soundToggle.textContent = soundEnabled ? "🔊" : "🔇";
+   soundToggle.style.fontSize = "1.15rem";
   soundToggle.setAttribute(
     "aria-label",
     soundEnabled ? "Sound on" : "Sound off",
