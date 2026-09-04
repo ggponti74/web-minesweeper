@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.__BUILD_VERSION__C";
+const CACHE = "1.1.__BUILD_VERSION__D";
 
 const ROWS = 14;
 const COLS = 8;
@@ -982,16 +982,17 @@ const resultIcon = document.getElementById("result-icon");
 const resultTitle = document.getElementById("result-title");
 const resultMessage = document.getElementById("result-message");
 
-function showResultOverlay(won, highScore = false) {
+function showResultOverlay( won, highScore = false ) {
+  
   stopTimer();
 
   if (won) {
     resultIcon.textContent = "🏆";   
     resultTitle.textContent = "You Win!";
     if( highScore ) {
-      resultMessage.textContent = "Congratulations!";
-    } else { 
       resultMessage.textContent = "New High Score, Congratulations!";
+    } else { 
+      resultMessage.textContent = "Congratulations!";
     }
   } else {
     resultIcon.textContent = "💣";
@@ -1001,6 +1002,7 @@ function showResultOverlay(won, highScore = false) {
 
   resultOverlay.classList.remove("hidden");
   showOverlay = true;
+
 }
 
 /* =========================================================
