@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.__BUILD_VERSION__.4";
+const CACHE = "1.1.__BUILD_VERSION__.1";
 
 const ROWS = 14;
 const COLS = 8;
@@ -29,6 +29,7 @@ let loseOverlayTimeout = null;
 
 let audioContext = null;
 let soundEnabled = true;
+let bestScore = 300; // default to 5 minutes
 
 document.getElementById("versionNumber").innerHTML = "Version " + CACHE;
 
@@ -280,6 +281,7 @@ document.addEventListener(
 );
 
 window.addEventListener('keydown', (event) => {
+
   // Check if Alt/Option is held down and the 'N' key is pressed
   // Using .toLowerCase() handles both lower and uppercase 'N' (caps lock)
   if (event.altKey && event.key.toLowerCase() === 'n') {
@@ -287,8 +289,25 @@ window.addEventListener('keydown', (event) => {
     // Prevent the browser's default action (if any)
     event.preventDefault(); 
     
-   newGame();
+    newGame();
+     
   }
+
+if (event.altKey && event.key.toLowerCase() === 'n') {
+    
+  // Prevent the browser's default action (if any)
+  event.preventDefault(); 
+    
+  toggleSound();
+   
+}
+
+if ( event.key === 'Escape' && showOverlay ) {
+    
+   newGame();
+   
+}
+   
 });
 
 
@@ -460,10 +479,13 @@ function revealCell(row, col) {
 }
 
 function loseGame() {
+  
   gameState = "lost";
 
-  stopTimer();
-
+  saveSettings();
+   
+  stopTimer();  
+   
   /*
    * Reveal every mine.
    */
@@ -584,6 +606,8 @@ function checkWin() {
 
   gameState = "won";
 
+  saveSettings();
+
   stopTimer();
 
   playWinSound();
@@ -689,6 +713,11 @@ function initAudio() {
 }
 
 soundToggle.addEventListener("click", () => {
+  toggleSound();
+});
+
+function toggleSound() {
+   
   soundEnabled = !soundEnabled;
   saveSettings();
   updateSoundButton();
@@ -696,7 +725,8 @@ soundToggle.addEventListener("click", () => {
   if (soundEnabled) {
     playSound(600, 0.12);
   }
-});
+   
+}
 
 function updateSoundButton() {
   soundToggle.textContent = soundEnabled ? "🔊" : "🔇";
@@ -864,8 +894,10 @@ window.addEventListener("pageshow", () => {
    ========================================================= */
 
 function newGame() {
-  showOverlay = null;
-  if (loseOverlayTimeout != null) {
+   
+   showOverlay = null;
+  
+   if (loseOverlayTimeout != null) {
     clearTimeout(loseOverlayTimeout);
     loseOverlayTimeout = null;
   }
@@ -919,7 +951,8 @@ function loadSettings() {
     soundEnabled = state.soundEnabled;
     MINE_COUNT = state.MINE_COUNT;
     elapsedSeconds = state.elapsedSeconds;
-   gamePaused  = state.gamePaused;
+    gamePaused  = state.gamePaused;
+    bestScore = state.bestScore;
 
     updateMineCounter();
 
@@ -939,6 +972,7 @@ function saveSettings() {
       MINE_COUNT,
       elapsedSeconds,
       gamePaused,
+      bestScore,
     }),
   );
 }
