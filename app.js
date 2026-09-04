@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.__BUILD_VERSION__D";
+const CACHE = "1.1.__BUILD_VERSION__E";
 
 const ROWS = 14;
 const COLS = 8;
@@ -303,7 +303,9 @@ if (event.altKey && event.key.toLowerCase() === 's') {
 }
 
 if ( event.key === 'Escape' && showOverlay ) {
-    
+
+   event.preventDefault(); 
+   
    newGame();
    
 }
@@ -987,9 +989,10 @@ function showResultOverlay( won, highScore = false ) {
   stopTimer();
 
   if (won) {
-    resultIcon.textContent = "🏆";   
+    resultIcon.textContent = "🏆"; 
     resultTitle.textContent = "You Win!";
     if( highScore ) {
+      resultIcon.textContent = "🥇";
       resultMessage.textContent = "New High Score, Congratulations!";
     } else { 
       resultMessage.textContent = "Congratulations!";
