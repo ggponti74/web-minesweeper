@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.__BUILD_VERSION__B";
+const CACHE = "1.1.__BUILD_VERSION__C";
 
 const ROWS = 14;
 const COLS = 8;
@@ -293,7 +293,7 @@ window.addEventListener('keydown', (event) => {
      
   }
 
-if (event.altKey && event.key.toLowerCase() === 'n') {
+if (event.altKey && event.key.toLowerCase() === 's') {
     
   // Prevent the browser's default action (if any)
   event.preventDefault(); 
