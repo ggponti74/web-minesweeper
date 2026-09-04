@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.__BUILD_VERSION__.1";
+const CACHE = "1.1.__BUILD_VERSION__.2";
 
 const ROWS = 14;
 const COLS = 8;
@@ -436,6 +436,7 @@ function revealCell(row, col) {
    * BOOM!
    */
   if (cell.mine) {
+     
     suppressNextClick = true;
 
     playMineSound();
@@ -446,19 +447,8 @@ function revealCell(row, col) {
 
     loseGame();
 
-    /*
-    
-        loseOverlayTimeout = setTimeout(() => {
-          // check that New Game wasn't clicked
-          if (loseOverlayTimeout != null) {
-            clearTimeout(loseOverlayTimeout);
-            showResultOverlay(false);
-          } 
-        }, 20000);
-    
-    */
-
     return;
+     
   }
 
   /*
@@ -614,11 +604,14 @@ function checkWin() {
 
   showConfetti();
 
+  const highScore = elapsedSeconds < bestScore );
+
   loseOverlayTimeout = setTimeout(() => {
-    // check that New Game wasn't clicked
+    
+     // check that New Game wasn't clicked
     if (loseOverlayTimeout != null) {
       clearTimeout(loseOverlayTimeout);
-      showResultOverlay(true);
+      showResultOverlay( true, highScore );
     }
   }, 5000);
 
@@ -985,13 +978,17 @@ const resultIcon = document.getElementById("result-icon");
 const resultTitle = document.getElementById("result-title");
 const resultMessage = document.getElementById("result-message");
 
-function showResultOverlay(won) {
+function showResultOverlay(won, highScore: false) {
   stopTimer();
 
   if (won) {
-    resultIcon.textContent = "🏆";
+    resultIcon.textContent = "🏆";   
     resultTitle.textContent = "You Win!";
-    resultMessage.textContent = "Congratulations!";
+    if( highScore ) {
+      resultMessage.textContent = "Congratulations!";
+    } else { 
+      resultMessage.textContent = "New High Score, Congratulations!";
+    }
   } else {
     resultIcon.textContent = "💣";
     resultTitle.textContent = "Game Over";
