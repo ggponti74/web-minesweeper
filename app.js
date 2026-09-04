@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.__BUILD_VERSION__A";
+const CACHE = "1.1.__BUILD_VERSION__B";
 
 const ROWS = 14;
 const COLS = 8;
@@ -730,7 +730,7 @@ function updateSoundButton() {
   );
 }
 
-function playSound(frequency, duration, type = "sine", volume = 0.80) {
+function playSound(frequency, duration, type = "sine", volume = 1.00) {
   if (!soundEnabled) return;
 
   if (!audioContext) {
@@ -934,9 +934,11 @@ resultButton.addEventListener("click", newGame);
    ========================================================= */
 
 function loadSettings() {
+  
   const saved = localStorage.getItem("minesweeper-state");
 
   if (saved) {
+     
     const state = JSON.parse(saved);
 
     board = state.board;
@@ -950,9 +952,11 @@ function loadSettings() {
     updateMineCounter();
 
     renderBoard();
+     
   }
 
   return saved;
+   
 }
 
 function saveSettings() {
@@ -978,7 +982,7 @@ const resultIcon = document.getElementById("result-icon");
 const resultTitle = document.getElementById("result-title");
 const resultMessage = document.getElementById("result-message");
 
-function showResultOverlay(won, highScore: false) {
+function showResultOverlay(won, highScore = false) {
   stopTimer();
 
   if (won) {
