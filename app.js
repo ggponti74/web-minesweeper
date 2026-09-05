@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.__BUILD_VERSION__C";
+const CACHE = "1.1.__BUILD_VERSION__D";
 
 const ROWS = 14;
 const COLS = 8;
@@ -514,7 +514,7 @@ function updateHighScore()
 {
    const formatSecondsShort = (s) => new Date(s * 1000).toISOString().substring(14, 19);
 
-   document.getElementByID("high-score").innerHTML = formatSecondsShort(bestScore);
+   document.getElementById("high-score").innerHTML = formatSecondsShort(bestScore);
 }
 
 /* =========================================================
