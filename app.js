@@ -536,12 +536,12 @@ function checkWhatsNew() {
 function showWhatsNew()
 {
 
-     document.getElementById("result-icon").textContent = "🆕";
-  document.getElementById("result-title").textContent = "What's New";
-  document.getElementById("result-message").textContent = WHATS_NEW;
-
-  document.getElementById("result-overlay").classList.remove("hidden");
-
+     document.getElementById("whats-new-icon").textContent = "🆕";
+  document.getElementById("whats-new-title").textContent = "What's New";
+   document.getElementById("whats-new-version").textContent = `Version ${CACHE}`;
+  document.getElementById("whats-new-message").textContent = WHATS_NEW;
+  document.getElementById("whats-new-overlay").classList.remove("hidden");
+   
 }
 
 function closeWhatsNew() {
