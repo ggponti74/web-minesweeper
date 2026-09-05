@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.__BUILD_VERSION__F";
+const CACHE = "1.1.__BUILD_VERSION__G";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 14;
@@ -31,6 +31,8 @@ let loseOverlayTimeout = null;
 let audioContext = null;
 let soundEnabled = true;
 let bestScore = 300; // default to 5 minutes
+
+let isNewVersion = false;
 
 document.getElementById("versionNumber").innerHTML = "Version " + CACHE;
 
@@ -508,7 +510,7 @@ function loseGame() {
 }
 
 /* =========================================================
-   Zero-cell cascade
+   High score and check for new version
    ========================================================= */
 
 function updateHighScore()
@@ -516,6 +518,25 @@ function updateHighScore()
    const formatSecondsShort = (s) => new Date(s * 1000).toISOString().substring(14, 19);
 
    document.getElementById("high-score").textContent = "🏆 " + formatSecondsShort(bestScore);
+}
+
+function checkWhatsNew() {
+   
+  if (isNewVersion) {
+    showWhatsNew();
+  }
+   
+}
+
+function showWhatsNew()
+{
+
+     document.getElementById("result-icon").textContent = "🆕";
+  document.getElementById("result-title").textContent = "What's New";
+  document.getElementById("result-message").textContent = WHATS_NEW;
+
+  document.getElementById("result-overlay").classList.remove("hidden");
+
 }
 
 /* =========================================================
@@ -965,7 +986,9 @@ function loadSettings() {
     elapsedSeconds = state.elapsedSeconds;
     gamePaused  = state.gamePaused;
     bestScore = state.bestScore;
-
+    
+    isNewVersion = state.CACHE <> CACHE;
+     
     updateMineCounter();
 
     updateHighScore();
@@ -989,6 +1012,7 @@ function saveSettings() {
       elapsedSeconds,
       gamePaused,
       bestScore,
+      CACHE,
     }),
   );
 }
