@@ -972,7 +972,7 @@ function cheatAlmostWin() {
 
 document.getElementById("new-game").addEventListener("click", newGame);
 
-const resultButton = document.getElementById("result-OK");
+const resultButton = document.getElementById("result-ok");
 
 resultButton.addEventListener("click", closeWhatsNew);
 
@@ -996,7 +996,7 @@ function loadSettings() {
     gamePaused  = state.gamePaused;
     bestScore = state.bestScore;
     
-    isNewVersion = state.CACHE != CACHE;
+    isNewVersion = state.CACHE !== CACHE;
      
     updateMineCounter();
 
