@@ -514,7 +514,7 @@ function updateHighScore()
 {
    const formatSecondsShort = (s) => new Date(s * 1000).toISOString().substring(14, 19);
 
-   document.getElementById("high-score").textContent = formatSecondsShort(bestScore);
+   document.getElementById("high-score").textContent = "🏆 " + formatSecondsShort(bestScore);
 }
 
 /* =========================================================
