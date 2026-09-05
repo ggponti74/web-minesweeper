@@ -291,9 +291,12 @@ window.addEventListener('keydown', (event) => {
     
     // Prevent the browser's default action (if any)
     event.preventDefault(); 
-    
+
+       if (isNewVersion) {
+    closeWhatsNew();
+  } else {
     newGame();
-     
+       }
   }
 
 if (event.altKey && event.key.toLowerCase() === 's') {
@@ -520,6 +523,8 @@ function updateHighScore()
    document.getElementById("high-score").textContent = "🏆 " + formatSecondsShort(bestScore);
 }
 
+document.getElementById("whats-new-ok").addEventListener("click", closeWhatsNew);
+
 function checkWhatsNew() {
    
   if (isNewVersion) {
@@ -537,6 +542,10 @@ function showWhatsNew()
 
   document.getElementById("result-overlay").classList.remove("hidden");
 
+}
+
+function closeWhatsNew() {
+  document.getElementById("whats-new-overlay").classList.add("hidden");
 }
 
 /* =========================================================
