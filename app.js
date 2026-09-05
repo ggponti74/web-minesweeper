@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.1.__BUILD_VERSION__H";
+const CACHE = "1.1.__BUILD_VERSION__Z";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 14;
@@ -545,7 +545,13 @@ function showWhatsNew()
 }
 
 function closeWhatsNew() {
+
+  isNewVersion = false;
+
+  saveSettings();
+   
   document.getElementById("whats-new-overlay").classList.add("hidden");
+   
 }
 
 /* =========================================================
@@ -1025,9 +1031,6 @@ function saveSettings() {
     }),
   );
 }
-
-/*
- */
 
 const resultOverlay = document.getElementById("result-overlay");
 const resultIcon = document.getElementById("result-icon");
