@@ -972,9 +972,9 @@ function cheatAlmostWin() {
 
 document.getElementById("new-game").addEventListener("click", newGame);
 
-const resultButton = document.getElementById("result-new-game");
+const resultButton = document.getElementById("result-OK");
 
-resultButton.addEventListener("click", newGame);
+resultButton.addEventListener("click", closeWhatsNew);
 
 /* =========================================================
    Settings
