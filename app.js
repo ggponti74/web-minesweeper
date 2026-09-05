@@ -602,8 +602,11 @@ function checkWin() {
     }
   }
 
-  flagsUsed = MINE_COUNT;
+  flagsUsed = 0;
+  
   updateMineCounter();
+
+  updateHighScore();
 
   renderBoard();
 
