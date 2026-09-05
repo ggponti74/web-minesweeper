@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__A";
+const CACHE = "1.2.__BUILD_VERSION__B";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 14;
@@ -32,6 +32,7 @@ let audioContext = null;
 let soundEnabled = true;
 let bestScore = 300; // default to 5 minutes
 
+let previousCache = null;
 let isNewVersion = false;
 
 document.getElementById("versionNumber").innerHTML = "Version " + CACHE;
@@ -1001,7 +1002,8 @@ function loadSettings() {
     elapsedSeconds = state.elapsedSeconds;
     gamePaused  = state.gamePaused;
     bestScore = state.bestScore;
-    
+
+    previousCache = state.CACHE;
     isNewVersion = state.CACHE !== CACHE;
      
     updateMineCounter();
@@ -1027,7 +1029,7 @@ function saveSettings() {
       elapsedSeconds,
       gamePaused,
       bestScore,
-      CACHE,
+      CACHE: isNewVersion ? previousCache : CACHE,
     }),
   );
 }
