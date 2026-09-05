@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__B";
+const CACHE = "1.2.__BUILD_VERSION__C";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 14;
@@ -521,7 +521,7 @@ function updateHighScore()
 {
    const formatSecondsShort = (s) => new Date(s * 1000).toISOString().substring(14, 19);
 
-   document.getElementById("high-score").textContent = "🏆 " + formatSecondsShort(bestScore);
+   document.getElementById("high-score").textContent = "🏆 " + bestScore;
 }
 
 document.getElementById("whats-new-ok").addEventListener("click", closeWhatsNew);
