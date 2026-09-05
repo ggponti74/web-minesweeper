@@ -510,6 +510,17 @@ function loseGame() {
    Zero-cell cascade
    ========================================================= */
 
+function updateHighScore()
+{
+   const formatSecondsShort = (s) => new Date(s * 1000).toISOString().substring(14, 19);
+
+   document.getElementByID("high-score").innerHTML = formatSecondsShort(bestScore);
+}
+
+/* =========================================================
+   Zero-cell cascade
+   ========================================================= */
+
 function revealEmptyArea(startRow, startCol) {
   const queue = [[startRow, startCol]];
 
@@ -953,6 +964,8 @@ function loadSettings() {
 
     updateMineCounter();
 
+    updateHighScore();
+     
     renderBoard();
      
   }
