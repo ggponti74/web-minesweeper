@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__C";
+const CACHE = "1.2.__BUILD_VERSION__A";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 14;
@@ -1004,7 +1004,7 @@ function loadSettings() {
     bestScore = state.bestScore;
 
     previousCache = state.CACHE;
-    isNewVersion = state.CACHE !== CACHE;
+    isNewVersion = previousCache !== CACHE;
      
     updateMineCounter();
 
