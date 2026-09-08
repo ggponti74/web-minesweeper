@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__E";
+const CACHE = "1.2.__BUILD_VERSION__F";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 14;
@@ -537,7 +537,6 @@ function checkWhatsNew() {
 function showWhatsNew()
 {
 
-     document.getElementById("whats-new-icon").textContent = "🆕";
   document.getElementById("whats-new-title").textContent = "What's New";
    document.getElementById("whats-new-version").textContent = `Version ${CACHE}`;
   document.getElementById("whats-new-message").textContent = WHATS_NEW;
@@ -978,11 +977,18 @@ function cheatAlmostWin() {
 }
 
 document.getElementById("new-game").addEventListener("click", newGame);
-//document.getElementById("whats-new-ok").addEventListener("click", newGame);
+document.getElementById("result-ok").addEventListener("click", newGame);
+document.getElementById("whats-new-ok").addEventListener("click", closeWhatsNew);
 
-//const resultButton = document.getElementById("result-ok");
-//resultButton.addEventListener("click", closeWhatsNew);
+function closeWhatsNew() {
+  
+   isNewVersion = false;
+  previousCache = CACHE;
+  saveSettings();
 
+  document.getElementById("whats-new-overlay").classList.add("hidden");
+   
+}
 /* =========================================================
    Settings
    ========================================================= */
