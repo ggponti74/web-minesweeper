@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__A";
+const CACHE = "1.2.__BUILD_VERSION__";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 14;
