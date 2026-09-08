@@ -978,7 +978,7 @@ function cheatAlmostWin() {
 }
 
 document.getElementById("new-game").addEventListener("click", newGame);
-document.getElementById("whats-new-ok").addEventListener("click", newGame);
+//document.getElementById("whats-new-ok").addEventListener("click", newGame);
 
 //const resultButton = document.getElementById("result-ok");
 //resultButton.addEventListener("click", closeWhatsNew);
