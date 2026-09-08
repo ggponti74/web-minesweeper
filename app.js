@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__";
+const CACHE = "1.2.__BUILD_VERSION__A";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 14;
@@ -978,10 +978,10 @@ function cheatAlmostWin() {
 }
 
 document.getElementById("new-game").addEventListener("click", newGame);
+document.getElementById("result-new-game").addEventListener("click", newGame);
 
-const resultButton = document.getElementById("result-ok");
-
-resultButton.addEventListener("click", closeWhatsNew);
+//const resultButton = document.getElementById("result-ok");
+//resultButton.addEventListener("click", closeWhatsNew);
 
 /* =========================================================
    Settings
