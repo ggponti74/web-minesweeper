@@ -145,7 +145,7 @@ a {
     max-width: 100%;
 
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(10, 1fr);
 
     gap: var(--cell-gap);
 
@@ -374,8 +374,8 @@ a {
 
     background: rgb(0 0 0 / 0.45);
 
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 #result-overlay.hidden {
@@ -446,23 +446,6 @@ a {
     cursor: pointer;
 
     touch-action: manipulation;
-}
-
-#whats-new-overlay {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-
-    background: rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-}
-
-#whats-new-overlay.hidden {
-    display: none;
 }
 
 /* =========================================================
@@ -549,4 +532,3 @@ a {
     color: inherit;
     text-decoration: underline;
 }
-
