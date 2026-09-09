@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__E";
+const CACHE = "1.2.__BUILD_VERSION__F";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 16;
@@ -662,8 +662,6 @@ function checkWin() {
 
   gameState = "won";
 
-  saveSettings();
-
   stopTimer();
 
   playWinSound();
@@ -671,7 +669,14 @@ function checkWin() {
   showConfetti();
 
   const highScore = ( elapsedSeconds < bestScore );
-
+  
+   if( highScore ) {
+     
+    bestScore = elapsedSeconds;
+     
+  }
+  saveSettings();
+   
   loseOverlayTimeout = setTimeout(() => {
     
      // check that New Game wasn't clicked
