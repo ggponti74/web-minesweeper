@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__A";
+const CACHE = "1.2.__BUILD_VERSION__B";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 16;
@@ -518,11 +518,21 @@ function loseGame() {
    High score and check for new version
    ========================================================= */
 
+function formatSecondsToMMSS(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  const mm = String(minutes).padStart(2, '0');
+  const ss = String(seconds).padStart(2, '0');
+
+  return `${mm}:${ss}`;
+}
+
 function updateHighScore()
 {
    const formatSecondsShort = (s) => new Date(s * 1000).toISOString().substring(14, 19);
 
-   document.getElementById("high-score").textContent = "🏆 " + formatSecondsShort(bestScore);
+   document.getElementById("high-score").textContent = "🥇 " + console.log(formatSecondsToMMSS(bestScore));
 }
 
 document.getElementById("whats-new-ok").addEventListener("click", closeWhatsNew);
