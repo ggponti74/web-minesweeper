@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__D";
+const CACHE = "1.2.__BUILD_VERSION__E";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 16;
@@ -1087,6 +1087,8 @@ function showResultOverlay( won, highScore = false ) {
    ========================================================= */
 
 let saved = loadSettings();
+
+updateHighScore();
 
 if (isNewVersion) {
   showWhatsNew();
