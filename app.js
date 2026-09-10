@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__E";
+const CACHE = "1.2.__BUILD_VERSION__F";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 16;
@@ -282,9 +282,8 @@ document.addEventListener(
     const col = Number(element.dataset.col);
 
     cycleMark(row, col, element);
-  },
-  true,
-);
+  }
+  );
 
 window.addEventListener("keydown", (event) => {
   // Check if Alt/Option is held down and the 'N' key is pressed
