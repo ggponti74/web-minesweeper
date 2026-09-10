@@ -358,6 +358,7 @@ a {
     border-radius: 21px;
 }
 
+#result-ok,
 #result-new-game,
 #whats-new-ok {
     width: 100%;
