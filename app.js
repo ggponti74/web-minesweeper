@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__C";
+const CACHE = "1.2.__BUILD_VERSION__D";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 16;
@@ -1042,11 +1042,10 @@ function showResultOverlay(won, highScore = false) {
     if (highScore) {
       resultIcon.textContent = "🥇";
       resultMessage.textContent = "New High Score, Congratulations!";
-      const highScore = elapsedSeconds < bestScore;
-      if (highScore) {
+      if (elapsedSeconds < bestScore) {
         bestScore = elapsedSeconds;
+        updateHighScore();
       }
-      updateHighScore();
     } else {
       resultMessage.textContent = "Congratulations!";
     }
