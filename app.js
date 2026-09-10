@@ -182,9 +182,9 @@ function createCellElement(row, col) {
      * the action.
      */
     pressTimer = setTimeout(() => {
-  suppressNextContextMenu = true;
-  pressTimer = null;
-}, LONG_PRESS_MS);
+      suppressNextContextMenu = true;
+      pressTimer = null;
+    }, LONG_PRESS_MS);
   });
 
   /*
@@ -279,47 +279,39 @@ document.addEventListener(
 
     const row = Number(element.dataset.row);
     const col = Number(element.dataset.col);
-     
+
     cycleMark(row, col, element);
   },
   true,
 );
 
-window.addEventListener('keydown', (event) => {
-
+window.addEventListener("keydown", (event) => {
   // Check if Alt/Option is held down and the 'N' key is pressed
   // Using .toLowerCase() handles both lower and uppercase 'N' (caps lock)
-  if (event.altKey && event.key.toLowerCase() === 'n') {
-    
+  if (event.altKey && event.key.toLowerCase() === "n") {
     // Prevent the browser's default action (if any)
-    event.preventDefault(); 
+    event.preventDefault();
 
-       if (isNewVersion) {
-    closeWhatsNew();
-  } else {
-    newGame();
-       }
+    if (isNewVersion) {
+      closeWhatsNew();
+    } else {
+      newGame();
+    }
   }
 
-if (event.altKey && event.key.toLowerCase() === 's') {
-    
-  // Prevent the browser's default action (if any)
-  event.preventDefault(); 
-    
-  toggleSound();
-   
-}
+  if (event.altKey && event.key.toLowerCase() === "s") {
+    // Prevent the browser's default action (if any)
+    event.preventDefault();
 
-if ( event.key === 'Escape' && showOverlay ) {
+    toggleSound();
+  }
 
-   event.preventDefault(); 
-   
-   newGame();
-   
-}
-   
+  if (event.key === "Escape" && showOverlay) {
+    event.preventDefault();
+
+    newGame();
+  }
 });
-
 
 /* =========================================================
    Update cell display
@@ -446,7 +438,6 @@ function revealCell(row, col) {
    * BOOM!
    */
   if (cell.mine) {
-     
     suppressNextClick = true;
 
     playMineSound();
@@ -458,7 +449,6 @@ function revealCell(row, col) {
     loseGame();
 
     return;
-     
   }
 
   /*
@@ -479,13 +469,12 @@ function revealCell(row, col) {
 }
 
 function loseGame() {
-  
   gameState = "lost";
 
   saveSettings();
-   
-  stopTimer();  
-   
+
+  stopTimer();
+
   /*
    * Reveal every mine.
    */
@@ -519,52 +508,43 @@ function loseGame() {
    ========================================================= */
 
 function formatSecondsToMMSS(totalSeconds) {
-   
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
 
-  const mm = String(minutes).padStart(2, '0');
-  const ss = String(seconds).padStart(2, '0');
+  const mm = String(minutes).padStart(2, "0");
+  const ss = String(seconds).padStart(2, "0");
 
   return `${mm}:${ss}`;
-   
 }
 
-function updateHighScore()
-{
-   
- document.getElementById("high-score").textContent = "🥇 " + formatSecondsToMMSS(bestScore);
-
+function updateHighScore() {
+  document.getElementById("high-score").textContent =
+    "🥇 " + formatSecondsToMMSS(bestScore);
 }
 
-document.getElementById("whats-new-ok").addEventListener("click", closeWhatsNew);
+document
+  .getElementById("whats-new-ok")
+  .addEventListener("click", closeWhatsNew);
 
 function checkWhatsNew() {
-   
   if (isNewVersion) {
     showWhatsNew();
   }
-   
 }
 
-function showWhatsNew()
-{
-
+function showWhatsNew() {
   document.getElementById("whats-new-title").textContent = "What's New";
-   document.getElementById("whats-new-version").textContent = `Version ${CACHE}`;
+  document.getElementById("whats-new-version").textContent = `Version ${CACHE}`;
   document.getElementById("whats-new-message").textContent = WHATS_NEW;
   document.getElementById("whats-new-overlay").classList.remove("hidden");
-   
 }
 
 function closeWhatsNew() {
-
   isNewVersion = false;
 
   saveSettings();
-   
+
   document.getElementById("whats-new-overlay").classList.add("hidden");
-   
 }
 
 /* =========================================================
@@ -653,17 +633,15 @@ function checkWin() {
   }
 
   flagsUsed = 0;
-  
+
   updateMineCounter();
 
   updateHighScore();
 
-     const highScore = ( elapsedSeconds < bestScore );
-  
-   if( highScore ) {
-     
+  const highScore = elapsedSeconds < bestScore;
+
+  if (highScore) {
     bestScore = elapsedSeconds;
-     
   }
 
   renderBoard();
@@ -675,24 +653,21 @@ function checkWin() {
   playWinSound();
 
   showConfetti();
-   
+
   saveSettings();
-   
+
   loseOverlayTimeout = setTimeout(() => {
-    
-     // check that New Game wasn't clicked
+    // check that New Game wasn't clicked
     if (loseOverlayTimeout != null) {
       clearTimeout(loseOverlayTimeout);
-      showResultOverlay( true, highScore );
+      showResultOverlay(true, highScore);
     }
   }, 5000);
 
   return;
-
 }
 
 function showConfetti() {
-   
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
 
@@ -708,7 +683,14 @@ function showConfetti() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  const colors = ["#f94144", "#f9c74f", "#43aa8b", "#577590", "#f3722c","#f0f0f0"];
+  const colors = [
+    "#f94144",
+    "#f9c74f",
+    "#43aa8b",
+    "#577590",
+    "#f3722c",
+    "#f0f0f0",
+  ];
 
   const pieces = [];
 
@@ -784,7 +766,6 @@ soundToggle.addEventListener("click", () => {
 });
 
 function toggleSound() {
-   
   soundEnabled = !soundEnabled;
   saveSettings();
   updateSoundButton();
@@ -792,19 +773,18 @@ function toggleSound() {
   if (soundEnabled) {
     playSound(600, 0.12);
   }
-   
 }
 
 function updateSoundButton() {
   soundToggle.textContent = soundEnabled ? "🔊" : "🔇";
-   soundToggle.style.fontSize = "1.15rem";
+  soundToggle.style.fontSize = "1.15rem";
   soundToggle.setAttribute(
     "aria-label",
     soundEnabled ? "Sound on" : "Sound off",
   );
 }
 
-function playSound(frequency, duration, type = "sine", volume = 1.00) {
+function playSound(frequency, duration, type = "sine", volume = 1.0) {
   if (!soundEnabled) return;
 
   if (!audioContext) {
@@ -961,10 +941,9 @@ window.addEventListener("pageshow", () => {
    ========================================================= */
 
 function newGame() {
-   
-   showOverlay = null;
-  
-   if (loseOverlayTimeout != null) {
+  showOverlay = null;
+
+  if (loseOverlayTimeout != null) {
     clearTimeout(loseOverlayTimeout);
     loseOverlayTimeout = null;
   }
@@ -999,27 +978,25 @@ function cheatAlmostWin() {
 
 document.getElementById("new-game").addEventListener("click", newGame);
 document.getElementById("result-ok").addEventListener("click", newGame);
-document.getElementById("whats-new-ok").addEventListener("click", closeWhatsNew);
+document
+  .getElementById("whats-new-ok")
+  .addEventListener("click", closeWhatsNew);
 
 function closeWhatsNew() {
-  
-   isNewVersion = false;
+  isNewVersion = false;
   previousCache = CACHE;
   saveSettings();
 
   document.getElementById("whats-new-overlay").classList.add("hidden");
-   
 }
 /* =========================================================
    Settings
    ========================================================= */
 
 function loadSettings() {
-  
   const saved = localStorage.getItem("minesweeper-state");
 
   if (saved) {
-     
     const state = JSON.parse(saved);
 
     board = state.board;
@@ -1027,22 +1004,20 @@ function loadSettings() {
     soundEnabled = state.soundEnabled;
     MINE_COUNT = state.MINE_COUNT;
     elapsedSeconds = state.elapsedSeconds;
-    gamePaused  = state.gamePaused;
+    gamePaused = state.gamePaused;
     bestScore = state.bestScore;
 
     previousCache = state.CACHE;
     isNewVersion = previousCache !== CACHE;
-     
+
     updateMineCounter();
 
     updateHighScore();
-     
+
     renderBoard();
-     
   }
 
   return saved;
-   
 }
 
 function saveSettings() {
@@ -1066,17 +1041,16 @@ const resultIcon = document.getElementById("result-icon");
 const resultTitle = document.getElementById("result-title");
 const resultMessage = document.getElementById("result-message");
 
-function showResultOverlay( won, highScore = false ) {
-  
+function showResultOverlay(won, highScore = false) {
   stopTimer();
 
   if (won) {
-    resultIcon.textContent = "🏆"; 
+    resultIcon.textContent = "🏆";
     resultTitle.textContent = "You Win!";
-    if( highScore ) {
+    if (highScore) {
       resultIcon.textContent = "🥇";
       resultMessage.textContent = "New High Score, Congratulations!";
-    } else { 
+    } else {
       resultMessage.textContent = "Congratulations!";
     }
   } else {
@@ -1087,7 +1061,6 @@ function showResultOverlay( won, highScore = false ) {
 
   resultOverlay.classList.remove("hidden");
   showOverlay = true;
-
 }
 
 /* =========================================================
