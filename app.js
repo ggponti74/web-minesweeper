@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__D";
+const CACHE = "1.2.__BUILD_VERSION__E";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 16;
@@ -32,6 +32,7 @@ let loseOverlayTimeout = null;
 let audioContext = null;
 let soundEnabled = true;
 let bestScore = 300; // default to 5 minutes
+let highScore = bestScore;
 
 let previousCache = null;
 let isNewVersion = false;
@@ -1034,18 +1035,22 @@ const resultTitle = document.getElementById("result-title");
 const resultMessage = document.getElementById("result-message");
 
 function showResultOverlay(won, highScore = false) {
+  
   stopTimer();
 
+  bestScore = 
   if (won) {
     resultIcon.textContent = "🏆";
     resultTitle.textContent = "You Win!";
     if (highScore) {
+
+      bestScore = elapsedSeconds;
+
       resultIcon.textContent = "🥇";
       resultMessage.textContent = "New High Score, Congratulations!";
-      if (elapsedSeconds < bestScore) {
-        bestScore = elapsedSeconds;
-        updateHighScore();
-      }
+
+      updateHighScore();
+
     } else {
       resultMessage.textContent = "Congratulations!";
     }
