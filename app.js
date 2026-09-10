@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__H";
+const CACHE = "1.2.__BUILD_VERSION__A";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 16;
@@ -658,6 +658,14 @@ function checkWin() {
 
   updateHighScore();
 
+     const highScore = ( elapsedSeconds < bestScore );
+  
+   if( highScore ) {
+     
+    bestScore = elapsedSeconds;
+     
+  }
+
   renderBoard();
 
   gameState = "won";
@@ -667,14 +675,7 @@ function checkWin() {
   playWinSound();
 
   showConfetti();
-
-  const highScore = ( elapsedSeconds < bestScore );
-  
-   if( highScore ) {
-     
-    bestScore = elapsedSeconds;
-     
-  }
+   
   saveSettings();
    
   loseOverlayTimeout = setTimeout(() => {
@@ -687,9 +688,11 @@ function checkWin() {
   }, 5000);
 
   return;
+
 }
 
 function showConfetti() {
+   
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
 
