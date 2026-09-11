@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__B";
+const CACHE = "1.2.__BUILD_VERSION__C";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 16;
@@ -177,8 +177,8 @@ function createCellElement(row, col) {
      */
     element.setPointerCapture(event.pointerId);
 
-    /*
      * Timer is only used to provide subtle
+    /*
      * long-press timing. It does NOT perform
      * the action.
      */
@@ -997,6 +997,18 @@ function loadSettings() {
   if (saved) {
     const state = JSON.parse(saved);
 
+const validBoard =
+  Array.isArray(state.board) &&
+  state.board.length === ROWS &&
+  state.board.every(
+    row =>
+      Array.isArray(row) &&
+      row.length === COLS &&
+      row.every(cell => cell && typeof cell.state === "string")
+  );
+
+if (validBoard) {
+     
     board = state.board;
     gameState = state.gameState;
     soundEnabled = state.soundEnabled;
@@ -1014,7 +1026,7 @@ function loadSettings() {
 
     renderBoard();
   }
-
+  }
   return saved;
 }
 
