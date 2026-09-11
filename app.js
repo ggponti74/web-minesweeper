@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__G";
+const CACHE = "1.2.__BUILD_VERSION__A";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 16;
@@ -743,14 +743,20 @@ function showConfetti() {
 
 const soundToggle = document.getElementById("sound-toggle");
 
+document.querySelector('button').addEventListener('click', function() {
+  context.resume().then(() => {
+    console.log('Playback resumed successfully');
+  });
+});
+
 function initAudio() {
   if (!audioContext) {
     audioContext = new AudioContext();
   }
 
-  if (audioContext.state === "suspended") {
+  //if (audioContext.state === "suspended") {
     audioContext.resume();
-  }
+  //}
 }
 
 soundToggle.addEventListener("click", () => {
