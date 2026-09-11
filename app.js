@@ -177,8 +177,9 @@ function createCellElement(row, col) {
      */
     element.setPointerCapture(event.pointerId);
 
-     * Timer is only used to provide subtle
+
     /*
+     * Timer is only used to provide subtle
      * long-press timing. It does NOT perform
      * the action.
      */
