@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__B";
+const CACHE = "1.2.__BUILD_VERSION__C";
 const SAVE_VERSION = 1;
 const WHATS_NEW = "Added support for high score.";
 
@@ -178,7 +178,6 @@ function createCellElement(row, col) {
      */
     element.setPointerCapture(event.pointerId);
 
-
     /*
      * Timer is only used to provide subtle
      * long-press timing. It does NOT perform
@@ -214,10 +213,6 @@ function createCellElement(row, col) {
       return;
     }
 
-    if (event.button !== 0) {
-      return;
-    }
-
     if (pressTimer !== null) {
       clearTimeout(pressTimer);
 
@@ -246,7 +241,7 @@ function createCellElement(row, col) {
   /*
    * Cancelled pointer.
    */
-  element.addEventListener("pointercancel", () => {
+  element.addEventListener("pointercancel", (event) => {
     if (element.hasPointerCapture(event.pointerId)) {
       element.releasePointerCapture(event.pointerId);
     }
@@ -265,27 +260,24 @@ function createCellElement(row, col) {
   return element;
 }
 
-document.addEventListener(
-  "contextmenu",
-  (event) => {
-    event.preventDefault();
+document.addEventListener("contextmenu", (event) => {
+  event.preventDefault();
 
-    if (event.pointerType === "touch") {
-      return;
-    }
-
-    const element = event.target.closest(".cell");
-
-    if (!element) {
-      return;
-    }
-
-    const row = Number(element.dataset.row);
-    const col = Number(element.dataset.col);
-
-    cycleMark(row, col, element);
+  if (event.pointerType === "touch") {
+    return;
   }
-  );
+
+  const element = event.target.closest(".cell");
+
+  if (!element) {
+    return;
+  }
+
+  const row = Number(element.dataset.row);
+  const col = Number(element.dataset.col);
+
+  cycleMark(row, col, element);
+});
 
 window.addEventListener("keydown", (event) => {
   // Check if Alt/Option is held down and the 'N' key is pressed
@@ -542,11 +534,11 @@ function showWhatsNew() {
 }
 
 function closeWhatsNew() {
-  isNewVersion = false;
 
   saveSettings();
 
   document.getElementById("whats-new-overlay").classList.add("hidden");
+
 }
 
 /* =========================================================
@@ -634,7 +626,7 @@ function checkWin() {
     }
   }
 
-  flagsUsed = 0;
+  flagsUsed = MINE_COUNT;
 
   updateMineCounter();
 
@@ -745,9 +737,9 @@ function showConfetti() {
 
 const soundToggle = document.getElementById("sound-toggle");
 
-document.querySelector('button').addEventListener('click', function() {
-  context.resume().then(() => {
-    console.log('Playback resumed successfully');
+document.querySelector("button").addEventListener("click", function () {
+  audioContext.resume().then(() => {
+    console.log("Playback resumed successfully");
   });
 });
 
@@ -757,7 +749,7 @@ function initAudio() {
   }
 
   //if (audioContext.state === "suspended") {
-    audioContext.resume();
+  audioContext.resume();
   //}
 }
 
@@ -941,7 +933,7 @@ window.addEventListener("pageshow", () => {
    ========================================================= */
 
 function newGame() {
-  showOverlay = null;
+  showOverlay = true;
 
   if (loseOverlayTimeout != null) {
     clearTimeout(loseOverlayTimeout);
@@ -952,6 +944,8 @@ function newGame() {
 
   createBoard();
 }
+
+/*
 
 function cheatAlmostWin() {
   let safeCells = [];
@@ -976,6 +970,8 @@ function cheatAlmostWin() {
   renderBoard();
 }
 
+*/
+
 document.getElementById("new-game").addEventListener("click", newGame);
 document.getElementById("result-ok").addEventListener("click", newGame);
 
@@ -984,37 +980,37 @@ document.getElementById("result-ok").addEventListener("click", newGame);
    ========================================================= */
 
 function loadSettings() {
+  const savedData = localStorage.getItem("minesweeper-state");
 
-  const saved = localStorage.getItem("minesweeper-state");
+  if (savedData) {
+    try {
+      const state = JSON.parse(savedData);
 
-  if (saved) {
-    const state = JSON.parse(saved);
+      // Strict equality check
+      if (state.SAVE_VERSION === SAVE_VERSION) {
+        board = state.board;
+        gameState = state.gameState;
+        soundEnabled = state.soundEnabled;
+        MINE_COUNT = state.MINE_COUNT;
+        elapsedSeconds = state.elapsedSeconds;
+        gamePaused = state.gamePaused;
+        bestScore = state.bestScore;
 
-    if (state.SAVE_VERSION == SAVE_VERSION) {
-      
-      board = state.board;
-      gameState = state.gameState;
-      soundEnabled = state.soundEnabled;
-      MINE_COUNT = state.MINE_COUNT;
-      elapsedSeconds = state.elapsedSeconds;
-      gamePaused = state.gamePaused;
-      bestScore = state.bestScore;
+        previousCache = state.CACHE;
+        isNewVersion = previousCache !== CACHE;
 
-      previousCache = state.CACHE;
-      isNewVersion = previousCache !== CACHE;
+        updateMineCounter();
+        updateHighScore();
+        renderBoard();
 
-      updateMineCounter();
-
-      updateHighScore();
-
-      renderBoard();
-    } else {
-      saved = false;
+        return true; // Successfully loaded
+      }
+    } catch (e) {
+      console.error("Failed to parse saved state", e);
     }
   }
 
-  return saved;
-
+  return false; // Not loaded or version mismatch
 }
 
 function saveSettings() {
@@ -1040,21 +1036,18 @@ const resultTitle = document.getElementById("result-title");
 const resultMessage = document.getElementById("result-message");
 
 function showResultOverlay(won, highScore = false) {
-  
   stopTimer();
 
   if (won) {
     resultIcon.textContent = "🏆";
     resultTitle.textContent = "You Win!";
     if (highScore) {
-
       bestScore = elapsedSeconds;
 
       resultIcon.textContent = "🥇";
       resultMessage.textContent = "New High Score, Congratulations!";
 
       updateHighScore();
-
     } else {
       resultMessage.textContent = "Congratulations!";
     }
