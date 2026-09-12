@@ -3,7 +3,8 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__D";
+const CACHE = "1.2.__BUILD_VERSION__A";
+const SAVE_VERSION = 1;
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 16;
@@ -977,51 +978,50 @@ function cheatAlmostWin() {
 
 document.getElementById("new-game").addEventListener("click", newGame);
 document.getElementById("result-ok").addEventListener("click", newGame);
-document
-  .getElementById("whats-new-ok")
-  .addEventListener("click", closeWhatsNew);
 
-function closeWhatsNew() {
-  isNewVersion = false;
-  previousCache = CACHE;
-  saveSettings();
-
-  document.getElementById("whats-new-overlay").classList.add("hidden");
-}
 /* =========================================================
    Settings
    ========================================================= */
 
 function loadSettings() {
+
   const saved = localStorage.getItem("minesweeper-state");
 
   if (saved) {
     const state = JSON.parse(saved);
 
-    board = state.board;
-    gameState = state.gameState;
-    soundEnabled = state.soundEnabled;
-    MINE_COUNT = state.MINE_COUNT;
-    elapsedSeconds = state.elapsedSeconds;
-    gamePaused = state.gamePaused;
-    bestScore = state.bestScore;
+    if (state.SAVE_VERSION == SAVE_VERSION) {
+      
+      board = state.board;
+      gameState = state.gameState;
+      soundEnabled = state.soundEnabled;
+      MINE_COUNT = state.MINE_COUNT;
+      elapsedSeconds = state.elapsedSeconds;
+      gamePaused = state.gamePaused;
+      bestScore = state.bestScore;
 
-    previousCache = state.CACHE;
-    isNewVersion = previousCache !== CACHE;
+      previousCache = state.CACHE;
+      isNewVersion = previousCache !== CACHE;
 
-    updateMineCounter();
+      updateMineCounter();
 
-    updateHighScore();
+      updateHighScore();
 
-    renderBoard();
+      renderBoard();
+    } else {
+      saved = false;
+    }
   }
+
   return saved;
+
 }
 
 function saveSettings() {
   localStorage.setItem(
     "minesweeper-state",
     JSON.stringify({
+      SAVE_VERSION,
       board,
       gameState,
       soundEnabled,
