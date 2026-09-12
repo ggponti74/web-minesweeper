@@ -13,7 +13,7 @@
 
     <title>Minesweeper</title>
 
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -25,11 +25,11 @@
           <span class="mine-icon">💣</span>
           <span id="mine-count">16</span>
         </div>
-      
+
         <div>
           <span id="high-score">--:--</span>
         </div>
-        
+
         <div id="timer" aria-label="Elapsed time">--:--</div>
       </header>
 
@@ -72,29 +72,29 @@
       </div>
     </div>
 
-<div id="whats-new-overlay" class="hidden" role="dialog" aria-modal="true" aria-labelledby="whats-new-title">
-    <div class="result-card">
+    <div
+      id="whats-new-overlay"
+      class="hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="whats-new-title"
+    >
+      <div class="result-card">
         <h1 id="whats-new-title">What's New</h1>
         <p id="whats-new-version"></p>
         <p id="whats-new-message"></p>
         <button id="whats-new-ok" type="button">OK</button>
+      </div>
     </div>
-</div>
-    
-</div>
-    
+
     <script>
       window.onerror = function (message, source, line, column, error) {
-        alert(
-          "Error: " + message + "\nLine: " + line + "\nColumn: " + column,
-        );
-
+        alert("Error: " + message + "\nLine: " + line + "\nColumn: " + column);
         return false;
       };
     </script>
 
     <script src="sw.js"></script>
     <script src="app.js"></script>
-
   </body>
 </html>
