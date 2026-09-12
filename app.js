@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__C";
+const CACHE = "1.2.__BUILD_VERSION__D";
 const WHATS_NEW = "Added support for high score.";
 
 const ROWS = 16;
@@ -998,18 +998,6 @@ function loadSettings() {
   if (saved) {
     const state = JSON.parse(saved);
 
-const validBoard =
-  Array.isArray(state.board) &&
-  state.board.length === ROWS &&
-  state.board.every(
-    row =>
-      Array.isArray(row) &&
-      row.length === COLS &&
-      row.every(cell => cell && typeof cell.state === "string")
-  );
-
-if (validBoard) {
-     
     board = state.board;
     gameState = state.gameState;
     soundEnabled = state.soundEnabled;
@@ -1026,7 +1014,6 @@ if (validBoard) {
     updateHighScore();
 
     renderBoard();
-  }
   }
   return saved;
 }
