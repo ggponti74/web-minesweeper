@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__C";
+const CACHE = "1.2.__BUILD_VERSION__D";
 const SAVE_VERSION = 1;
 const WHATS_NEW = "Added support for high score.";
 
@@ -646,7 +646,8 @@ function checkWin() {
     // check that New Game wasn't clicked
     if (loseOverlayTimeout != null) {
       clearTimeout(loseOverlayTimeout);
-      showResultOverlay(true, highScore);
+      const isNewHighScore = elapsedSeconds < bestScore;
+      showResultOverlay(true, isNewHighScore);
     }
   }, 5000);
 
