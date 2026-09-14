@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__G";
+const CACHE = "1.2.__BUILD_VERSION__H";
 
 const ROWS = 16;
 const COLS = 10;
@@ -1007,7 +1007,7 @@ function showResultOverlay(won, highScore = false) {
       bestScore = elapsedSeconds;
 
       resultIcon.textContent = "🥇";
-      resultMessage.textContent = "New High Score, Congratulations!";
+      resultMessage.textContent = "New high score, congratulations!";
 
       updateHighScore();
     } else {
