@@ -3,11 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__E";
-const SAVE_VERSION = 1;
-const WHATS_NEW = `• Added support for high score
-• Fixed styling issues`;
-
+const CACHE = "1.2.__BUILD_VERSION__A";
 
 const ROWS = 16;
 const COLS = 10;
@@ -38,7 +34,6 @@ let bestScore = 300; // default to 5 minutes
 let highScore = bestScore;
 
 let previousCache = null;
-let isNewVersion = false;
 
 document.getElementById("versionNumber").innerHTML = "Version " + CACHE;
 
@@ -287,12 +282,6 @@ window.addEventListener("keydown", (event) => {
   if (event.altKey && event.key.toLowerCase() === "n") {
     // Prevent the browser's default action (if any)
     event.preventDefault();
-
-    if (isNewVersion) {
-      closeWhatsNew();
-    } else {
-      newGame();
-    }
   }
 
   if (event.altKey && event.key.toLowerCase() === "s") {
@@ -499,48 +488,9 @@ function loseGame() {
   renderBoard();
 }
 
-/* =========================================================
-   High score and check for new version
-   ========================================================= */
-
-function formatSecondsToMMSS(totalSeconds) {
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-
-  const mm = String(minutes).padStart(2, "0");
-  const ss = String(seconds).padStart(2, "0");
-
-  return `${mm}:${ss}`;
-}
-
 function updateHighScore() {
   document.getElementById("high-score").textContent =
     "🥇 " + formatSecondsToMMSS(bestScore);
-}
-
-document
-  .getElementById("whats-new-ok")
-  .addEventListener("click", closeWhatsNew);
-
-function checkWhatsNew() {
-  if (isNewVersion) {
-    showWhatsNew();
-  }
-}
-
-function showWhatsNew() {
-  document.getElementById("whats-new-title").textContent = "What's New";
-  document.getElementById("whats-new-version").textContent = `Version ${CACHE}`;
-  document.getElementById("whats-new-message").textContent = WHATS_NEW;
-  document.getElementById("whats-new-overlay").classList.remove("hidden");
-}
-
-function closeWhatsNew() {
-
-  saveSettings();
-
-  document.getElementById("whats-new-overlay").classList.add("hidden");
-
 }
 
 /* =========================================================

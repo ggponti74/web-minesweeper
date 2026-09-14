@@ -343,7 +343,6 @@ a {
 
 #new-game,
 #result-ok,
-#whats-new-ok,
 #sound-toggle {
   height: 44px;
   min-height: 44px;
@@ -458,23 +457,6 @@ a {
   cursor: pointer;
 
   touch-action: manipulation;
-}
-
-#whats-new-overlay {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-}
-
-#whats-new-overlay.hidden {
-  display: none;
 }
 
 /* =========================================================
