@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__C";
+const CACHE = "1.2.__BUILD_VERSION__D";
 
 const ROWS = 16;
 const COLS = 10;
@@ -950,7 +950,7 @@ function loadSettings() {
       const state = JSON.parse(savedData);
 
       // Strict equality check
-      if (state.SAVE_VERSION === SAVE_VERSION) {
+      if (state) {
         board = state.board;
         gameState = state.gameState;
         soundEnabled = state.soundEnabled;
@@ -979,7 +979,6 @@ function saveSettings() {
   localStorage.setItem(
     "minesweeper-state",
     JSON.stringify({
-      SAVE_VERSION,
       board,
       gameState,
       soundEnabled,
