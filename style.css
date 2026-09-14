@@ -355,13 +355,13 @@ a {
   width: 100%;
   min-height: 44px;
   margin-top: 16px; /* Prevents button from collapsing against text */
-  
+
   border: 0;
   border-radius: 21px;
-  
+
   background: var(--accent);
   color: white;
-  
+
   font: inherit;
   font-weight: 700;
   cursor: pointer;
@@ -438,25 +438,6 @@ a {
 
 #result-record.hidden {
   display: none;
-}
-
-#result-new-game {
-  width: 100%;
-
-  min-height: 46px;
-
-  border: 0;
-  border-radius: 12px;
-
-  background: var(--accent);
-  color: white;
-
-  font: inherit;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  touch-action: manipulation;
 }
 
 /* =========================================================
