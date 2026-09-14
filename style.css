@@ -34,7 +34,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100%;
+  min-height: 100dvh;
 }
 
 body {
@@ -343,29 +343,12 @@ a {
 
 #new-game,
 #result-ok,
+#result-new-game
 #sound-toggle {
   height: 44px;
   min-height: 44px;
   box-sizing: border-box;
   border-radius: 21px; /* Uniform pill shape */
-}
-
-#result-ok,
-#result-new-game {
-  width: 100%;
-  min-height: 44px;
-  margin-top: 16px; /* Prevents button from collapsing against text */
-
-  border: 0;
-  border-radius: 21px;
-
-  background: var(--accent);
-  color: white;
-
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  touch-action: manipulation;
 }
 
 /* =========================================================
