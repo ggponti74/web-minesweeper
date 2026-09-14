@@ -313,14 +313,17 @@ a {
   margin-top: 14px;
 }
 
-.game-footer button {
+/* Replace '.game-footer button' with a rule that includes all footer/control buttons */
+.game-footer button,
+.bottom-controls button,
+#result-overlay button {
   border: 1px solid var(--border);
   border-radius: 21px;
 
   background: var(--surface);
   color: var(--text);
 
-  height: 42px;
+  height: 44px;
   padding: 8px 14px;
 
   font: inherit;
