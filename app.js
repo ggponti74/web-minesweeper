@@ -960,7 +960,6 @@ function loadSettings() {
         bestScore = state.bestScore;
 
         previousCache = state.CACHE;
-        isNewVersion = previousCache !== CACHE;
 
         updateMineCounter();
         updateHighScore();
@@ -988,7 +987,7 @@ function saveSettings() {
       elapsedSeconds,
       gamePaused,
       bestScore,
-      CACHE: isNewVersion ? previousCache : CACHE,
+      CACHE: CACHE,
     }),
   );
 }
@@ -1031,10 +1030,6 @@ function showResultOverlay(won, highScore = false) {
 let saved = loadSettings();
 
 updateHighScore();
-
-if (isNewVersion) {
-  showWhatsNew();
-}
 
 initAudio();
 
