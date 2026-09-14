@@ -352,6 +352,7 @@ a {
   min-height: 44px;
   box-sizing: border-box;
   border-radius: 21px; /* Uniform pill shape */
+   font-size: 1.2rem;
 }
 
 /* =========================================================
