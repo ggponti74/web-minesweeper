@@ -356,8 +356,24 @@ a {
 }
 
 #result-ok {
+  display: block;
   width: 100%;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 14px;
+
   box-sizing: border-box;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font: inherit;
+  font-weight: 600;
+
+  margin: 0;
 }
 
 /* =========================================================
@@ -515,4 +531,29 @@ a {
 .bottom-controls .version-credit a {
   color: inherit;
   text-decoration: underline;
+}
+
+/* Override, baby /*
+/* Result overlay button — final override */
+#result-overlay .result-card #result-ok {
+  display: block;
+  width: 100%;
+  height: 44px;
+  min-height: 44px;
+  box-sizing: border-box;
+
+  margin: 0;
+
+  padding: 8px 14px;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font: inherit;
+  font-weight: 600;
+
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.08);
 }
