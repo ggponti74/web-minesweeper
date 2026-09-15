@@ -944,7 +944,7 @@ document.getElementById("result-ok").addEventListener("click", newGame);
    ========================================================= */
 
 function loadSettings() {
-  const savedData = localStorage.getItem("minesweeper-state-v1");
+  const savedData = localStorage.getItem("minesweeper-state-v1.1");
 
   if (savedData) {
     try {
@@ -955,7 +955,7 @@ function loadSettings() {
         board = state.board;
         gameState = state.gameState;
         soundEnabled = state.soundEnabled;
-        MINE_COUNT = state.MINE_COUNT;
+        flagsUsed = state.flagsUsed;
         elapsedSeconds = state.elapsedSeconds;
         gamePaused = state.gamePaused;
         bestScore = state.bestScore;
@@ -978,12 +978,12 @@ function loadSettings() {
 
 function saveSettings() {
   localStorage.setItem(
-    "minesweeper-state-v1",
+    "minesweeper-state-v1.1",
     JSON.stringify({
       board,
       gameState,
       soundEnabled,
-      MINE_COUNT,
+      flagsUsed,
       elapsedSeconds,
       gamePaused,
       bestScore,
@@ -1035,6 +1035,7 @@ initAudio();
 updateSoundButton();
 
 if (saved) {
+  updateMineCounter();
   updateHighScore();
   renderBoard();
   if (gameState === "playing") {
