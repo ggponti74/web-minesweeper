@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__B";
+const CACHE = "1.2.__BUILD_VERSION__C";
 
 const ROWS = 16;
 const COLS = 10;
@@ -30,7 +30,7 @@ let loseOverlayTimeout = null;
 
 let audioContext = null;
 let soundEnabled = true;
-let bestScore = 300; // default to 5 minutes
+let bestScore = 180; // default to 3 minutes
 let highScore = bestScore;
 
 let previousCache = null;
@@ -944,7 +944,7 @@ document.getElementById("result-ok").addEventListener("click", newGame);
    ========================================================= */
 
 function loadSettings() {
-  const savedData = localStorage.getItem("minesweeper-state");
+  const savedData = localStorage.getItem("minesweeper-state-v1");
 
   if (savedData) {
     try {
@@ -978,7 +978,7 @@ function loadSettings() {
 
 function saveSettings() {
   localStorage.setItem(
-    "minesweeper-state",
+    "minesweeper-state-v1",
     JSON.stringify({
       board,
       gameState,
