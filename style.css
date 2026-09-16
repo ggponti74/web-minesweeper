@@ -280,7 +280,7 @@ a {
   box-sizing: border-box;
   border-radius: 21px;
   /* Uniform pill shape */
-   font-size: 1.2rem;
+   font-size: 1.0rem;
 }
 #result-ok {
   display: block;
@@ -405,6 +405,7 @@ a {
   margin-bottom: 10px;
   gap: 10px;
 }
+
 .bottom-control-button {
   width: 100% !important;
   min-width: 0 !important;
