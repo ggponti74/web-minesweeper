@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__C";
+const CACHE = "1.2.__BUILD_VERSION__D";
 const LOCAL_STORAGE_VERSION = "minesweeper-state-v1";
 
 const ROWS = 16;
@@ -159,8 +159,6 @@ function createCellElement(row, col) {
     if (event.button !== 0) {
       return;
     }
-
-    initAudio();
 
     playSound(700, 0.05, "sine");
 
@@ -714,9 +712,9 @@ function initAudio() {
     audioContext = new AudioContext();
   }
 
-  //if (audioContext.state === "suspended") {
-  audioContext.resume();
-  //}
+  if (audioContext.state === "suspended") {
+    audioContext.resume();
+  }
 }
 
 soundToggle.addEventListener("click", () => {
@@ -988,7 +986,7 @@ function saveSettings() {
       flagsUsed,
       elapsedSeconds,
       gamePaused,
-      bestScore
+      bestScore,
     }),
   );
 }
@@ -1029,8 +1027,6 @@ function showResultOverlay(won, highScore = false) {
    ========================================================= */
 
 let saved = loadSettings();
-
-initAudio();
 
 updateSoundButton();
 
