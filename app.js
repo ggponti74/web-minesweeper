@@ -501,6 +501,7 @@ function formatSecondsToMMSS(totalSeconds) {
 }
 
 function updateHighScore() {
+  console.log(bestScore);
   document.getElementById("high-score").textContent =
     "🥇 " + formatSecondsToMMSS(bestScore);
 }
@@ -743,6 +744,10 @@ function updateSoundButton() {
 
 function playSound(frequency, duration, type = "sine", volume = 1.0) {
   if (!soundEnabled) return;
+
+  if (!audioContext) {
+    audioContext = new AudioContext();
+  }
 
   if (!audioContext) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -1024,7 +1029,6 @@ function showResultOverlay(won, highScore = false) {
    ========================================================= */
 
 let saved = loadSettings();
-
 
 initAudio();
 
