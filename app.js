@@ -3,7 +3,8 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.2.__BUILD_VERSION__E";
+const CACHE = "1.2.__BUILD_VERSION__A";
+const LOCAL_STORAGE_VERSION = "minesweeper-state-v1";
 
 const ROWS = 16;
 const COLS = 10;
@@ -944,7 +945,7 @@ document.getElementById("result-ok").addEventListener("click", newGame);
    ========================================================= */
 
 function loadSettings() {
-  const savedData = localStorage.getItem("minesweeper-state-v1.1");
+  const savedData = localStorage.getItem(LOCAL_STORAGE_VERSION);
 
   if (savedData) {
     try {
@@ -978,7 +979,7 @@ function loadSettings() {
 
 function saveSettings() {
   localStorage.setItem(
-    "minesweeper-state-v1.1",
+    LOCAL_STORAGE_VERSION,
     JSON.stringify({
       board,
       gameState,
@@ -986,8 +987,7 @@ function saveSettings() {
       flagsUsed,
       elapsedSeconds,
       gamePaused,
-      bestScore,
-      CACHE: CACHE,
+      bestScore
     }),
   );
 }
