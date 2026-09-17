@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.3.__BUILD_VERSION__A";
+const CACHE = "1.3.__BUILD_VERSION__B";
 const LOCAL_STORAGE_VERSION = "minesweeper-state-v1";
 
 const ROWS = 16;
@@ -703,7 +703,6 @@ const soundToggle = document.getElementById("sound-toggle");
 
 document.querySelector("button").addEventListener("click", function () {
   audioContext.resume().then(() => {
-    console.log("Playback resumed successfully");
   });
 });
 
@@ -750,12 +749,9 @@ function playSound(frequency, duration, type = "sine", volume = 1.0) {
 
   if (!audioContext) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  }
-
-  if (audioContext.state === "suspended") {
     audioContext.resume();
   }
-
+   
   const oscillator = audioContext.createOscillator();
   const gain = audioContext.createGain();
 
