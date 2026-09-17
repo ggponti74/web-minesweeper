@@ -741,11 +741,12 @@ function updateSoundButton() {
 }
 
 function playSound(frequency, duration, type = "sine", volume = 1.0) {
-  if (!soundEnabled) return;
 
   if (!audioContext) {
     audioContext = new AudioContext();
   }
+
+     if (!soundEnabled) return;
 
   if (!audioContext) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
