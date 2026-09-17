@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.3.__BUILD_VERSION__B";
+const CACHE = "1.3.__BUILD_VERSION__C";
 const LOCAL_STORAGE_VERSION = "minesweeper-state-v1";
 
 const ROWS = 16;
@@ -702,8 +702,10 @@ function showConfetti() {
 const soundToggle = document.getElementById("sound-toggle");
 
 document.querySelector("button").addEventListener("click", function () {
-  audioContext.resume().then(() => {
-  });
+   if (!audioContext) {
+     audioContext.resume().then(() => {
+     });
+   }
 });
 
 function initAudio() {
