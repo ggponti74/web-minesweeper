@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.3.__BUILD_VERSION__A";
+const CACHE = "1.3.__BUILD_VERSION__B";
 const LOCAL_STORAGE_VERSION = "minesweeper-state-v1";
 
 const ROWS = 16;
@@ -479,20 +479,18 @@ function loseGame() {
   renderBoard();
 }
 
-function formatSecondsToMMSS(totalSeconds) {
+function formatSeconds(totalSeconds) {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
 
   const mm = String(minutes).padStart(2, "0");
   const ss = String(seconds).padStart(2, "0");
 
-  return `${mm}:${ss}`;
+  return `${m}:${ss}`;
 }
 
-function updateHighScore() {
-  console.log(bestScore);
-  document.getElementById("high-score").textContent =
-    "🥇 " + formatSecondsToMMSS(bestScore);
+function updateHighScore() { document.getElementById("high-score").textContent =
+    "🥇 " + formatSeconds(bestScore);
 }
 
 /* =========================================================
