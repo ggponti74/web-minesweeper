@@ -23,18 +23,12 @@ let elapsedSeconds = 0;
 let timerInterval = null;
 
 let gamePaused = false;
-//let timerStartedAt = null;
 let suppressNextClick = false;
-let suppressNextContextMenu = false;
 let showOverlay = false;
 let loseOverlayTimeout = null;
 
 let audioContext = null;
 let soundEnabled = true;
-let bestScore = 180; // default to 3 minutes
-let highScore = bestScore;
-
-let previousCache = null;
 
 document.getElementById("versionNumber").innerHTML = "Version " + CACHE;
 
@@ -180,7 +174,6 @@ function createCellElement(row, col) {
      * the action.
      */
     pressTimer = setTimeout(() => {
-      suppressNextContextMenu = true;
       pressTimer = null;
     }, LONG_PRESS_MS);
   });
@@ -423,8 +416,6 @@ function revealCell(row, col) {
    * BOOM!
    */
   if (cell.mine) {
-    suppressNextClick = true;
-
     playMineSound();
 
     //gameOver = true;
@@ -707,16 +698,6 @@ document.querySelector("button").addEventListener("click", () => {
   }
 });
 
-function initAudio() {
-  if (!audioContext) {
-    audioContext = new AudioContext();
-  }
-
-  if (audioContext.state === "suspended") {
-    audioContext.resume();
-  }
-}
-
 soundToggle.addEventListener("click", () => {
   toggleSound();
 });
@@ -812,8 +793,6 @@ function startTimer() {
   ) {
     return;
   }
-
-  timerStartedAt = Date.now();
 
   timerInterval = setInterval(() => {
     if (gamePaused) {
@@ -970,9 +949,6 @@ function loadSettings() {
         flagsUsed = state.flagsUsed;
         elapsedSeconds = state.elapsedSeconds;
         gamePaused = state.gamePaused;
-        bestScore = state.bestScore;
-
-        previousCache = state.CACHE;
 
         return true; // Successfully loaded
       }
