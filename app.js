@@ -27,6 +27,7 @@ let suppressNextClick = false;
 let showOverlay = false;
 let loseOverlayTimeout = null;
 
+let bestScore = 180;
 let audioContext = null;
 let soundEnabled = true;
 
