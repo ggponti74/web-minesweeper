@@ -741,18 +741,17 @@ function updateSoundButton() {
 }
 
 function playSound(frequency, duration, type = "sine", volume = 1.0) {
-
   if (!audioContext) {
     audioContext = new AudioContext();
   }
 
-     if (!soundEnabled) return;
+  if (!soundEnabled) return;
 
   if (!audioContext) {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
     audioContext.resume();
   }
-   
+
   const oscillator = audioContext.createOscillator();
   const gain = audioContext.createGain();
 
@@ -938,19 +937,19 @@ function cheatAlmostWin() {
 
 */
 
-document.getElementById("new-game").addEventListener("click" => {
-     if (soundEnabled) {
+document.getElementById("new-game").addEventListener("click", function () {
+  if (soundEnabled) {
     playSound(600, 0.12);
   }
-   newGame();
-};
+  newGame();
+});
 
-document.getElementById("result-ok").addEventListener("click" => {
-     if (soundEnabled) {
+document.getElementById("result-ok").addEventListener("click", function () {
+  if (soundEnabled) {
     playSound(600, 0.12);
   }
-   newGame();
-};
+  newGame();
+});
 
 /* =========================================================
    Settings
