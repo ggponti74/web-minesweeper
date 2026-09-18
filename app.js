@@ -938,16 +938,18 @@ function cheatAlmostWin() {
 
 */
 
-document.getElementById("new-game").addEventListener("click", newGame() => {
+document.getElementById("new-game").addEventListener("click" => {
      if (soundEnabled) {
     playSound(600, 0.12);
   }
+   newGame();
 };
 
-document.getElementById("result-ok").addEventListener("click", newGame() => {
+document.getElementById("result-ok").addEventListener("click" => {
      if (soundEnabled) {
     playSound(600, 0.12);
   }
+   newGame();
 };
 
 /* =========================================================
