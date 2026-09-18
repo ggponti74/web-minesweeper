@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.3.__BUILD_VERSION__D";
+const CACHE = "1.3.__BUILD_VERSION__A";
 const LOCAL_STORAGE_VERSION = "minesweeper-state-v1";
 
 const ROWS = 16;
@@ -701,7 +701,7 @@ function showConfetti() {
 
 const soundToggle = document.getElementById("sound-toggle");
 
-document.querySelector("button").addEventListener("click", function () {
+document.querySelector("button").addEventListener("click", () => {
   if (soundEnabled) {
     playSound(600, 0.12);
   }
@@ -938,8 +938,17 @@ function cheatAlmostWin() {
 
 */
 
-document.getElementById("new-game").addEventListener("click", newGame);
-document.getElementById("result-ok").addEventListener("click", newGame);
+document.getElementById("new-game").addEventListener("click", newGame() => {
+     if (soundEnabled) {
+    playSound(600, 0.12);
+  }
+};
+
+document.getElementById("result-ok").addEventListener("click", newGame() => {
+     if (soundEnabled) {
+    playSound(600, 0.12);
+  }
+};
 
 /* =========================================================
    Settings
