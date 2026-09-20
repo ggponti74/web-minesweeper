@@ -294,7 +294,7 @@ a {
   box-sizing: border-box;
   border-radius: 21px;
   /* Uniform pill shape */
-  font-size: 1.05rem;
+  font-size: 1.0rem;
 }
 #result-ok {
   display: block;
