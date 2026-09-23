@@ -295,6 +295,7 @@ a {
   border-radius: 21px;
   /* Uniform pill shape */
   font-size: 1.0rem;
+   white-space: nowrap;
 }
 #result-ok {
   display: block;
