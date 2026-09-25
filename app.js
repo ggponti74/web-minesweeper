@@ -3,7 +3,7 @@
    Stable touch version
    ========================================================= */
 
-const CACHE = "1.3.__BUILD_VERSION__B";
+const CACHE = "1.3.__BUILD_VERSION__A";
 const LOCAL_STORAGE_VERSION = "minesweeper-state-v1";
 
 const ROWS = 16;
@@ -948,6 +948,7 @@ function loadSettings() {
         flagsUsed = state.flagsUsed;
         elapsedSeconds = state.elapsedSeconds;
         gamePaused = state.gamePaused;
+        bestScore = state.bestScore;
 
         return true; // Successfully loaded
       }
