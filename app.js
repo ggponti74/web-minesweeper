@@ -1011,12 +1011,12 @@ function showResultOverlay(won, highScore = false) {
    ========================================================= */
 
 let saved = loadSettings();
-console.log(bestScore);
+
 updateSoundButton();
+updateHighScore();
 
 if (saved) {
   updateMineCounter();
-  updateHighScore();
   renderBoard();
   if (gameState === "playing") {
     startTimer();
