@@ -1011,7 +1011,7 @@ function showResultOverlay(won, highScore = false) {
    ========================================================= */
 
 let saved = loadSettings();
-
+console.log(bestScore);
 updateSoundButton();
 
 if (saved) {
