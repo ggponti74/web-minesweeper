@@ -492,6 +492,7 @@ function formatSeconds(totalSeconds) {
 
 function updateHighScore() { document.getElementById("high-score").textContent =
     "🥇 " + formatSeconds(bestScore);
+    saveSettings();
 }
 
 /* =========================================================
